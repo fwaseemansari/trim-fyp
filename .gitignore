@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Data (large / regenerable)
+data/*.json
+!data/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/

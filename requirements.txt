@@ -1,0 +1,9 @@
+openai
+groq
+tiktoken
+transformers
+datasets
+rouge-score
+sentence-transformers
+python-dotenv
+pytest
