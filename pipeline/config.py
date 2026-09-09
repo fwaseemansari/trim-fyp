@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 
 # Loads variables from a .env file in the repo root into the process
 # environment. Safe to call multiple times / on import.
-load_dotenv()
+load_dotenv(override=True)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Default models per backend
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-20b"
 OPENAI_MODEL = "gpt-4o-mini"
 
 
