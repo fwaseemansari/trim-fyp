@@ -4,7 +4,7 @@ Logged automatically by `pipeline/test_latency.py`. Each run appends a
 new dated table below â€” don't hand-edit, just re-run the script.
 
 ---
-# Latency Baseline — 2026-09-09
+# Latency Baseline - 2026-09-09
 
 | Backend | Prompt | Latency (ms) | Response preview |
 |---|---|---|---|

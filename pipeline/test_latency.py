@@ -51,7 +51,7 @@ def write_latency_report(rows: list[dict], path: str = "docs/latency_baseline.md
     for r in rows:
         lines.append(f"| {r['backend']} | {r['prompt']} | {r['latency_ms']} | {r['response_preview']} |")
 
-    with open(path, "a") as f:
+    with open(path, "a", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n\n")
 
 
