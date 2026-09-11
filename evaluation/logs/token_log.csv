@@ -1,0 +1,2 @@
+timestamp,backend,model,prompt_length_chars,input_tokens,output_tokens,total_tokens,cost_usd,latency_ms
+2026-09-11T11:37:13,groq,openai/gpt-oss-20b,19,6,1,7,1e-06,720.7

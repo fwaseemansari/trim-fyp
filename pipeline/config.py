@@ -8,7 +8,11 @@ import os
 from dotenv import load_dotenv
 
 # Loads variables from a .env file in the repo root into the process
-# environment. Safe to call multiple times / on import.
+# environment. override=True makes .env win even if a stale
+# GROQ_API_KEY/OPENAI_API_KEY is already set as a system/user env var —
+# without it, python-dotenv silently keeps the old value, which is a
+# common source of "wrong key" bugs that don't show up when you just
+# print the .env file's contents.
 load_dotenv(override=True)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")

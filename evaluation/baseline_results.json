@@ -1,0 +1,7 @@
+{
+  "n_samples": 48,
+  "avg_tokens_per_query": 322.0,
+  "avg_cost_per_query_usd": 3.2e-05,
+  "avg_latency_ms": 2751.0,
+  "total_cost_usd": 0.0015
+}

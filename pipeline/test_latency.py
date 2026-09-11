@@ -21,7 +21,7 @@ SAMPLE_PROMPTS = [
     "Summarize the plot of Cinderella in two sentences.",
 ]
 
-BACKENDS = ["groq", "openai"]
+BACKENDS = ["groq"]  # add "openai" back once an OpenAI key with credits is set
 
 
 def run_latency_baseline() -> list[dict]:
@@ -51,6 +51,10 @@ def write_latency_report(rows: list[dict], path: str = "docs/latency_baseline.md
     for r in rows:
         lines.append(f"| {r['backend']} | {r['prompt']} | {r['latency_ms']} | {r['response_preview']} |")
 
+    # encoding="utf-8" is explicit here because Windows' default open()
+    # encoding is cp1252, which mangles the em dash (—) above into
+    # garbled characters when the file is later read back or viewed
+    # in a different tool.
     with open(path, "a", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n\n")
 
