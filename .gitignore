@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Data (large / regenerable outputs from prepare_datasets.py — NOT
+# locomo10.json, which is a small (2.7MB) real dataset we deliberately
+# commit so nobody needs to re-download it)
+data/squad_sample.json
+data/cnn_sample.json
+!data/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/
