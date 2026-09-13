@@ -1,26 +1,22 @@
 """
 Hardcoded per-1K-token pricing for cost estimation. These are published
-rates, not measured — update if OpenAI/Groq change pricing.
+rates, not measured - update if OpenAI/Groq change pricing.
 
-NOTE (stand-in flag): Easha owns this module per the plan. This is a
-placeholder so the pipeline has real cost numbers today — hand off /
-replace once she starts her actual work.
+Sources (checked Sep 2026):
+- OpenAI gpt-4o-mini: https://openai.com/api/pricing/
+- Groq openai/gpt-oss-20b: https://groq.com/pricing (self-serve LLM catalog)
 """
 
-# USD per 1,000 tokens. (input, output) — most providers charge
+# USD per 1,000 tokens. (input, output) - most providers charge
 # differently for prompt tokens vs. generated tokens.
 PRICING = {
     "gpt-4o-mini": {
         "input_per_1k": 0.00015,
         "output_per_1k": 0.0006,
     },
-    # Groq's free tier has no per-token dollar cost today, but we keep a
-    # nonzero placeholder rate so cost-reduction % comparisons against
-    # OpenAI still mean something, rather than dividing by zero. This
-    # mirrors Groq's paid on-demand pricing for a comparable 20B model.
     "openai/gpt-oss-20b": {
-        "input_per_1k": 0.00010,
-        "output_per_1k": 0.00010,
+        "input_per_1k": 0.000075,
+        "output_per_1k": 0.0003,
     },
 }
 
