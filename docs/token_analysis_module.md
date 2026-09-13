@@ -1,7 +1,7 @@
 # Token Analysis Module
 
 > Part of **TRIM** — Intelligent Token Optimization Framework for LLM Applications
-> **Owner:** Easha | **Status:** Week 1 complete (Mon–Wed) | **Test coverage:** 26/26 passing
+> **Owner:** Easha | **Status:** Week 1 complete (Mon–Thu) | **Test coverage:** 26/26 passing
 
 ---
 
@@ -64,6 +64,22 @@ Computes % token reduction, % cost reduction, and latency delta between two runs
 - **Model swap handled correctly:** the original plan assumed Groq served Llama-3.3-70B. Groq's actual served model changed team-wide to `openai/gpt-oss-20b`. The tokenizer and pricing logic were adapted to match reality rather than the outdated plan wording.
 - **Real pricing, not estimates:** Groq's `gpt-oss-20b` rate was corrected from a placeholder guess to the actual published rate ($0.075/$0.30 per 1M tokens, sourced from groq.com/pricing, Sep 2026).
 - **Caching:** both tokenizers are loaded once and cached, since reloading per call would be prohibitively slow once evaluation scales to hundreds of samples (Week 4).
+
+---
+
+## Baseline Results (Week 1, Thursday)
+
+Ran the uncompressed, unmanaged pipeline over the SQuAD v2 sample set — these numbers are the "before" baseline that every Week 3–4 compression/context-management result gets compared against.
+
+| Metric | Value |
+|---|---|
+| Samples run | 48 (of 100 requested — SQuAD v2 includes unanswerable questions, which `prepare_squad()` skips by design; will scale to 300 in Week 4) |
+| Avg tokens / query | 299.5 |
+| Avg cost / query | $0.000047 |
+| Avg latency | 1,655.4 ms |
+| Total cost (48 calls) | $0.0023 |
+
+Saved to `evaluation/baseline_results.json`; per-query raw data logged to `evaluation/logs/baseline_log.csv`.
 
 ---
 
