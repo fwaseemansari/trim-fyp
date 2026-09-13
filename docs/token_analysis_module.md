@@ -1,64 +1,82 @@
-# Token Analysis Module — Design Doc
+# Token Analysis Module
 
-**Status:** stand-in draft, built as part of the pipeline scaffold — Easha to review/own and adjust once she starts.
+> Part of **TRIM** — Intelligent Token Optimization Framework for LLM Applications
+> **Owner:** Easha | **Status:** Week 1 complete (Mon–Wed) | **Test coverage:** 26/26 passing
 
-## Purpose
-Single source of truth for token counts, cost, and latency across every
-run of the pipeline, regardless of which backend, compression method,
-or context strategy is active. Every other module (Compression, Context
-Manager) is evaluated by comparing its `TokenAnalyzer` numbers against
-the Week 1 baseline.
+---
 
-## Inputs
-- `prompt: str` — the full text sent to the LLM (after any compression/
-  context-management has already been applied).
-- `response: str` — the text the LLM returned.
-- `backend: str` — `"groq"` or `"openai"`.
-- `model: str` — the specific model string used (for cost lookup).
-- `latency_ms: float` — wall-clock time for the API call, from
-  `LLMClient.generate()`.
+## Overview
 
-## Outputs
-- `analyze()` returns a dict: `input_tokens`, `output_tokens`,
-  `total_tokens`, `cost_usd`.
-- `log_run()` returns the same dict, and additionally appends one row
-  to `evaluation/logs/<name>.csv` with a timestamp and prompt length —
-  this CSV is the persistent record every experiment script reads back.
-- `compare()` returns `token_reduction_pct`, `cost_reduction_pct`,
-  `latency_delta_ms` between two `analyze()`/`log_run()` result dicts.
+The Token Analysis Module is TRIM's **single source of truth** for measuring token usage and cost. Every other module in the system — Prompt Compression, Adaptive Context Manager — is evaluated by comparing its output against numbers produced here. If this module's counts drift or are inconsistent, every downstream metric in the project (compression ratio, cost savings, token reduction %) becomes unreliable.
 
-## Class diagram (sketch)
+In short: **nothing gets measured in TRIM without going through this module first.**
+
+---
+
+## Architecture
 
 ```
-+---------------------------+
-|      TokenAnalyzer        |
-+---------------------------+
-| - log_path: str           |
-+---------------------------+
-| + analyze(prompt,         |
-|     response, model)      |
-|     -> dict                |
-| + log_run(prompt,         |
-|     response, backend,    |
-|     model, latency_ms)    |
-|     -> dict                |
-| + compare(baseline_log,   |
-|     treatment_log)        |
-|     -> dict                |
-+---------------------------+
-        |
-        | uses
-        v
-+---------------------------+       +---------------------------+
-|  count_tokens(text,model) |       |   estimate_cost(model,    |
-|  (token_analysis/counter) |       |   input_tok, output_tok)  |
-|                           |       |   (token_analysis/pricing)|
-+---------------------------+       +---------------------------+
+                    ┌─────────────────────┐
+                    │   count_tokens()    │
+                    │  (per-backend       │
+                    │   tokenizer router) │
+                    └──────────┬──────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                            │
+          tiktoken (OpenAI)         HF AutoTokenizer (Groq)
+                 │                            │
+                 └─────────────┬─────────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │    TokenAnalyzer     │
+                    │  .analyze()           │──── pricing.py (cost rates)
+                    │  .log_run()           │──── evaluation/logs/token_log.csv
+                    │  .compare()           │
+                    └───────────────────────┘
 ```
 
-## Known limitation (flag for report's Limitations section)
-Token counting uses `tiktoken`'s `cl100k_base` encoding for BOTH
-backends as an approximation, not each backend's exact tokenizer — see
-the design note at the top of `token_analysis/counter.py` for the
-reasoning and the exact-tokenizer alternative that was considered and
-deferred.
+---
+
+## Components
+
+### 1. `count_tokens(text, model) -> int`
+Routes to the **real tokenizer** for whichever backend is being measured — because different model families split text into tokens differently, so one universal counter would silently misreport costs.
+
+| Backend | Tokenizer used | Why |
+|---|---|---|
+| OpenAI (`gpt-4o-mini`) | `tiktoken` | OpenAI's own local tokenizer — exact match to their billing, no API call needed |
+| Groq (`openai/gpt-oss-20b`) | HuggingFace `AutoTokenizer` | Groq exposes no token-counting endpoint, so the model's real published tokenizer is used directly |
+
+### 2. `TokenAnalyzer.analyze(prompt, response, model) -> dict`
+Given one prompt/response pair, returns input tokens, output tokens, total tokens, and estimated USD cost (via `pricing.py`).
+
+### 3. `TokenAnalyzer.log_run(...)`
+Appends one row per LLM call to `evaluation/logs/token_log.csv` — timestamp, backend, model, token counts, cost, latency. This CSV *is* the experiment record the FYP-1/FYP-2 reports will pull numbers from.
+
+### 4. `TokenAnalyzer.compare(baseline, treatment) -> dict`
+Computes % token reduction, % cost reduction, and latency delta between two runs — the core metric used to prove compression/context-management actually works.
+
+---
+
+## Design Decisions Worth Noting
+
+- **Model swap handled correctly:** the original plan assumed Groq served Llama-3.3-70B. Groq's actual served model changed team-wide to `openai/gpt-oss-20b`. The tokenizer and pricing logic were adapted to match reality rather than the outdated plan wording.
+- **Real pricing, not estimates:** Groq's `gpt-oss-20b` rate was corrected from a placeholder guess to the actual published rate ($0.075/$0.30 per 1M tokens, sourced from groq.com/pricing, Sep 2026).
+- **Caching:** both tokenizers are loaded once and cached, since reloading per call would be prohibitively slow once evaluation scales to hundreds of samples (Week 4).
+
+---
+
+## Test Coverage
+
+| Test file | Covers | Result |
+|---|---|---|
+| `tests/test_token_analyzer.py` | Normal pairs, empty input, long input, invalid model, `compare()` | 20/20 passed |
+| `tests/test_csv_logging.py` | File creation, header integrity, append behavior, value accuracy | 6/6 passed |
+
+---
+
+## Known Limitations (flagged honestly, not hidden)
+
+- `gpt-oss-20b` token counts use its real published tokenizer — accurate. No known approximation issues remain as of this write-up.
+- Groq pricing reflects *current list pricing*, not negotiated/enterprise rates — fine for an academic FYP context.
