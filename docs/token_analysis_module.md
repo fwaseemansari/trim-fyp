@@ -59,7 +59,7 @@ Computes % token reduction, % cost reduction, and latency delta between two runs
 
 ---
 
-## Design Decisions Worth Noting
+## Design Decisions 
 
 - **Model swap handled correctly:** the original plan assumed Groq served Llama-3.3-70B. Groq's actual served model changed team-wide to `openai/gpt-oss-20b`. The tokenizer and pricing logic were adapted to match reality rather than the outdated plan wording.
 - **Real pricing, not estimates:** Groq's `gpt-oss-20b` rate was corrected from a placeholder guess to the actual published rate ($0.075/$0.30 per 1M tokens, sourced from groq.com/pricing, Sep 2026).
@@ -76,7 +76,7 @@ Computes % token reduction, % cost reduction, and latency delta between two runs
 
 ---
 
-## Known Limitations (flagged honestly, not hidden)
+## Known Limitations 
 
 - `gpt-oss-20b` token counts use its real published tokenizer — accurate. No known approximation issues remain as of this write-up.
 - Groq pricing reflects *current list pricing*, not negotiated/enterprise rates — fine for an academic FYP context.
