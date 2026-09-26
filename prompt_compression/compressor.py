@@ -2,36 +2,30 @@
 Prompt Compression Module — Faiqa's core deliverable.
 
 Two methods behind one interface: compress(text, query, method, level).
-
-DECISION WORTH FLAGGING — nltk vs. regex sentence splitting: the plan
-suggests nltk.sent_tokenize() OR a simple regex split. nltk's tokenizer
-needs a one-time `nltk.download('punkt')` (network call to nltk's
-servers, plus a local data file) — a regex split has zero setup cost
-and is "good enough" for English prose. Went with regex here to avoid
-adding a download step to your setup today; swap in nltk if compression
-quality on messier text (LoCoMo dialogue especially) turns out to need
-better sentence boundaries than the regex catches.
 """
 
-import re
-
+import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+# nltk's sentence tokenizer needs its model data downloaded once. Checked
+# and fetched automatically here rather than requiring a manual setup
+# step — costs a few seconds on first run only, cached after.
+try:
+    nltk.data.find("tokenizers/punkt_tab")
+except LookupError:
+    nltk.download("punkt_tab", quiet=True)
+
 
 def _split_sentences(text: str) -> list[str]:
-    """Regex-based sentence split — see module docstring for why this
-    was chosen over nltk.sent_tokenize(). Splits on '.', '!', '?'
-    followed by whitespace, while trying not to break on common
-    abbreviations (Mr., Dr., etc.) or decimal numbers."""
+    """nltk's Punkt sentence tokenizer — trained on real sentence-boundary
+    data (handles abbreviations, decimals, quotes, etc. correctly), unlike
+    the earlier hand-rolled regex. Replaces the regex-based splitter now
+    that the one-time setup cost is worth it over a rougher approximation."""
     text = text.strip()
     if not text:
         return []
-    # Negative lookbehind for a handful of common abbreviations, and for
-    # a digit (to avoid splitting "3.14" or "No. 5" mid-number).
-    pattern = r"(?<!\bMr)(?<!\bMrs)(?<!\bDr)(?<!\bJr)(?<!\bSt)(?<!\d)[.!?]+\s+"
-    sentences = re.split(pattern, text)
-    return [s.strip() for s in sentences if s.strip()]
+    return [s.strip() for s in nltk.sent_tokenize(text) if s.strip()]
 
 
 def _extractive_compress(text: str, query: str, keep_ratio: float) -> str:
@@ -74,7 +68,7 @@ def _llm_compress(text: str, query: str, keep_ratio: float, llm_client) -> str:
     )
     backend = "openai" if llm_client.has_openai else "groq"
     result = llm_client.generate(prompt, backend=backend)
-    return result["response"]
+    return result.response
 
 
 def compress(text: str, query: str = "", method: str = "extractive", level: float = 0.5, llm_client=None) -> str:

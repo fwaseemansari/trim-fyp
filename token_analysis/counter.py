@@ -6,27 +6,21 @@ tasks). Built as a stand-in so the pipeline has a real, working
 TokenAnalyzer today — hand off / let her review and extend once she
 starts.
 
-DECISION WORTH FLAGGING: the plan specifies tiktoken for OpenAI and
-HuggingFace AutoTokenizer (Llama's tokenizer) for Groq, since Groq was
-originally serving Llama-3.3-70B. Since GROQ_MODEL is now
-openai/gpt-oss-20b (see config.py's model-availability fix), that specific
-tokenizer justification no longer applies cleanly, and gpt-oss's real
-tokenizer isn't guaranteed to be a quick, ungated download.
-
-Alternative considered: use AutoTokenizer.from_pretrained("openai/gpt-oss-20b")
-for exact Groq-side counts. Rejected for now — first run downloads
-tokenizer files from the HuggingFace Hub (network-dependent, adds
-transformers as a hard runtime dependency for a task that's just
-counting).
-
-What's actually done here: tiktoken's cl100k_base encoding is used to
-approximate BOTH backends' token counts. This is accurate for OpenAI
-and a reasonable (not exact) proxy for Groq — most modern tokenizers
-land within ~10-15% of each other on English text. Good enough for
-Week 1-2 baseline/comparison numbers, where you're measuring relative
-reduction (before vs. after compression) more than absolute counts.
-Revisit with a real Groq-side tokenizer before any number goes in the
-report as an exact per-backend count.
+TOKENIZER DECISION (revised): each model now gets counted with its OWN
+real tokenizer instead of approximating both with a single tiktoken
+encoding.
+- gpt-4o-mini -> tiktoken.encoding_for_model("gpt-4o-mini"). This was
+  already tiktoken's correct/real tokenizer for OpenAI models — no
+  change in behavior here, just now looked up per-model instead of a
+  single hardcoded encoding shared across models.
+- openai/gpt-oss-20b (the Groq-served model) -> the model's own
+  HuggingFace tokenizer, via transformers.AutoTokenizer. This IS the
+  real tokenizer for that model, not an approximation like the earlier
+  cl100k_base stand-in was. Loaded lazily (only on first count_tokens()
+  call for this model) and cached after, since loading it is a real
+  network call + disk read the first time (gpt-oss is Apache-2.0
+  licensed and openly downloadable — no HF auth/license-acceptance
+  step needed, unlike gated models such as Llama).
 """
 
 import csv
@@ -37,14 +31,38 @@ import tiktoken
 
 from token_analysis.pricing import estimate_cost
 
-_ENCODING = tiktoken.get_encoding("cl100k_base")
+_tokenizer_cache = {}  # model name -> loaded tokenizer object, filled lazily
+
+
+def _get_tokenizer(model: str):
+    """Returns a cached tokenizer for `model`, loading it on first use.
+    Each model routes to its own real tokenizer rather than one shared
+    approximation — see module docstring."""
+    if model in _tokenizer_cache:
+        return _tokenizer_cache[model]
+
+    if model == "openai/gpt-oss-20b":
+        from transformers import AutoTokenizer
+        tok = AutoTokenizer.from_pretrained("openai/gpt-oss-20b")
+    else:
+        # Covers gpt-4o-mini and any other OpenAI model name — tiktoken
+        # is the correct, real tokenizer for these (not an approximation).
+        try:
+            tok = tiktoken.encoding_for_model(model)
+        except KeyError:
+            # Unknown/unreleased model name tiktoken doesn't recognize
+            # yet — cl100k_base is the closest fallback rather than a
+            # hard crash, since most recent OpenAI models share it.
+            tok = tiktoken.get_encoding("cl100k_base")
+
+    _tokenizer_cache[model] = tok
+    return tok
 
 
 def count_tokens(text: str, model: str = "gpt-4o-mini") -> int:
-    """Approximate token count for `text`. `model` is accepted (per the
-    plan's function signature) but currently every model routes through
-    the same cl100k_base encoding — see module docstring for why."""
-    return len(_ENCODING.encode(text))
+    """Token count for `text` using `model`'s own real tokenizer."""
+    tok = _get_tokenizer(model)
+    return len(tok.encode(text))  # same method name on both tiktoken and HF tokenizer objects
 
 
 class TokenAnalyzer:
@@ -125,13 +143,14 @@ class TokenAnalyzer:
 
 
 if __name__ == "__main__":
-    # Quick manual check: 5 sample strings, printed token counts.
+    # Quick manual check: same 3 sample strings, counted with BOTH
+    # real tokenizers, to see how much they actually differ.
     samples = [
         "Hello world.",
         "The quick brown fox jumps over the lazy dog.",
         "TRIM is a token reduction and intelligent management framework.",
-        "A" * 500,
-        "",
     ]
     for s in samples:
-        print(f"{len(s):>4} chars -> {count_tokens(s)} tokens | {s[:40]!r}")
+        gpt_tokens = count_tokens(s, "gpt-4o-mini")
+        groq_tokens = count_tokens(s, "openai/gpt-oss-20b")
+        print(f"{s[:45]!r:47} | gpt-4o-mini: {gpt_tokens:>3} | gpt-oss-20b: {groq_tokens:>3}")
