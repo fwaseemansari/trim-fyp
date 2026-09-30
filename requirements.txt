@@ -2,14 +2,11 @@ openai
 groq
 tiktoken
 scikit-learn
+nltk
 datasets
 rouge-score
 sentence-transformers
+transformers
 python-dotenv
 pytest
 
-# Not currently imported by any Week 1-2 code (see design notes in
-# token_analysis/counter.py for why AutoTokenizer was skipped in favor
-# of tiktoken for both backends). Left in for Week 3+ if that decision
-# gets revisited, or for other HuggingFace model use.
-transformers

@@ -57,16 +57,16 @@ def run(
 
     analysis = analyzer.log_run(
         prompt=full_prompt,
-        response=result["response"],
+        response=result.response,
         backend=backend,
         model=model,
-        latency_ms=result["latency_ms"],
+        latency_ms=result.latency_ms,
     )
 
     return {
         "query": query,
-        "response": result["response"],
-        "latency_ms": result["latency_ms"],
+        "response": result.response,
+        "latency_ms": result.latency_ms,
         **analysis,
     }
 
@@ -110,16 +110,16 @@ def run_conversation(
 
     analysis = analyzer.log_run(
         prompt=full_prompt,
-        response=result["response"],
+        response=result.response,
         backend=backend,
         model=model,
-        latency_ms=result["latency_ms"],
+        latency_ms=result.latency_ms,
     )
 
     return {
         "query": query,
-        "response": result["response"],
-        "latency_ms": result["latency_ms"],
+        "response": result.response,
+        "latency_ms": result.latency_ms,
         "per_turn_tokens": per_turn_tokens,
         "context_strategy": context_strategy,
         **analysis,
