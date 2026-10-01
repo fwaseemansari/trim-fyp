@@ -93,7 +93,7 @@ def run_experiment(
                         from pipeline.llm_clients import LLMClient
                         compressed_context = compress(
                             original_context, query=sample["question"], method="llm",
-                            level=compression_level, llm_client=LLMClient(),
+                            level=compression_level, llm_client=LLMClient(), backend=backend,
                         )
                     else:
                         compressed_context = compress(

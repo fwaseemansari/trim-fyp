@@ -48,7 +48,10 @@ def run(
     analyzer = analyzer or TokenAnalyzer()
 
     if context and compression_enabled:
-        context = compress(context, query=query, method=compression_method, level=compression_level)
+        context = compress(
+            context, query=query, method=compression_method,
+            level=compression_level, llm_client=llm_client, backend=backend,
+        )
 
     full_prompt = (
         f"Context: {context}\n\nQuestion: {query}\n\n"
