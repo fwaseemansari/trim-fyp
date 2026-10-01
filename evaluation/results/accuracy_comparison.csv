@@ -1,0 +1,4 @@
+treatment,n_paired,f1_base,f1_comp,f1_drop,em_base,em_comp,em_drop,answer_in_response_base,answer_in_response_comp,answer_in_response_drop,f1_paired_p,token_reduction_pct
+extractive@0.7,48,0.657,0.6578,-0.0008,0.4375,0.4167,0.0208,0.5833,0.5625,0.0208,0.9889,22.99
+extractive@0.5,48,0.657,0.6066,0.0504,0.4375,0.375,0.0625,0.5833,0.4792,0.1041,0.3679,40.03
+extractive@0.3,48,0.657,0.6028,0.0542,0.4375,0.4375,0.0,0.5833,0.5417,0.0416,0.3987,61.75

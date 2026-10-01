@@ -1,0 +1,5 @@
+method,level,backend,token_reduction_pct_mean,token_reduction_pct_std,compression_ratio_mean,compression_ratio_std,cost_reduction_pct_mean,cost_reduction_pct_std,latency_ms_mean,latency_ms_std,retention_mean,retention_std,em_mean,em_std,f1_mean,f1_std,answer_in_response_mean,answer_in_response_std,n_samples
+extractive,0.3,groq,61.746,14.415,2.962,1.079,61.746,14.415,728.269,335.352,0.818,0.096,0.438,0.501,0.603,0.428,0.542,0.504,48
+extractive,0.5,groq,40.034,13.754,1.766,0.464,40.034,13.754,726.536,230.62,0.907,0.055,0.375,0.489,0.607,0.411,0.479,0.505,48
+extractive,0.7,groq,22.991,9.657,1.32,0.173,22.991,9.657,657.695,235.893,0.956,0.029,0.417,0.498,0.658,0.37,0.562,0.501,48
+none,1.0,groq,0.0,0.0,1.0,0.0,0.0,0.0,616.622,196.45,1.0,0.0,0.438,0.501,0.657,0.384,0.583,0.498,48
