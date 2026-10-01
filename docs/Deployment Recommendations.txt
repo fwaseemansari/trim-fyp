@@ -1,0 +1,7 @@
+Deployment Recommendations — Token Analysis Module
+
+Pin dependency versions in requirements.txt (e.g. transformers==4.46.0, tiktoken==0.8.0) instead of unpinned names, to prevent silent breakage from upstream library updates.
+Pre-bake tokenizer files at build time, not runtime. Currently AutoTokenizer.from_pretrained() downloads from HuggingFace Hub on first call — fine for local dev, risky in production (network dependency, latency, potential firewall issues). Recommendation: download and bundle tokenizer files into the Docker image during build, or cache them to a persistent volume during deployment setup.
+Set HF_HUB_OFFLINE=1 as an environment variable in production once tokenizer files are pre-cached, so the app never attempts a live download — it'll error clearly instead of hanging if the cache is somehow missing, which is easier to debug than a silent network stall.
+Add a HF_TOKEN (free HuggingFace account) even for public models — removes rate-limiting on downloads, relevant if multiple deployment/CI runs hit the Hub in a short window.
+Do not commit the HuggingFace cache folder (~/.cache/huggingface) to version control — it's regenerable, machine-specific, and unnecessarily bloats the repo.

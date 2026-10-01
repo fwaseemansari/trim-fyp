@@ -1,26 +1,22 @@
 """
-Token counting and per-call analysis.
+token_analysis/counter.py
 
-NOTE (stand-in flag): Easha owns this module per the plan (Mon/Tue/Wed
-tasks). Built as a stand-in so the pipeline has a real, working
-TokenAnalyzer today — hand off / let her review and extend once she
-starts.
+Core token-counting function for the Token Analysis Module.
 
-TOKENIZER DECISION (revised): each model now gets counted with its OWN
-real tokenizer instead of approximating both with a single tiktoken
-encoding.
-- gpt-4o-mini -> tiktoken.encoding_for_model("gpt-4o-mini"). This was
-  already tiktoken's correct/real tokenizer for OpenAI models — no
-  change in behavior here, just now looked up per-model instead of a
-  single hardcoded encoding shared across models.
-- openai/gpt-oss-20b (the Groq-served model) -> the model's own
-  HuggingFace tokenizer, via transformers.AutoTokenizer. This IS the
-  real tokenizer for that model, not an approximation like the earlier
-  cl100k_base stand-in was. Loaded lazily (only on first count_tokens()
-  call for this model) and cached after, since loading it is a real
-  network call + disk read the first time (gpt-oss is Apache-2.0
-  licensed and openly downloadable — no HF auth/license-acceptance
-  step needed, unlike gated models such as Llama).
+Why this module exists:
+    Every other module in TRIM (compression, context management) is measured
+    against a single source of truth for "how many tokens is this?". That
+    source of truth is this file. If counting logic drifts between modules,
+    every downstream metric (cost, compression ratio, etc.) becomes unreliable.
+
+Two different tokenizers, because we have two different LLM backends:
+    - OpenAI models (gpt-4o-mini) -> tiktoken. This is OpenAI's own library;
+      it doesn't call any API, it just runs the same tokenizer OpenAI's
+      models use, locally and for free.
+    - Groq-served model (openai/gpt-oss-20b) -> Groq doesn't expose a
+      token-counting endpoint, so we use gpt-oss-20b's real tokenizer from
+      HuggingFace directly (its own tokenizer, publicly available - no
+      access request needed).
 """
 
 import csv
@@ -28,41 +24,82 @@ import datetime
 import os
 
 import tiktoken
+from transformers import AutoTokenizer
 
 from token_analysis.pricing import estimate_cost
 
-_tokenizer_cache = {}  # model name -> loaded tokenizer object, filled lazily
+# --- Config: model name -> which tokenizer family it belongs to ---
+OPENAI_MODELS = {
+    "gpt-4o-mini": "gpt-4o-mini",
+    "gpt-4o": "gpt-4o",
+}
+
+# Groq now serves openai/gpt-oss-20b (per the team's pricing.py/config.py),
+# not Llama-3.3-70B as the original plan assumed. gpt-oss's own tokenizer
+# is public/ungated on HuggingFace, so we use the real thing directly.
+GROQ_MODELS = {
+    "openai/gpt-oss-20b": "openai/gpt-oss-20b",
+}
+
+# --- Lazy-loaded caches ---
+# tiktoken encoders and HF tokenizers are somewhat expensive to load.
+# We don't want to reload them every single call to count_tokens(),
+# especially once we're running this over hundreds of samples (Week 4).
+_tiktoken_cache = {}
+_hf_tokenizer_cache = {}
 
 
-def _get_tokenizer(model: str):
-    """Returns a cached tokenizer for `model`, loading it on first use.
-    Each model routes to its own real tokenizer rather than one shared
-    approximation — see module docstring."""
-    if model in _tokenizer_cache:
-        return _tokenizer_cache[model]
-
-    if model == "openai/gpt-oss-20b":
-        from transformers import AutoTokenizer
-        tok = AutoTokenizer.from_pretrained("openai/gpt-oss-20b")
-    else:
-        # Covers gpt-4o-mini and any other OpenAI model name — tiktoken
-        # is the correct, real tokenizer for these (not an approximation).
+def _get_tiktoken_encoder(model: str):
+    if model not in _tiktoken_cache:
         try:
-            tok = tiktoken.encoding_for_model(model)
+            _tiktoken_cache[model] = tiktoken.encoding_for_model(model)
         except KeyError:
-            # Unknown/unreleased model name tiktoken doesn't recognize
-            # yet — cl100k_base is the closest fallback rather than a
-            # hard crash, since most recent OpenAI models share it.
-            tok = tiktoken.get_encoding("cl100k_base")
+            # tiktoken doesn't recognize gpt-4o-mini by name yet on some
+            # versions - fall back to the encoding gpt-4o family actually uses.
+            _tiktoken_cache[model] = tiktoken.get_encoding("o200k_base")
+    return _tiktoken_cache[model]
 
-    _tokenizer_cache[model] = tok
-    return tok
+
+def _get_hf_tokenizer(repo: str):
+    if repo not in _hf_tokenizer_cache:
+        _hf_tokenizer_cache[repo] = AutoTokenizer.from_pretrained(repo)
+    return _hf_tokenizer_cache[repo]
 
 
 def count_tokens(text: str, model: str = "gpt-4o-mini") -> int:
-    """Token count for `text` using `model`'s own real tokenizer."""
-    tok = _get_tokenizer(model)
-    return len(tok.encode(text))  # same method name on both tiktoken and HF tokenizer objects
+    """
+    Count how many tokens `text` would consume for the given `model`.
+    Uses the REAL tokenizer per backend (tiktoken for OpenAI, the actual
+    HF tokenizer for the Groq model) rather than approximating both with
+    one encoding.
+
+    Args:
+        text: the raw string to tokenize (a prompt, a document, anything).
+        model: model identifier. Must be a key in OPENAI_MODELS or GROQ_MODELS
+               (e.g. "gpt-4o-mini" or "openai/gpt-oss-20b"). Defaults to
+               "gpt-4o-mini" so it's a drop-in match for TokenAnalyzer's
+               call signature below.
+
+    Returns:
+        Integer token count.
+
+    Raises:
+        ValueError: if `model` isn't recognized by either backend.
+    """
+    if model in OPENAI_MODELS:
+        encoder = _get_tiktoken_encoder(OPENAI_MODELS[model])
+        return len(encoder.encode(text))
+
+    if model in GROQ_MODELS:
+        tokenizer = _get_hf_tokenizer(GROQ_MODELS[model])
+        # add_special_tokens=False: we want the raw content token count,
+        # not inflated by BOS/EOS tokens the chat template would add.
+        return len(tokenizer.encode(text, add_special_tokens=False))
+
+    raise ValueError(
+        f"Unknown model '{model}'. Known models: "
+        f"{list(OPENAI_MODELS) + list(GROQ_MODELS)}"
+    )
 
 
 class TokenAnalyzer:
@@ -117,7 +154,7 @@ class TokenAnalyzer:
         """Computes % reduction in tokens/cost and latency delta between
         a baseline run's analysis dict and a treatment (e.g. compressed)
         run's analysis dict. Both are the dicts returned by analyze()/
-        log_run() — not file paths, despite the 'log' naming from the
+        log_run() - not file paths, despite the 'log' naming from the
         plan (kept the plan's parameter names for continuity)."""
         token_reduction_pct = (
             (baseline_log["total_tokens"] - treatment_log["total_tokens"])
@@ -143,14 +180,19 @@ class TokenAnalyzer:
 
 
 if __name__ == "__main__":
-    # Quick manual check: same 3 sample strings, counted with BOTH
-    # real tokenizers, to see how much they actually differ.
+    # Quick manual test: 5 sample strings, both backends, per the Monday task.
     samples = [
-        "Hello world.",
-        "The quick brown fox jumps over the lazy dog.",
-        "TRIM is a token reduction and intelligent management framework.",
+        "What is the capital of France?",
+        "Summarize the causes of World War I in two sentences.",
+        "def add(a, b):   return a + b",
+        "The quick brown fox jumps over the lazy dog, repeatedly, for emphasis.",
+        "Explain the difference between supervised and unsupervised learning.",
     ]
+
+    print(f"{'Sample':<60} {'gpt-4o-mini':>12} {'gpt-oss-20b':>13}")
+    print("-" * 90)
     for s in samples:
-        gpt_tokens = count_tokens(s, "gpt-4o-mini")
-        groq_tokens = count_tokens(s, "openai/gpt-oss-20b")
-        print(f"{s[:45]!r:47} | gpt-4o-mini: {gpt_tokens:>3} | gpt-oss-20b: {groq_tokens:>3}")
+        openai_count = count_tokens(s, "gpt-4o-mini")
+        groq_count = count_tokens(s, "openai/gpt-oss-20b")
+        label = (s[:57] + "...") if len(s) > 57 else s
+        print(f"{label:<60} {openai_count:>12} {groq_count:>13}")

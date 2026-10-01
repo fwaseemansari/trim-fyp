@@ -104,15 +104,7 @@ class RelevanceAwareStrategy(ContextStrategy):
         if not query or len(self.history) <= 1:
             return  # nothing to score against yet
 
-        from sklearn.feature_extraction.text import TfidfVectorizer
-        from sklearn.metrics.pairwise import cosine_similarity
-
-        texts = [t["text"] for t in self.history]
-        vectorizer = TfidfVectorizer().fit(texts + [query])
-        turn_vectors = vectorizer.transform(texts)
-        query_vector = vectorizer.transform([query])
-        scores = cosine_similarity(turn_vectors, query_vector).flatten()
-
+        scores = self._score_turns(query)
         ranked = sorted(zip(self.history, scores), key=lambda pair: pair[1], reverse=True)
 
         kept, dropped = [], []
@@ -139,6 +131,20 @@ class RelevanceAwareStrategy(ContextStrategy):
         one method to condense them instead — the only point where the
         two strategies' behavior actually differs."""
         pass
+
+    def _score_turns(self, query: str) -> list[float]:
+        """Hook method: pure TF-IDF cosine similarity to `query`.
+        HybridScoringStrategy overrides this one method to blend in a
+        recency term — every other part of add_turn (ranking, token
+        budget, dropped-turn handling) is reused unchanged."""
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        texts = [t["text"] for t in self.history]
+        vectorizer = TfidfVectorizer().fit(texts + [query])
+        turn_vectors = vectorizer.transform(texts)
+        query_vector = vectorizer.transform([query])
+        return list(cosine_similarity(turn_vectors, query_vector).flatten())
 
 
 class MemorySummarizationStrategy(RelevanceAwareStrategy):
@@ -170,6 +176,43 @@ class MemorySummarizationStrategy(RelevanceAwareStrategy):
         return base
 
 
+class HybridScoringStrategy(RelevanceAwareStrategy):
+    """Week 4 depth upgrade: combines recency with TF-IDF relevance into
+    one weighted score, instead of ranking by relevance alone.
+
+    Pure relevance-aware selection has a known failure mode: a highly
+    relevant turn from early in the conversation can permanently outrank
+    everything since, starving out genuinely recent context the model
+    may also need (e.g. "what did we just agree on?" style follow-ups).
+    Blending in a recency term (normalized turn position, most recent
+    turn = 1.0, oldest = close to 0.0) guards against that, at the cost
+    of sometimes keeping a less-relevant-but-recent turn over a
+    more-relevant-but-old one.
+
+    Subclasses RelevanceAwareStrategy and overrides only _score_turns —
+    every other part (ranking, token budget, dropped-turn handling) is
+    inherited unchanged, same hook-method pattern as
+    MemorySummarizationStrategy above.
+    """
+
+    def __init__(self, max_tokens: int = 1000, recency_weight: float = 0.3):
+        super().__init__(max_tokens=max_tokens)
+        if not 0.0 <= recency_weight <= 1.0:
+            raise ValueError("recency_weight must be between 0.0 and 1.0")
+        self.recency_weight = recency_weight
+
+    def _score_turns(self, query: str) -> list[float]:
+        relevance_scores = super()._score_turns(query)
+        n = len(self.history)
+        # normalized position: oldest turn -> ~0, most recent turn -> 1.0
+        recency_scores = [(i + 1) / n for i in range(n)]
+        w = self.recency_weight
+        return [
+            (1 - w) * rel + w * rec
+            for rel, rec in zip(relevance_scores, recency_scores)
+        ]
+
+
 class ContextManager:
     """Factory: returns the concrete strategy instance matching
     `strategy`, so existing call sites don't need to change —
@@ -189,6 +232,7 @@ class ContextManager:
         max_turns: int = 6,
         max_tokens: int = 1000,
         llm_client=None,
+        recency_weight: float = 0.3,
     ):
         if strategy == "sliding_window":
             return SlidingWindowStrategy(max_turns=max_turns)
@@ -196,6 +240,8 @@ class ContextManager:
             return RelevanceAwareStrategy(max_tokens=max_tokens)
         elif strategy == "memory_summarization":
             return MemorySummarizationStrategy(max_tokens=max_tokens, llm_client=llm_client)
+        elif strategy == "hybrid_scoring":
+            return HybridScoringStrategy(max_tokens=max_tokens, recency_weight=recency_weight)
         else:
             raise ValueError(f"Unknown strategy: {strategy!r}")
 
