@@ -51,13 +51,18 @@ def _extractive_compress(text: str, query: str, keep_ratio: float) -> str:
     return " ".join(sentences[i] for i in top_indices)
 
 
-def _llm_compress(text: str, query: str, keep_ratio: float, llm_client) -> str:
+def _llm_compress(text: str, query: str, keep_ratio: float, llm_client, backend: str = None) -> str:
     """Baseline 2: ask the LLM itself to condense the text, preserving
-    facts needed to answer questions about it. Uses the cheap backend
-    per the plan (gpt-4o-mini) — falls back to Groq if no working
-    OpenAI key is configured, so this stays runnable without OpenAI
-    credits; swap back once OpenAI is funded, since gpt-4o-mini is the
-    plan's specified backend for this method."""
+    facts needed to answer questions about it.
+
+    backend: which LLM backend does the compression ("groq" | "openai").
+    If None, falls back to OpenAI when a key is configured, else Groq.
+    The pipeline passes its own backend so compression and answering use
+    the same backend in a controlled comparison.
+
+    Reasoning models can occasionally return empty text, so an empty
+    result is retried once; if it is still empty, the original text is
+    returned unchanged (so the LLM is never sent an empty context)."""
     target_pct = round(keep_ratio * 100)
     prompt = (
         f"Condense the following text to roughly {target_pct}% of its "
@@ -66,12 +71,17 @@ def _llm_compress(text: str, query: str, keep_ratio: float, llm_client) -> str:
         f"(especially anything relevant to: \"{query}\").\n\n"
         f"Text:\n{text}\n\nCondensed version:"
     )
-    backend = "openai" if llm_client.has_openai else "groq"
-    result = llm_client.generate(prompt, backend=backend)
-    return result.response
+    backend = backend or ("openai" if llm_client.has_openai else "groq")
+    for _ in range(2):  # retry once if the model returns nothing
+        result = llm_client.generate(prompt, backend=backend)
+        condensed = (result.response or "").strip()
+        if condensed:
+            return condensed
+    print("[warn] LLM compression returned empty text twice; using the original context for this sample")
+    return text
 
 
-def compress(text: str, query: str = "", method: str = "extractive", level: float = 0.5, llm_client=None) -> str:
+def compress(text: str, query: str = "", method: str = "extractive", level: float = 0.5, llm_client=None, backend: str = None) -> str:
     """
     text: the passage/context to compress.
     query: the question being asked about `text` — both methods use
@@ -80,13 +90,14 @@ def compress(text: str, query: str = "", method: str = "extractive", level: floa
     level: fraction of original content to target keeping (e.g. 0.5 =
         keep ~50%). Matches the plan's "30%/50%/70%" sweep language.
     llm_client: required only for method="llm".
+    backend: only used by method="llm"; which backend runs the compression.
     """
     if method == "extractive":
         return _extractive_compress(text, query, level)
     elif method == "llm":
         if llm_client is None:
             raise ValueError("method='llm' requires an llm_client")
-        return _llm_compress(text, query, level, llm_client)
+        return _llm_compress(text, query, level, llm_client, backend)
     else:
         raise ValueError(f"Unknown method: {method!r}. Use 'extractive' or 'llm'.")
 
