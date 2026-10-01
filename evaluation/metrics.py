@@ -62,14 +62,14 @@ def information_retention_score(original_text: str, compressed_text: str) -> flo
     return round(float(score), 4)
 
 
-def full_comparison(original_text: str, compressed_text: str, original_cost: float, compressed_cost: float) -> dict:
+def full_comparison(original_text: str, compressed_text: str, original_cost: float, compressed_cost: float, model: str = "gpt-4o-mini") -> dict:
     """Convenience wrapper computing all 4 metrics at once for one
-    original/compressed pair — what evaluation/run_experiment.py and
+    original/compressed pair - what evaluation/run_experiment.py and
     evaluation/run_compression_sweep.py call per sample."""
     from token_analysis.counter import count_tokens
 
-    orig_tokens = count_tokens(original_text)
-    comp_tokens = count_tokens(compressed_text)
+    orig_tokens = count_tokens(original_text, model)
+    comp_tokens = count_tokens(compressed_text, model)
 
     return {
         "original_tokens": orig_tokens,
@@ -79,7 +79,6 @@ def full_comparison(original_text: str, compressed_text: str, original_cost: flo
         "cost_reduction_pct": cost_reduction_pct(original_cost, compressed_cost),
         "information_retention": information_retention_score(original_text, compressed_text),
     }
-
 
 if __name__ == "__main__":
     original = (

@@ -50,7 +50,11 @@ def run(
     if context and compression_enabled:
         context = compress(context, query=query, method=compression_method, level=compression_level)
 
-    full_prompt = f"Context: {context}\n\nQuestion: {query}" if context else query
+    full_prompt = (
+        f"Context: {context}\n\nQuestion: {query}\n\n"
+        "Answer using only the context. Reply with just the answer in as few words "
+        "as possible, with no explanation."
+    ) if context else query
 
     result = llm_client.generate(full_prompt, backend=backend)
     model = "openai/gpt-oss-20b" if backend == "groq" else "gpt-4o-mini"
@@ -67,6 +71,7 @@ def run(
         "query": query,
         "response": result.response,
         "latency_ms": result.latency_ms,
+        "compressed_context": context,
         **analysis,
     }
 

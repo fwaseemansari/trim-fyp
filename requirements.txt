@@ -9,4 +9,4 @@ sentence-transformers
 transformers
 python-dotenv
 pytest
-
+matplotlib
