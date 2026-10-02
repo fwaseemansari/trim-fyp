@@ -1,0 +1,221 @@
+sample_id,compression_enabled,compression_method,compression_level,backend,context_tokens_original,context_tokens_compressed,token_reduction_pct,compression_ratio,cost_reduction_pct,information_retention,latency_ms,rougeL_f1,rougeL_precision,rougeL_recall,summary,reference
+095fe32bd30e1a35291a19283c7f95913a95b22a,True,extractive,0.5,groq,529,310,41.4,1.706,41.4,0.805,687.8158999898005,0.322,0.2794,0.38,"Andre Villas‑Boas posted an Instagram photo of himself behind the wheel of a 1958 MG A roadster, showcasing his passion for vintage cars and bikes. He owns an extensive collection, including racing bikes and classic cars, and has shared details of his motorsport enthusiasm. Currently managing Zenit St Petersburg, he reflects on a recent Europa League loss to Torino while the club advances to the quarter‑finals.","Andre Villas-Boas posted a photograph of himself on Instagram behind the wheel of a 1958 MG A roadster on Thursday morning .
+Zenit St Petersburg manager Villas-Boas's love of motors is no secret .
+Villas-Boas spoke of his love of bikes and vintage cars during time at Chelsea ."
+fe7114cf606e6d4dc08e3d878aba44e1f6e295c8,True,extractive,0.5,groq,306,183,40.2,1.672,40.2,0.9462,665.3569999907631,0.3889,0.35,0.4375,"A new speed camera on the M4 near Port Talbot has already captured 4,500 motorists in two months, generating £450,000 worth of fines. The camera targets drivers speeding between junctions 40 and 41, a stretch known for heavy traffic and accidents. Offenders receive three points and a £100 fine, or can opt for an £85 speed awareness course.","New speed cameras on M4 near Port Talbot are catching 80 motorists a day .
+In two months 4,500 motorists were caught, generating £450,000 in fines .
+The 'average speed' cameras stop drivers from deliberately slowing down .
+Measured over a set distance, drivers must continually check their speed ."
+e5d802771e6be788e23c1fe5963649d060c3cb43,True,extractive,0.5,groq,481,289,39.92,1.664,39.92,0.9458,766.221099998802,0.281,0.2881,0.2742,Nicky Morgan accused Labour shadow education secretary Tristram Hunt of condescendingly calling her “love” in the House of Commons. She defended former PM David Cameron as a feminist and said he outperforms the Lib Dems in promoting women. Morgan added Hunt’s remark was made “in the heat of the moment” and criticized the tone of debates involving women.,"Nicky Morgan said Tristram Hunt made remark 'in the heat of the moment'
+Claimed it showed disparaging comments are made by MPs from all parties .
+Remarks echo David Cameron's infamous 'calm down dear' put down .
+Mrs Morgan dismissed the claim that the PM was 'innately sexist'
+She said he was a 'feminist' and insisted he was 'on the side of women'"
+9fca78328d45200b92dc6f2880e9e717d6c7a398,True,extractive,0.5,groq,1049,665,36.61,1.577,36.61,0.9324,806.9778000062797,0.1702,0.1159,0.32,"Rainbow Gatherings are global, annual events where people form a temporary community called the Rainbow Family to celebrate peace, harmony, freedom, and respect without money or hierarchy. Inspired by Hopi prophecy and counterculture roots, they often take place in places needing healing, offering workshops, music, and nature immersion. Photographer Krivic, who prefers film over digital, has documented these gatherings for decades, capturing their evolving spirit for viewers to interpret.","Photographer Matjaz Krivic's ""Somewhere Under the Rainbow"" series was shot over 19 years .
+Rainbow Gatherings celebrate the ideals of peace, harmony, freedom and respect ."
+f687cc127e3d2b2ec6c3206614306c8982d1d972,True,extractive,0.5,groq,1711,936,45.3,1.828,45.3,0.9621,841.2793000170495,0.1911,0.1648,0.2273,"Former footballer Michael McIndoe is under investigation for a £30 million investment scheme that lured about 300 players with promises of 20 % returns, while he allegedly spent the money on an extravagant Marbella lifestyle.  
+McIndoe, who once earned accolades such as PFA Team of the Year, now faces a bankruptcy hearing after debts of around £3 million, claiming he has no income and relies on friends and family for support.  
+The scandal also exposed unpaid model fees for club‑night events he organized, further highlighting his alleged misappropriation of investors’ money.","Michael McIndoe convinced footballers to take part in investment scheme .
+Investors in the scheme reportedly lost a combined £30million .
+Former Wolves and Coventry midfielder spent money on a lavish lifestyle .
+Pictures have emerged of McIndoe's lifestyle from height of the scheme .
+McIndoe later declared bankruptcy and is now supported by his family .
+I'm a Celebrity star Jimmy Bullard thought to have lost £600,000 ."
+ba990af15641a790a3c8c25fabb57a5b65fdf5f9,True,extractive,0.5,groq,341,211,38.12,1.616,38.12,0.9501,551.4497999974992,0.1463,0.1053,0.24,"A mob of thousands stormed a prison in Nagaland, India, and dragged out a 35‑year‑old Bangladeshi suspect accused of rape. The crowd, many of them uniformed students, beat the suspect to death before police could intervene. The attack was part of a broader demand to cancel trade permits for Bengali‑speaking settlers in the region.","Mob pulls rape suspect out of jail and kills him .
+Suspect was undocumented Bangladeshi settler .
+Racial tensions between local Naga people and Bangladeshi migrants high ."
+3a25c67cbf6b19e4097a0156917ee1e3c18946bb,True,extractive,0.5,groq,833,480,42.38,1.735,42.38,0.932,1941.4237000164576,0.2258,0.1918,0.2745,"Charlie Willcocks, 24, rushed to help when his son Teighlun stopped breathing after birth. Kirsty, a mother of six, misinterpreted early contractions as false labour and only realized the true labour a couple of hours later, prompting an ambulance 15 minutes after the baby was delivered. Thanks to Charlie’s quick actions—guided by scenes from the Channel 4 show “One Born Every Minute”—the baby was revived and no serious complications occurred.","Charlie Willcocks had to deliver his son when his partner went into labour .
+He says that watching One Born Every Minute meant he knew what to do .
+The 24-year-old had to act quickly when his baby stopped breathing .
+He successfully delivered his partner's sixth child with no complications ."
+e94c3e06aa9d54ff2acf8d627f0c59c10fa9f57a,True,extractive,0.5,groq,1505,911,39.47,1.652,39.47,0.9528,1083.8782000064384,0.4088,0.4625,0.3663,"Former CFO Adam Smith was fired from Vante after a viral video in which he berated a Chick‑fil‑A employee over the chain’s anti‑gay marriage stance. The fallout stripped him of a $200,000 salary, over $1 million in stock options, and his home, leaving him unemployed and reliant on food stamps. He has since written a memoir, apologized to the employee, and continues to search for a job, framing the ordeal as a lesson in authenticity.","Adam Mark Smith, 37, was publicly shamed after posting the video of himself berating a Chick-fil-A employee .
+The video from three years ago shows him expressing his disdain to Rachel Elizabeth for the fast-food chain's anti-gay marriage stance .
+Was earning $200,000-a-year and had $1 million in stock options .
+He lost his job, his stock options and his family lost their house and had to give away their possessions before he was hired and fired again .
+Has written a memoir, 'A Million Dollar Cup of Water: Discovering the Wealth in Authenticity' charting his journey ."
+8023d38ba3a670dbf0292d2b5c575ba8ed61e02f,True,extractive,0.5,groq,1494,787,47.32,1.898,47.32,0.7706,874.2901000077836,0.1607,0.1636,0.1579,"Bobbi Kristina, 22, remains in a medically induced coma after a bathtub incident that led to seizures. Her relationship with Gordon has sparked controversy, involving drug use, a car crash, and accusations of financial motives. Family tensions, particularly with Bobby Brown, have intensified amid disputes over their alleged romance and Gordon’s erratic social media.","On the eve of Bobbi Kristina’s 22nd birthday yesterday Nick Gordon's tweets have become increasingly desperate and erratic .
+Friends and family are concerned about Gordon's mental health .
+They believe Dr. Phil can help Gordon .
+Gordon has not been allowed to visit with Bobbi Kristina, as tensions between Gordon and the Brown family have escalated ."
+b2d210c306cd5464595b405519ff780b98204e97,True,extractive,0.5,groq,354,194,45.2,1.825,45.2,0.8907,646.0462999821175,0.38,0.3585,0.4043,"During a League Two match at the Kassam Stadium, Hartlepool defender Scott Harrison used a fallen referee’s vanishing spray for a prank, drawing a line around the official. The incident entertained teammates while referee Patrick Miller fell to the floor. Hartlepool won 2-0, keeping them in the bottom of League Two.","Referee Patrick Miller tumbled to the deck during a League Two clash .
+Hartlepool defender Scott Harrison took advantage of the incident .
+He borrowed the vanishing spray to draw a line round the stricken official .
+Miller was carried off on a stretcher as Hartlepool beat Oxford 2-0 ."
+2e9b83707017654e92b0d1f1c29eb3b15ddb011f,True,extractive,0.5,groq,2007,1117,44.34,1.797,44.34,0.8848,372.882199997548,0.1111,0.0759,0.2069,"Al Qaeda documents reveal the group’s strategic retreat, shifting operations to remote regions and negotiating a tactical ceasefire with Pakistan amid intense CIA drone pressure. The files show bin Laden as a hands‑on manager who directed operations, warned of drone attacks, and considered opening an office in Iran before abandoning the idea. The documents, recovered by U.S. forces at Abbottabad, provide insight into the organization’s decline and the CIA’s role in its eventual collapse.","New documents show al Qaeda's desperate straits in Osama bin Laden's final years .
+Peter Bergen: Drone program took severe toll; terror group unable to mount major operation ."
+dcd1187bfec764cb3c51a39bc25a22bd5e06909d,True,extractive,0.5,groq,410,227,44.63,1.806,44.63,0.987,627.4408000172116,0.2727,0.2727,0.2727,Jan Vertonghen urges Harry Kane to skip England's U21 European Championship to rest for next season. Tottenham boss Mauricio Pochettino wants to discuss Kane’s call‑up with the FA. Kane is due for his first senior England squad selection later this month.,"Harry Kane is to lead England Under 21's in the European Championships .
+Tottenham team-mate Jan Vertonghen has urged the striker to not play .
+The Belgian believes Kane should prepare for the following season instead .
+Click here for all the latest Tottenham news ."
+df412d8a876247ce65c11bef191087773e7b6d8d,True,extractive,0.5,groq,847,424,49.94,1.998,49.94,0.8187,692.1225000114646,0.1527,0.137,0.1724,"Jet Airways Flight 9W122 (DEL‑LHR, Feb 15 2015) suffered a toilet and sink overflow, causing strong odors and water flow into the cabin that left passengers coughing and one with asthma feeling unsafe. The airline maintains the leak was only from sinks, but passengers complain the in‑flight conditions were unhygienic and caused illness. They are demanding monetary compensation and a ticket refund, rejecting the airline’s offer of frequent‑flyer miles.","Passengers, including infant children, endured the pungent smell for hours .
+Amrita Jaurre snapped photos as water flowed into the aisles and rows .
+Cabin crew tried to contain the mess by piling newspapers on the floor .
+Passengers used articles of clothing to try to mask the foul odour .
+Ms Jaurre, 27, said she suffered a headache and became nauseous ."
+70ac5d32bc90d3dfba2fe72bec46c654a78b9ead,True,extractive,0.5,groq,647,387,40.19,1.672,40.19,0.9408,928.0091999971773,0.1233,0.0957,0.1731,"Portland International Airport’s iconic geometric carpet has become a social‑media sensation, inspiring millions of selfies, merchandise and even a grand marshal role in the city’s Starlight Parade. Designed by SRG Partnership, it celebrates the airport’s workforce and reflects the spirit of the Pacific Northwest, while the removal of its 13‑acre expanse is expected to take about a year. Its popularity—over 42,000 Instagram foot selfies and thousands of likes on Facebook—highlights the cultural and economic impact of the airport, which contributes $9.6 billion to the state.","The carpet has its own Facebook page with almost 13,000 likes .
+Said to have inspired Adidas designs as well as mugs and T-shirts .
+Tourists upload 'feet selfies' to social networks in carpet's honour .
+But iconic flooring is set to be pulled up this year - so get your photo fast ."
+81876063d606c47351858e10a10c686011953a30,True,extractive,0.5,groq,896,496,44.64,1.806,44.64,0.9192,778.0471000005491,0.1505,0.1489,0.1522,"Kevin de Bruyne netted twice to put Wolfsburg in control of their Europa League tie with Inter Milan.  
+His goals – a cut‑back and a free‑kick – exploited Inter’s shaky defending and goalkeeper mistakes.  
+After the win, he led the Wolfsburg fans in post‑match celebrations.","Rodrigo Palacio slots home after five minutes from Mauro Icardi pass .
+Naldo scores emphatic equaliser with powerful header from corner .
+Former Chelsea player Kevin de Bruyne makes it 2-1 after keeping error .
+De Bruyne gets his second with a free kick with 15 minutes left ."
+5b9cb3b76c9e7149b75dc2dbffad12afba22d919,True,extractive,0.5,groq,679,378,44.33,1.796,44.33,0.9285,2777.4807999958284,0.2047,0.2031,0.2063,"Arsenal travel to Monaco with a 3‑1 aggregate deficit in the Champions League, yet the squad stays upbeat about overturning the loss. Wenger believes the Gunners can pull off a surprise win, while Mesut Ozil stresses the need for early goals to secure progress. Players such as Alexis Sanchez, Per Mertesacker and Francis Coquelin remain positive as they head to Stade Louis II.","Arsenal trail Monaco 3-1 heading into the Champions League last 16 return leg at the Stade Louis II .
+The Gunners squad left for France from Luton airport on Monday .
+READ: Olivier Giroud backs himself to bounce back from woeful first leg display against Monaco .
+CLICK HERE for all the latest Arsenal news as Arsene Wenger's men face crunch clash in Monaco ."
+472d6c7134a7b5f4f6574e620600054517c6efe8,True,extractive,0.5,groq,1369,784,42.73,1.746,42.73,0.9205,7758.715900010429,0.2295,0.2545,0.209,"Researchers in South Africa trained elephants to detect TNT, achieving 99 % accuracy across hundreds of trials. The elephants were rewarded with marula fruit when they raised a front leg upon detecting the explosive. Future plans envision using drones to collect scent samples from mined areas and deliver them to elephants for remote land‑mine detection.","Research was conducted in South Africa and involved the US military .
+Experiment found elephants excel at identifying explosives by smell .
+Animals were able to find TNT among buckets filled with distracting smells .
+Skill could be used to find buried landmines in former areas of conflict .
+Drones could collect mine field scent samples for elephant analysis .
+Elephant's sense of smell could be used to inspire new sensors ."
+43965b7d04314d33c37f84c42ae452239e3a41b3,True,extractive,0.5,groq,445,270,39.33,1.648,39.33,0.9333,2681.42340000486,0.2472,0.1897,0.3548,"A Beechcraft B35 crashed into a house in Gordonville, Texas, its engine and propeller detached and the aircraft landed in a backyard. Residents, including John Bratron, rescued passengers, fought a fire, and helped neighbors after the plane struck another home. The pilot was presumed dead and a seriously injured woman was flown to the Medical Center of Plano.","Plane crashed in Gordonville, north of Dallas shortly after take-off .
+Family where Beechcraft B35 came down helped rescue passengers .
+Two seriously injured, including one woman who was flown to hospital ."
+15884c3da9b0285a96a42930ed1613f0d6259014,True,extractive,0.5,groq,1146,636,44.5,1.802,44.5,0.9623,4687.60000000475,0.2803,0.2558,0.3099,"Three retired carers are accused of running a child sex ring at the now‑defunct Swaylands School in Kent for 30 years, with 49 charges against 24 victims aged 10‑15. The men—Colwyn Baker, David Hennessey, and Nigel Putman—are alleged to have abused boys nightly and encouraged them to abuse each other, using blackmail and gifts to silence them. All three deny the allegations, but the court heard detailed testimonies of repeated indecent assaults, rape, and a history of prior convictions for similar offenses.","Colwyn Baker, David Hennessy and Nigel Putman allegedly abused boys .
+Three men were residential child care officers at Swaylands School in Kent .
+The school catered for boys with emotional and behavioural difficulties .
+Trio face a total of 49 charges against 24 victims aged between 10 to 15 .
+Court heard abuse at school was so common it was 'almost the norm'
+Boys were allegedly encouraged to commit sex acts on other children ."
+1e9e80f5915d8f9aa8874bdb06c4895e3415870f,True,extractive,0.5,groq,1383,726,47.51,1.905,47.51,0.9454,5043.197399994824,0.1538,0.1818,0.1333,"Hundreds gathered at St. George Park to release balloons for 16‑year‑old Becky Watts, with her family – including her father Darren Galsworthy – in attendance. The event blended grief and community support as relatives shared condolences and hope for justice. Police are still investigating, forensics are searching the family home, and Galsworthy faces murder charges.","Father Darren Galsworthy and step-mother Anjie, who have not been seen since Becky's death, attended memorial .
+Hundreds of ballons released at St George Park in Bristol, less than a mile from where she disappeared on February 19 .
+A massive police search was conducted but the missing teenager's body parts were found earlier this week .
+Step-brother Nathan Matthews is charged with murder and Shauna Hoare with attempting to pervert course of justice ."
+86417ce854aca553643879cf98158baf69273932,True,extractive,0.5,groq,1092,801,26.65,1.363,26.65,1.0,7992.423300020164,0.3107,0.2254,0.5,"Vienna topped Mercer's 2015 Quality of Living rankings, making it the world’s most livable city, with Zurich, Munich, and Dusseldorf also in the top ten. The list includes 10 cities worldwide, such as Auckland and Vancouver in the top five, and highlights Dubai and Singapore as leaders in the Middle East and Asia. The survey is used by multinational companies to assess and fairly compensate employees when relocating internationally.","Mercer's 2015 survey found Vienna, Austria to be the most livable city .
+Zurich, Auckland, Munich and Vancouver round out the top five .
+Quality of Living rankings help companies moving employees abroad ."
+0a52a4b2566fa9b9c1680a62b25fe6f087c9e220,True,extractive,0.5,groq,645,398,38.29,1.621,38.29,0.8921,3675.25050000404,0.1429,0.1458,0.14,Bottas has been cleared to race again but the FIA requires him to stop if back pain returns. He reports full recovery and is ready for the Malaysian Grand Prix. Williams has signed reserve driver Adrian Sutil to ensure a solid backup for the team’s championship push.,"Valtteri Bottas suffered tear in a disc in his lower back in Melbourne .
+Injury caused pain 'like a knife' would, forcing him out of Australian GP .
+Williams driver insists he is fine to race in Malaysian GP .
+But he has been warned he must withdraw if he feels more pain ."
+e603d812b8811c3fc40340ff65a19ab8e02d2493,True,extractive,0.5,groq,913,525,42.5,1.739,42.5,0.8569,4578.0452999752015,0.2414,0.3043,0.2,"Ireland were bowled out for 249 as India's bowlers, led by Rohit Sharma and Shikhar Dhawan, set a steady chase.  
+Sharma and Dhawan anchored the innings, with Dhawan reaching his eighth ODI century in 84 balls.  
+India comfortably chased the target and won the match.","India beat Ireland by eight wickets at Seddon Park in Hamilton .
+Ireland were dismissed for 249 with an over to spare in their innings .
+Niall O'Brien top scored with 75, William Porterfield hit 67 .
+Led by openers Shikhar Dhawan (100) and Rohit Sharma (64), India chased down the target for the loss of just two wickets .
+India confirmed top spot in Pool B and have 100 per cent record ."
+90ce243d689b680167fead79aa22b51f934e81e9,True,extractive,0.5,groq,429,230,46.39,1.865,46.39,0.8409,1803.0038000142667,0.0945,0.0822,0.1111,"AS highlighted a missed Ronaldo goal, branding it costly, while Marca focused on Bale’s lacklustre performance, rating him 4.5/10. Spanish papers emphasised the widening La Liga gap, with Sport calling the result a blow to Madrid and Mundo deportivo describing the match as a “two‑faced Clasico” that lifted Barcelona to a four‑point lead. In Italy, attention shifted to Carlos Tevez’s stunning strike that secured Juventus a win.","Barcelona beat Real Madrid 2-1 at the Nou Camp .
+Spanish papers focus on Real's dominance, but Barca open gap at the top .
+Bale blasted for failing again, while Ronaldo missed glorious chance .
+Welshman so bad he is given no mark in Marca match ratings .
+READ: Five things we learned from El Clasico ."
+e8b3cedb58dd7f08dba56ca50e0b9b62419db039,True,extractive,0.5,groq,467,241,48.39,1.938,48.39,0.9096,3717.696000006981,0.3119,0.2833,0.3469,"Aurier, currently injured, faces UEFA disciplinary action after a Facebook video in which he insulted the Dutch referee who dismissed Zlatan Ibrahimović. In the clip he called the official a “dirty son of a b****” and later apologized on social media. Marseille’s Dimitri Payet may also be sanctioned for a separate video showing him directing profanity at match officials.","Serge Aurier is the subject of UEFA disciplinary action after rant at referee .
+The PSG defender criticised the officiating in draw with Chelsea last week .
+Aurier said 'referee, dirty son of a b***h' on a video posted after game .
+The Ivory Coast international has apologised for the outburst ."
+4ceddc786f1d4f6f5638a09291fa0160e3196926,True,extractive,0.5,groq,510,277,45.69,1.841,45.69,0.8925,2780.3450000064913,0.198,0.2326,0.1724,"Polar bear cubs in Waspusk National Park froliced in -50 °C snow, even during a blizzard. The mother guided them, shielding them from the harsh elements while the photographer observed unnoticed. The scene highlights the extraordinary resilience of polar bears in the Arctic.","Wildlife photographer Andy Skillen spent two days tracking the bears at the Wapusk National Park, Manitoba, Canada .
+He found a mother bear introducing two newborn cubs to the joys of playing in the snow .
+The bears were emerging from hibernation and the mother was anxious to hunt - but it was not so easy with two cubs in tow ."
+179f4a5a71b496f0095b62e543da4284be5ba4e6,True,extractive,0.5,groq,664,369,44.43,1.799,44.43,0.9478,3182.868600008078,0.1905,0.1754,0.2083,"An Albuquerque man, Matthew Gonzales, allegedly shot his ex‑girlfriend after claiming his neighbor's dog told him to do it.  
+He also admitted to kidnapping her and her 10‑year‑old daughter, threatening to force them into a car and drag them onto the street.  
+Gonzales now faces charges of aggravated battery, kidnapping and related offenses.","Matthew Gonzales told police he was angry about his ex-girlfriend announcing that she was single on social media .
+According to court documents, Gonzales says the dog told him, 'you need to take care of this'
+Police say Gonzales shot his ex-girlfriend during a struggle on Tuesday ."
+2e28eb554f003c12c380bd7d1a22fcfb290c6e87,True,extractive,0.5,groq,964,639,33.71,1.509,33.71,1.0,6038.142600009451,0.1898,0.2167,0.1688,"Rosie‑Ann Stone lost her brother, Private Gregg Stone, who died in Afghanistan. She fell in love with the soldier who tried to save him, Liam Fisher, and the couple married in York Minster with a special licence from Archbishop John Sentamu. Later, Rosie‑Ann’s sister Jennie was killed in a car crash, adding to the family’s tragedy.","Gregg Stone, 20, was shot dead on mission to rescue an Afghan policeman .
+Liam Fisher, 22, tried valiantly to save his comrade and friend .
+He dragged him into a ditch, before lying on top of him to protect him .
+But he could not be saved, and the young soldier died of his wounds .
+His sister Rosie-Ann Stone bonded with Pte Fisher over their shared grief .
+The couple have now married in moving ceremony at York Minster ."
+4eb362aee5c4021e4b85b46c7acd3104fc404a2f,True,extractive,0.5,groq,918,578,37.04,1.588,37.04,0.9034,4908.957799983909,0.127,0.16,0.1053,"Dustin Johnson won the WGC‑Cadillac Championship in Miami, saying fatherhood sharpened his focus. He celebrated on the 18th hole with fiancée Paulina Gretzky and their newborn son Tatum, sharing a public kiss. The golfer has recently returned to play after a voluntary break, crediting his family's support.","The new parents shared a passionate kiss in front of cameras, while cradling their newborn Tatum between them .
+Talking about how fatherhood had changed his life for the better, Johnson said: 'It kind of makes life a lot easier I think, just because there's just one thing that's kind of all you think about. It definitely simplifies stuff'
+He took a six-month break from golf over alleged cocaine and alcohol abuse last June ."
+2d73b28631ff6670dafb534ecf1b2963b4eb7cc2,True,extractive,0.5,groq,1395,828,40.65,1.685,40.65,0.869,6874.446900008479,0.2097,0.2031,0.2167,"A 19‑year‑old carer, Sheryvone Brooks, was caught on hidden CCTV stealing £30 from an elderly woman's purse and pleaded guilty at Dudley Magistrates Court. The judge emphasised the breach of trust and warned that similar offences against vulnerable people will result in prison. The footage, now online, has caused embarrassment for Brooks and worsened the victim’s health and family distress.","Sheryvone Brooks was filmed stealing from Evelyn Nicholson's home .
+The 20-year-old carer took the pensioner's purse from kitchen drawer .
+She was seen taking out £30 and stuffing it in her sweatshirt pockets .
+The 85-year-old's family had installed camera after money went missing .
+Brooks was sentenced to 26 weeks in a Young Offenders' Institute ."
+5348105f3266be875dd7dc6b972069e3cf69242f,True,extractive,0.5,groq,1900,1083,43.0,1.754,43.0,0.8675,9128.459600004135,0.1681,0.2,0.1449,Western mothers who joined ISIS post photos of their children with guns to flaunt loyalty and boost propaganda. The images spread fear of a new generation of jihadi fighters and serve as a social‑media show‑down. Authorities are now targeting and deporting these individuals back to their home countries.,"Depraved terrorists use social media to share photos of gun-toting children .
+Chilling images are titled 'The Little Terrorist' and 'Generation Kilafah'
+They show young boys and girls with guns dressed in combat clothing .
+Others show sleeping newborn babies with rifles propped against the bed .
+Photographs are a sickening attempt for the twisted men and women living under the rule of ISIS to outdo one another on social media ."
+cec3271f2b5dd80796d799c458dbd9e4f2441b98,True,extractive,0.5,groq,1113,635,42.95,1.753,42.95,0.9216,4672.729100013385,0.2763,0.3,0.2561,"The Public Health Association of Australia has condemned the upcoming cookbook *Bubba Yum Yum: The Paleo Way* for potentially stunting babies’ growth and causing fatal outcomes, especially due to its DIY baby formula recipe. Health officials, including the Department of Health, are investigating the book’s nutritional safety and have urged parents to exercise caution. As a result, Pan Macmillan has postponed its March 13 release to address these concerns.","Bubba Yum Yum: The Paleo Way was set for release on Friday March 13 .
+It is a cookbook co-authored by celebrity chef Pete Evans along with baby-blogger Charlotte Carr and naturopath Helen Padarin .
+The book has been slammed by the Public Health Association of Australia who claim that children could potentially die from the recipes .
+One of the recipes is a DIY baby formula made from liver and bone broth .
+Pan MacMillan has reportedly postponed its release amid the concerns ."
+c62484675c5fb35a6819d34dd695e5430d7aed66,True,extractive,0.5,groq,647,393,39.26,1.646,39.26,0.9678,2822.551299992483,0.2453,0.2203,0.2766,"A three‑month‑old Rottweiler puppy was found abandoned in a cardboard box with severe spinal damage and was euthanised by vets. A nearby newborn Rottweiler cross also showed signs of mistreatment, sparking fears that more puppies in London may be suffering. Separately, eight newborn puppies were discovered in a bin in North Wales, leading to an RSPCA investigation.","Three-month-old Rottweiler puppy found dumped by bins in Enfield .
+Dog had to be put down after spinal damage left her unable to stand .
+RSPCA found another mistreated puppy dumped in the same area .
+Inspectors appeal for help in tracing other dog that may need help ."
+2f2a064e63a5f42fc029e67940096b9138d1789b,True,extractive,0.5,groq,771,395,48.77,1.952,48.77,0.741,4646.386700012954,0.2286,0.2553,0.2069,"The family left a Canterbury zoo after just two hours, upset over lack of suitable food for their lactose‑ and soy‑intolerant child. They claimed the restaurant refused them, though staff say a private room was offered. The incident prompted the family to vow never to return.","Alex and Coral Pouros  paid £30 to take son Elliot to Wingham Wildlife Park .
+Packed dairy and soya free lunch for him and planned to buy theirs at cafe .
+Staff refused to allow the toddler to sit in restaurant and eat his own food .
+The furious family left the zoo after just two hours vowing never to return ."
+099a3e77f85d1efc8476bc21d883f5348e8a476f,True,extractive,0.5,groq,1223,678,44.56,1.804,44.56,0.9397,4907.730799983256,0.2388,0.2462,0.2319,"Kelly Renee Gissendaner, the only woman on Georgia’s death row, is scheduled for lethal injection after a 1997 plot to murder her husband. Her lawyers are seeking a stay and commutation, arguing that corrections staff were not heard and citing past commutations of co‑defendants. If denied, the execution would be Georgia’s first female death since 1945 and the 16th nationwide since 1976.","Kelly Renee Gissendaner, 46, to receive lethal injection in Jackson at 7pm .
+She plotted the 1997 murder of her husband with her boyfriend .
+Chose cheeseburgers, fries, cornbread, ice cream, buttermilk-dressed salad, lemonade and popcorn for last meal .
+Gissendaner's lawyers are begging Georgia authorities for stop her death .
+Have claimed that she has found God in prison and is reformed .
+Georgia has not executed a woman since 1946 ."
+e15b9e9ff2df5839632fcce566b296fb8cc7bc42,True,extractive,0.5,groq,354,185,47.74,1.914,47.74,0.8402,1684.0733000135515,0.4112,0.3492,0.5,"Ecclestone has proposed a women‑only race during the Grand Prix weekend, featuring drivers such as Susie Wolff, Carmen Jorda, Danica Patrick and Alice Powell. The idea, discussed in a meeting with team bosses before the Malaysian Grand Prix, aims to attract attention, publicity and sponsors. Lella Lombardi remains the only woman to have scored points in Formula One, last racing in 1976.","Bernie Ecclestone floated the idea at a meeting with team bosses before Sunday’s Malaysian Grand Prix .
+Lella Lombardi was the last woman to start a Formula One race, in 1976 .
+The likes of Susie Wolff could feature in Ecclestone's new race idea ."
+7698d616bda4e4757c39e9c4aaf6d44bb2ed7271,True,extractive,0.5,groq,437,282,35.47,1.55,35.47,0.9288,2717.691800004104,0.1978,0.1552,0.2727,"A mother was investigated after leaving her three sons in an unlocked car while she worked at the Dorsch Memorial Library. The children were found after a 911 call, with the mother explaining she had removed them because they were disruptive and left them for about 12 minutes. Child Protective Services has been notified and may pursue charges.","Mother-of-three was trying to finish financial paperwork in Monroe library .
+Police discovered sons in unlocked car with windows rolled down .
+Woman may face unattended child or child abuse charges, officials said ."
+eca20868d4b660d2f37a347c139ca46792ded390,True,extractive,0.5,groq,468,214,54.27,2.187,54.27,0.8822,1841.0913000116125,0.3065,0.3393,0.2794,"Connor King, 18, violently broke into a flat in Folkestone after a wedding reception, threatening residents and stealing items. He was found standing on a window ledge before shouting, “I’m a terrorist,” and later admitted to assault, burglary, and sexual assault. King received a five-and-a-half‑year sentence at a Young Offenders’ Institute.","Connor King, 18, broke into flat in Kent after family wedding reception .
+Terrorised mother and child who were sleeping and threatened to kill them .
+He moved into another room and punched man up to 30 times in the head .
+Then went next door and climbed out window, saying 'I'm going to a party'
+When police finally arrived to arrest him he was shouting: 'I'm a terrorist'"
+e56ec127548359678bd67f48fc75f9a55d814c6a,True,extractive,0.5,groq,665,418,37.14,1.591,37.14,0.9972,3017.571400007,0.2832,0.2192,0.4,"A great grey owl was spotted peeking out from behind a tree in Vysoka, Czech Republic, while photographer Jiri Michal attempted to photograph it. The owl, known for its reclusive nature, seemed to play a brief game of peek‑a‑boo with Michal before flying away. The largest owl species, it measures up to two and a half feet long and is native to northern North America and Europe, often hunting during daylight.","Jiri Michal, 34, spotted owl while walking in park in west Czech Republic .
+Animal seemed to be playing game with him while hopping around a tree .
+Great grey owls can reach more than two feet long and hunt in daylight ."
+fe4c0044c1ed51f5b641aed367bb02a176d794d1,True,extractive,0.5,groq,654,379,42.05,1.726,42.05,0.9221,2657.461399998283,0.2807,0.2254,0.3721,"Johnny Herbert warns that McLaren may start the new Formula One season at the back of the grid due to pre‑season testing setbacks and a shaky partnership with Honda. He notes the team has struggled with reliability, leaving them with frequent car failures before the Melbourne opener. The absence of Fernando Alonso from the opening race only adds to McLaren’s challenges as they try to turn the situation around.","Johnny Herbert believes McLaren could find themselves at the back end of the grid when the F1 season starts .
+McLaren have often found their car back in the garage with one fault or another .
+Fernando Alonso will miss the season opener in Australia ."
+3963a3505e34f4311424277aacc1cf6b2491d58e,True,extractive,0.5,groq,1714,1040,39.32,1.648,39.32,0.9943,7697.582100023283,0.1477,0.1392,0.1571,"Tasmania’s Magnolia Court, a 4‑bedroom, two‑storey house in Brighton, is listed at $299,000 because the owners are eager to sell after a failed rental venture. Similar “hidden gem” homes across Australia—including a $249,000 3‑bedroom in Adelaide’s Paralowie and another in Queensland—are being sold at steep discounts for buyers ready to move quickly. Agents say the low prices stem from owners’ urgent need to liquidate due to financial or personal circumstances.","Families with a $250,000 budget can get into the overheated Australian property market with a top quality home .
+Hidden gems are available in the $200,000s including the weekend's most eye-catching property in Brighton .
+Desperate owners wanting their properties sold quickly mean budget buys do exist .
+Features of these three and four bedroom homes include private decks, Victorian style spa baths, steeple roofs and split system aircon ."
+266e616d8c49c36fce680bc17a3ffc9d83754fb9,True,extractive,0.5,groq,868,579,33.29,1.499,33.29,0.9064,4200.894200010225,0.1391,0.1231,0.16,"Susan Rice told AIPAC that the Obama nuclear deal would extend the time for Iran to build weapons‑grade uranium, keeping U.S. monitoring intact. Netanyahu’s stance on Iran is vague, echoing his 2002 Iraq remarks that hinted at military action without naming it. Critics argue that this ambiguity weakens Israel’s security and clashes with U.S. public fatigue over Middle East wars.","Jeremy Ben-Ami: Netanyahu's powerfully worded speech is no substitute for a strategy to keep Iran from getting nuclear weapons .
+He says without a plan, the only option is to put U.S. on path to military action .
+Netanyahu also lobbied for Iraq invasion in 2002, Ben-Ami says ."
+f54c0bd2575acb90cfbb3776d780bbab167cc59f,True,extractive,0.5,groq,434,257,40.78,1.689,40.78,0.9505,3701.392399991164,0.1852,0.1667,0.2083,Cardiff University medical rugby team was barred from returning on a P&O ferry after an alleged incident in which a player drunkenly urinated in someone's food. The company cited the team’s appalling behaviour and denied the return voyage. University officials are investigating the incident and have stated it does not reflect the conduct expected of their students.,"Group made up one of university's Medics Rugby teams .
+Incident occurred on outbound journey from Dover to Calais .
+P&O confirm that rugby team were prevented from travelling on return trip .
+Students' Union say behaviour is 'not condoned' and message will be 'conveyed to teams' during inductions ."
+6314f1a3c1f210486019bce89fe68ec587882964,True,extractive,0.5,groq,1307,796,39.1,1.642,39.1,0.9816,6789.7397999768145,0.1852,0.1449,0.2564,"Celtic’s League Cup has long been a missing trophy, and Ronny Deila is determined to win it as his first major success in charge.  
+He stresses discipline, preparation and the club’s bigger squad while recalling past cup performances and rivalries with Dundee United and Rangers.  
+The final at Hampden is framed as a pivotal moment for Deila to cement his legacy and push Celtic’s ambitions forward.","Celtic play Dundee United in the Scottish League Cup final on Sunday .
+Ronny Deila's side are bidding to win the domestic treble this season .
+Deila says losing cup final in Norway was the worst thing he has done ."
+88e26e9c9eb35649b3b508de6e89a34a4e21a60c,True,extractive,0.5,groq,723,371,48.69,1.949,48.69,0.8459,3749.0394999913406,0.4583,0.3929,0.55,"Kairos is developing a smartwatch overlay that sits on top of a mechanical watch, using a transparent OLED to display notifications while preserving the classic hands. The device, powered by an ARM Cortex‑M4, includes a stopwatch, fitness tracking and a battery that lasts about a week, and it works with Android, iOS and Windows smartphones. Prices start at $549 (£370) and rise to $1,249 (£810) for a limited edition of 1,000 pieces, with pre‑orders available but no retail release yet.","Hybrid device, dubbed MSW 115, uses almost transparent OLED screen .
+It delivers messages and data while allowing users to see watch hands .
+Powered by an ARM Cortex M4 chip, the battery lasts for almost a week .
+Operating system is compatible with Android, iOS, and Windows phones .
+Prices start at $549 (£370) rising to $1,249 (£810) for limited edition model ."
+325bdceb7ca73e9ae94c3ef2b767aa768c60a4c8,True,extractive,0.5,groq,587,309,47.36,1.9,47.36,0.9227,2609.5667999761645,0.1622,0.1385,0.1957,"Charlie Austin praised Tottenham striker Harry Kane’s exceptional form and confidence, saying it’s a model for a striker.  
+Austin, who has scored 15 Premier League goals this season, is also in England contention and has been rediscovering his rhythm after a dip in form.  
+He remains target‑free, noting he’s only five goals away from 20 and doesn’t set personal goals.","Kane scored twice as Spurs beat QPR 2-1 at Loftus Road on Saturday .
+Counterpart Austin has praised his 'exceptional form' this season .
+Spurs forward has scored 26 goals in all competitions, Austin 15 .
+Both are in contention for England squad at end of the month ."
+85647f94cbd8adb8fb51d6c83fabb9ef9d6bcbd6,True,extractive,0.5,groq,1625,976,39.94,1.665,39.94,0.9692,7831.605999992462,0.2037,0.2115,0.1964,"Hundreds of aging U.S. veterans, many in their 90s, returned to Iwo Jima for the 70th‑anniversary memorial alongside Japanese officials. The joint ceremony honored the 29,000 lives lost and highlighted shared sacrifice between the two nations. The largely untouched island remains a sacred site for both Americans and Japanese.","More than 30 veterans flew to the island of Iwo Jima, Japan, on Saturday .
+The 1945 battle was one of the bloodiest of World War 11 .
+Represents a major invasion and win for the U.S.
+The Battle of Iwojima lasted about a month .
+About 22,000 Japanese soldiers and 7,000 U.S. servicemen died ."
+ff7af9e4fbf2e63043366eef12a9207bdba21f45,True,extractive,0.5,groq,1142,662,42.03,1.725,42.03,0.936,6182.743500015931,0.437,0.4333,0.4407,"A bottle of grey wine was recovered from the 1864 Civil War blockade runner Mary‑Celestia.  
+Experts tasted it at a Charleston food festival, describing its smell and flavor as a mix of crab water, gasoline, salt water, vinegar, citrus, and alcohol.  
+The find highlighted the wreck’s historical significance and the 150th anniversary of the Civil War’s end.","Bottle of grey liquid was recovered from a US Civil War shipwreck .
+Mary-Celestia steamship sank under mysterious circumstances in 1864 .
+Wine bottle was uncorked at a food festival in Charleston, South Carolina .
+Sommeliers who sipped the liquid inside said it smelled and tasted like a mix of crab water, gasoline, salt water and vinegar, with hints of citrus ."
+a6ac02f792509ddeaabeac5bb7fbdc6403e5d6f6,True,extractive,0.5,groq,700,418,40.29,1.675,40.29,0.7926,4069.208900007652,0.2099,0.1868,0.2394,"Normandy veteran Bernard Jordan, who escaped a care home to attend last year’s D‑Day commemorations, had his medals sell for more than five times the £600,000 he left to the RNLI. A 19‑year‑old Royal Navy lieutenant who served on the first wave of D‑Day and in the Atlantic, he later spent 23 years on the Hove council and was mayor from 1995 to 1996. His medals included the 1939‑1945 Star, Atlantic Star with French and German clasp, Italy Star, Defence Medal and War Medal.","Bernard Jordan went missing from his care home before D-Day anniversary .
+He caught a ferry to Caen, Normandy and made his own way to the service .
+He died aged 90 on December 30, and a week later his widow passed away .
+Mr Jordan's medals have sold for £1,650 - the estimate had been just £300 .
+Money raised donated to RNLI, together with £600,000 left in couple's will ."
+5540a693800aba1b09de0838522b8cb68e466318,True,extractive,0.5,groq,1013,542,46.5,1.869,46.5,0.9165,6126.707299990812,0.2222,0.3051,0.1748,"A Queensland grandmother charged with attempted murder of her step‑grandchildren was granted bail and has moved into an apartment just metres from two schools. The court deemed her a non‑risk to children despite the proximity of the schools. Police are still investigating her alleged involvement in other child deaths, while the surviving grandchildren remain under supervised care.","Queensland grandmother, 58,  who was charged with four counts of attempted child murder, has been released from prison on bail .
+The grandmother is accused of trying to kill two of her step grandchildren by setting their bedroom on fire.
+She is also accused of killing two other children from the same family in the Morayfield 'house of horrors' between 2013 and 2014 .
+Parents are angry to find the woman has moved to a unit across the road from two Queensland schools .
+The grandmother has said she is 'not a heartless person' and claimed 'only a person with no heart' would commit such crimes ."
