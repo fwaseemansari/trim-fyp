@@ -10,3 +10,7 @@ transformers
 python-dotenv
 pytest
 matplotlib
+numpy
+pandas
+scipy
+
