@@ -22,7 +22,20 @@ small enough to commit; no need to re-clone the GitHub repo).
 
 **Scale (across all 10 conversations):**
 - 5,882 total turns
-- 1,986 total QA pairs (~199 per conversation)
+- 1,986 total QA pairs (about 199 per conversation on average; 105 to 260
+  per conversation, 199 in the first sample)
+
+**Further notes from data inspection:**
+- Each conversation is split into 19 to 32 dated sessions spread over
+  different dates, simulating a relationship over time.
+- A session holds roughly 10 to 47 turns (about 22 on average), around 490
+  words of `text` per session on average.
+- Every QA pair carries a `category` number (1-5) reflecting different
+  reasoning types such as single-hop, multi-hop and temporal questions.
+- The `evidence` field points to the exact turn(s) (e.g. `D1:3`) that
+  contain the answer. This is what lets us check whether our Context
+  Manager kept the right turns in its window when the correct answer
+  required information from several sessions ago.
 
 **Implication for the Context Manager:** a "session" here is a batch of
 turns from one sitting (dated), and a conversation spans multiple
