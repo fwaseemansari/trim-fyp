@@ -1,0 +1,16 @@
+openai
+groq
+tiktoken
+scikit-learn
+nltk
+datasets
+rouge-score
+sentence-transformers
+transformers
+python-dotenv
+pytest
+matplotlib
+numpy
+pandas
+scipy
+

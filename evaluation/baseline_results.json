@@ -1,0 +1,12 @@
+{
+  "note": "Regenerated from experiment_none.csv (short-answer prompt). Supersedes the Week 1 baseline.",
+  "source": "evaluation/results/experiment_none.csv",
+  "backend": "groq",
+  "n_samples": 48,
+  "avg_total_tokens": 217.0,
+  "avg_cost_usd": 1.7e-05,
+  "avg_latency_ms": 616.6,
+  "avg_exact_match": 0.438,
+  "avg_f1": 0.657,
+  "avg_answer_in_response": 0.583
+}

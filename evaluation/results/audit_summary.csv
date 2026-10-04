@@ -1,0 +1,4 @@
+method,scorer,level,n,faithful,unsupported_correct,hallucinated,unsure,hallucinated_rate,hallucinated_ci,unsupported_rate,unsupported_ci
+none,none,1.0,30,30,0,0,0,0.0,"[0.000, 0.044]",0.0,"[0.000, 0.044]"
+selective,bi_encoder,0.5,30,26,0,4,0,0.02,"[0.000, 0.110]",0.02,"[0.000, 0.110]"
+selective,cross_encoder,0.5,30,29,1,0,0,0.0,"[0.000, 0.063]",0.003,"[0.000, 0.067]"

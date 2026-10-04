@@ -1,0 +1,21 @@
+sample_id,question,compression_enabled,compression_method,compression_level,answer_still_present,total_tokens,cost_usd,latency_ms
+57111b95a58dae1900cd6c53,Who was the final Prime Minister of East Germany?,True,extractive,0.7,True,170,1.7e-05,765.3931998647749
+56e1c0f6cd28a01900c67b2c,What has complicated definitions that prevent classification into a framework?,True,extractive,0.7,True,675,6.75e-05,2886.491300072521
+57264228ec44d21400f3dcf9,Telnet was sold to ,True,extractive,0.7,True,142,1.4200000000000001e-05,1130.635500419885
+57263eaa38643c19005ad373,What does ctenophora rely on for digestion and respiration?,True,extractive,0.7,True,267,2.6700000000000002e-05,1259.7785997204483
+5710eca0a58dae1900cd6b3e,When were these settlers naturalized as English colonists?,True,extractive,0.7,False,347,3.47e-05,2500.45010028407
+5733a6ac4776f41900660f5b,What profession was Nathan Alterman?,True,extractive,0.7,True,160,1.6e-05,613.4101999923587
+572fc6f204bcaa1900d76cf7,What is one avenue being compensated for by having committees serve such a large role?,True,extractive,0.7,True,153,1.5300000000000003e-05,8761.058900039643
+56e1d9fee3433e14004231cb,The hardest problems in NP can be analogously written as what class of problems?,True,extractive,0.7,True,226,2.26e-05,1252.4361000396311
+57108d69b654c5140001f985,What was the population of the Dutch Republic before this emigration?,True,extractive,0.7,False,679,6.79e-05,1546.4006001129746
+572a020f6aef051400155199,"The loss of biodiversity may be the result of what, according to environmentalists?",True,extractive,0.7,True,125,1.2500000000000002e-05,1036.3018000498414
+572ff626947a6a140053ce91,What have the two different Islamist movements been described as oscillating between?,True,extractive,0.7,True,178,1.78e-05,683.4591999650002
+56e1c4fce3433e140042314f,AC and NC are complexity classes typically associated with what type of circuit?,True,extractive,0.7,True,124,1.24e-05,679.7408000566065
+572f6c85947a6a140053c942,What is Europe's largest inland port?,True,extractive,0.7,True,179,1.79e-05,901.9738002680242
+5726a7ecf1498d1400e8e656,Which articles state that the member states' rights to deliver public services may not be obstructed?,True,extractive,0.7,True,302,3.0200000000000002e-05,1166.0249000415206
+57378b141c456719005744a1,What is the derivative of an object's changing momentum called?,True,extractive,0.7,True,366,3.6599999999999995e-05,1094.8272999376059
+57340d124776f419006617c3,Where did many Spanish Catholic move after British takeover in Florida?,True,extractive,0.7,False,192,1.92e-05,7552.846500184387
+572998673f37b319004784d6,Where do cicadas spend the majority of their lives?,True,extractive,0.7,True,185,1.8500000000000002e-05,2633.5031003691256
+572a07c11d046914007796d6,What tribe uses GPS devices to map lands?,True,extractive,0.7,True,98,9.800000000000001e-06,503.19649977609515
+572fc5a1947a6a140053cc8a,What can often be predicted beforehand?,True,extractive,0.7,True,159,1.59e-05,616.7093999683857
+57264586f1498d1400e8dac7,Strictly speaking who was included in DATANET 1,True,extractive,0.7,True,233,2.33e-05,970.0977997854352
