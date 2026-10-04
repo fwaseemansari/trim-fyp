@@ -24,18 +24,24 @@ from datasets import load_dataset
 random.seed(42)  # reproducible sampling
 
 
-def prepare_squad(n_samples: int = 100, out_path: str = "data/squad_sample.json") -> None:
+def prepare_squad(n_samples: int = 300, out_path: str = "data/squad_300.json") -> None:
     ds = load_dataset("rajpurkar/squad_v2", split="validation")
-    indices = random.sample(range(len(ds)), min(n_samples, len(ds)))
+
+    # Keep only answerable questions
+    answerable_indices = [
+        i for i, row in enumerate(ds)
+        if row["answers"]["text"]
+    ]
+
+    # Reproducible sample of exactly n_samples
+    indices = random.sample(
+        answerable_indices,
+        min(n_samples, len(answerable_indices))
+    )
 
     samples = []
     for i in indices:
         row = ds[i]
-        # squad_v2 has some unanswerable questions (empty answers list) —
-        # skip those for now, since Week 1's baseline assumes an
-        # extractable answer exists.
-        if not row["answers"]["text"]:
-            continue
         samples.append(
             {
                 "id": row["id"],
@@ -48,6 +54,7 @@ def prepare_squad(n_samples: int = 100, out_path: str = "data/squad_sample.json"
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(samples, f, indent=2, ensure_ascii=False)
+
     print(f"Saved {len(samples)} SQuAD v2 samples to {out_path}")
 
 
@@ -73,5 +80,5 @@ def prepare_cnn(n_samples: int = 50, out_path: str = "data/cnn_sample.json") -> 
 
 
 if __name__ == "__main__":
-    prepare_squad(n_samples=100)
+    prepare_squad(n_samples=300)
     prepare_cnn(n_samples=50)

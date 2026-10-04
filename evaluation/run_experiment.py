@@ -1,18 +1,4 @@
-"""
-General-purpose experiment runner: loads a dataset sample, runs it
-through the pipeline with a chosen config (compression on/off, method,
-level), dumps a results CSV.
-
-Week 2 version: records, per sample, the compression metrics of the
-CONTEXT (token reduction %, compression ratio, cost reduction %,
-information retention) plus the pipeline's own tokens/cost/latency, and
-whether the gold answer survived compression. The LLM's raw answer and
-the gold answer are saved too, so Week 3 can add EM/F1/ROUGE-L without
-re-running any API calls.
-
-Run from the repo root as a module:
-    python -m evaluation.run_experiment
-"""
+"""Reproducible SQuAD experiment runner for compression methods."""
 
 import csv
 import json
@@ -20,7 +6,6 @@ import os
 import time
 
 from pipeline.pipeline import run
-from prompt_compression.compressor import compress
 from token_analysis.counter import TokenAnalyzer, count_tokens
 from token_analysis.pricing import estimate_cost
 from evaluation.quality_metrics import exact_match, f1_score, contains_answer
@@ -31,43 +16,64 @@ from evaluation.metrics import (
     information_retention_score,
 )
 
-# Which tokenizer/pricing model belongs to which backend.
 BACKEND_MODEL = {
     "groq": "openai/gpt-oss-20b",
     "openai": "gpt-4o-mini",
 }
 
+def _load_done(out_path):
+    """Sample ids already saved in out_path, plus its header (for appending)."""
+    if not out_path or not os.path.exists(out_path):
+        return set(), None
+    with open(out_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames
+        done = {r["sample_id"] for r in reader}
+    return done, fieldnames
+
 
 def run_experiment(
-    sample_path: str = "data/squad_sample.json",
+    sample_path: str = "data/squad_300.json",
     n_samples: int = 20,
     compression_enabled: bool = True,
     compression_method: str = "extractive",
     compression_level: float = 0.5,
     backend: str = "groq",
-    out_path: str = None,
+    compression_scorer: str = "tfidf",
+    compression_window_size: int = 2,
+    out_path: str | None = None,
     delay_seconds: float = 1.5,
+    resume: bool = True,
 ) -> list:
     with open(sample_path, encoding="utf-8") as f:
         samples = json.load(f)[:n_samples]
 
     model = BACKEND_MODEL.get(backend, "gpt-4o-mini")
     analyzer = TokenAnalyzer(
-        log_path=f"evaluation/logs/experiment_{compression_method}_{compression_level}.csv"
+        log_path=f"evaluation/logs/experiment_{compression_method}_{compression_scorer}_{compression_level}.csv"
     )
+
+    done, existing_fields = _load_done(out_path) if resume else (set(), None)
+    pending = [s["id"] for s in samples if s["id"] not in done]
+    print(f"DIAG samples={len(samples)} done={len(done)} pending={len(pending)} first={pending[:3]}", flush=True)
 
     writer = None
     out_file = None
     if out_path:
         os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
-        out_file = open(out_path, "w", newline="", encoding="utf-8")
+        out_file = open(out_path, "a" if done else "w", newline="", encoding="utf-8")
+        if done:
+            writer = csv.DictWriter(out_file, fieldnames=existing_fields)
+            print(f"Resuming: {len(done)} samples already saved, skipping them.")
 
     rows = []
     try:
         for i, sample in enumerate(samples):
+            if sample["id"] in done:
+                continue
+            print(f"[{i + 1}/{len(samples)}] running {sample['id']}", flush=True)   # <- add
             original_context = sample["context"]
             gold_answer = sample.get("answer", "")
-            # Use every gold answer if the sample file has them, otherwise the single one.
             golds = sample.get("answers") or ([gold_answer] if gold_answer else [])
 
             result = run(
@@ -78,44 +84,26 @@ def run_experiment(
                 compression_level=compression_level,
                 backend=backend,
                 analyzer=analyzer,
+                compression_scorer=compression_scorer,
+                compression_window_size=compression_window_size,
             )
 
-            # Use the compressed context the pipeline actually sent, if it
-            # returns one. Otherwise recompute it (free and identical for the
-            # deterministic "extractive" method; "llm" would cost an extra call).
-            compressed_context = original_context
-            if compression_enabled:
-                compressed_context = result.get("compressed_context") or result.get("compressed_text")
-                if compressed_context is None:
-                    if compression_method == "llm":
-                        print(f"[warn] sample {sample.get('id')}: pipeline did not return its compressed "
-                              f"context, so the LLM-compressed text is recomputed and may differ.")
-                        from pipeline.llm_clients import LLMClient
-                        compressed_context = compress(
-                            original_context, query=sample["question"], method="llm",
-                            level=compression_level, llm_client=LLMClient(), backend=backend,
-                        )
-                    else:
-                        compressed_context = compress(
-                            original_context, query=sample["question"],
-                            method=compression_method, level=compression_level,
-                        )
+            # Never recompress: evaluate exactly the text produced by the
+            # pipeline for this API call.
+            compressed_context = result.get("compressed_context") or original_context
+            compression_result = result.get("compression_result")
 
-            # Context-level compression metrics (what the proposal's metrics 1-4 measure).
             orig_tok = count_tokens(original_context, model)
             comp_tok = count_tokens(compressed_context, model)
             orig_cost = estimate_cost(model, orig_tok, 0)
             comp_cost = estimate_cost(model, comp_tok, 0)
 
-            # An empty gold answer means a SQuAD v2 unanswerable question;
-            # "" is a substring of everything, so skip the check for those.
             if gold_answer:
                 answer_present = gold_answer.lower() in compressed_context.lower()
             else:
                 answer_present = None
 
             llm_response = result.get("response", "") or ""
-            # Unanswerable (no gold) questions are not scored: the LLM always answers something.
             scored = bool(golds)
 
             row = {
@@ -123,6 +111,8 @@ def run_experiment(
                 "question": sample["question"],
                 "compression_enabled": compression_enabled,
                 "compression_method": compression_method if compression_enabled else "none",
+                "compression_scorer": compression_scorer if compression_enabled else "none",
+                "compression_window_size": compression_window_size if compression_enabled else None,
                 "compression_level": compression_level if compression_enabled else 1.0,
                 "backend": backend,
                 "answer_still_present": answer_present,
@@ -133,7 +123,12 @@ def run_experiment(
                 "cost_reduction_pct": cost_reduction_pct(orig_cost, comp_cost),
                 "information_retention": information_retention_score(original_context, compressed_context),
                 "total_tokens": result["total_tokens"],
-                "cost_usd": result["cost_usd"],
+                "answer_call_cost_usd": result["cost_usd"],
+                "compression_call_cost_usd": result.get("compression_cost_usd", 0.0),
+                "end_to_end_cost_usd": result.get("end_to_end_cost_usd", result["cost_usd"]),
+                "compression_llm_calls": compression_result.llm_calls if compression_result else 0,
+                "compression_input_tokens": compression_result.compression_input_tokens if compression_result else 0,
+                "compression_output_tokens": compression_result.compression_output_tokens if compression_result else 0,
                 "latency_ms": result["latency_ms"],
                 "em": exact_match(llm_response, golds) if scored else None,
                 "f1": round(f1_score(llm_response, golds), 4) if scored else None,
@@ -143,8 +138,6 @@ def run_experiment(
             }
             rows.append(row)
 
-            # Write each row as soon as it exists, so a rate-limit crash
-            # halfway through does not lose the samples already finished.
             if out_file:
                 if writer is None:
                     writer = csv.DictWriter(out_file, fieldnames=list(row.keys()))
@@ -153,7 +146,7 @@ def run_experiment(
                 out_file.flush()
 
             if i < len(samples) - 1:
-                time.sleep(delay_seconds)  # stay under Groq's free-tier TPM limit
+                time.sleep(delay_seconds)
     finally:
         if out_file:
             out_file.close()
@@ -165,9 +158,10 @@ def run_experiment(
 
 if __name__ == "__main__":
     run_experiment(
-        n_samples=20,
+        n_samples=300,
         compression_enabled=True,
-        compression_method="extractive",
+        compression_method="selective",
+        compression_scorer="bi_encoder",
         compression_level=0.5,
-        out_path="evaluation/results/experiment_extractive_0.5.csv",
+        out_path="evaluation/results/experiment_selective_bi_encoder_0.5_300.csv",
     )

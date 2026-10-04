@@ -103,12 +103,14 @@ class LLMBackend(ABC):
 
     @staticmethod
     def _parse_retry_wait(error_message: str) -> float | None:
-        """Groq's error message includes a suggested wait, e.g. 'Please
-        try again in 1.185s'. Use it when present (more accurate than a
-        blind exponential guess); fall back to exponential backoff
-        otherwise."""
-        match = re.search(r"try again in ([\d.]+)s", error_message)
-        return float(match.group(1)) + 0.5 if match else None  # +0.5s safety margin
+        """Parses 'try again in 1m47.568s' / '1.185s' / '350ms' style hints."""
+        match = re.search(r"try again in ([0-9hms.]+)", error_message)
+        if not match:
+            return None
+        units = {"h": 3600, "m": 60, "s": 1, "ms": 0.001}
+        total = sum(float(v) * units[u]
+                    for v, u in re.findall(r"(\d+(?:\.\d+)?)(ms|h|m|s)", match.group(1)))
+        return total + 0.5 if total else None  # +0.5s safety margin
 
 
 class GroqBackend(LLMBackend):
@@ -159,6 +161,12 @@ class LLMClient:
         self.has_openai = bool(
             config.OPENAI_API_KEY and config.OPENAI_API_KEY != "your-openai-key-here"
         )
+
+    def model_name(self, backend: "Backend | str" = Backend.GROQ) -> str:
+        """Return the configured model name for a backend."""
+        if isinstance(backend, str):
+            backend = Backend(backend)
+        return config.GROQ_MODEL if backend is Backend.GROQ else config.OPENAI_MODEL
 
     def generate(self, prompt: str, backend: "Backend | str" = Backend.GROQ) -> LLMResponse:
         """Send `prompt` to the given backend and return an LLMResponse.

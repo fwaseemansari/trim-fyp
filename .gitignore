@@ -17,3 +17,7 @@ data/cnn_sample.json
 # OS / editor
 .DS_Store
 .vscode/
+
+evaluation/logs/
+run_log*.txt
+run_all_log.txt

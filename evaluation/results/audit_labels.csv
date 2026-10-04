@@ -1,0 +1,91 @@
+row_id,label,notes
+1,faithful,
+2,faithful,
+3,faithful,
+4,faithful,abstained
+5,faithful,
+6,faithful,
+7,faithful,supported by text; differs from gold
+8,faithful,abstained
+9,faithful,
+10,faithful,
+11,faithful,
+12,faithful,supported; gold (assimilation) not in compressed text
+13,faithful,
+14,unsure,unsupported by text; 'case law' is a real EU source but gold is international law
+15,faithful,
+16,faithful,
+17,faithful,
+18,faithful,
+19,faithful,
+20,hallucinated,vague claim not in compressed text; gold=Africa
+21,hallucinated,misread: 'Upper Lake' appears but not as the answer; '(Obersee)' is outside knowledge
+22,faithful,abstained
+23,faithful,
+24,unsupported_correct,correct; name France Antarctique not in compressed text
+25,faithful,abstained
+26,faithful,
+27,faithful,
+28,faithful,loosely inferred from 'there is debate'
+29,faithful,
+30,faithful,
+31,faithful,
+32,faithful,abstained
+33,faithful,
+34,faithful,
+35,faithful,
+36,faithful,
+37,faithful,
+38,faithful,
+39,faithful,
+40,faithful,
+41,faithful,
+42,faithful,
+43,faithful,
+44,faithful,
+45,faithful,
+46,faithful,
+47,faithful,
+48,faithful,
+49,faithful,radius^2 inferred from inverse-square mention
+50,faithful,abstained
+51,faithful,
+52,faithful,
+53,faithful,
+54,faithful,restates 'tumor cells'; gold (melanocytes) not in text
+55,faithful,abstained
+56,faithful,
+57,faithful,
+58,faithful,
+59,faithful,
+60,faithful,
+61,faithful,
+62,faithful,abstained
+63,faithful,
+64,faithful,
+65,faithful,supported by '10th and 11th centuries'
+66,faithful,
+67,faithful,
+68,faithful,
+69,faithful,
+70,faithful,
+71,faithful,
+72,faithful,
+73,faithful,
+74,faithful,
+75,faithful,supported; gold (RNA silencing) not in text
+76,faithful,abstained
+77,faithful,
+78,faithful,
+79,faithful,
+80,faithful,
+81,faithful,supported but off-target
+82,faithful,
+83,faithful,
+84,faithful,supported; gold not in text
+85,faithful,
+86,faithful,
+87,faithful,
+88,hallucinated,1685 not in compressed text; gold=1672
+89,faithful,
+90,faithful,

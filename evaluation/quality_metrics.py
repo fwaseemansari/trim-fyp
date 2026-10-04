@@ -5,13 +5,28 @@ not duplicated here. Pure functions, no dependency on other TRIM modules.
 """
 import re
 import string
+import unicodedata
 from collections import Counter
+
+_ASCII_PUNCTUATION = set(string.punctuation)
 
 
 def _normalize(s):
-    """SQuAD-style normalization."""
-    s = s.lower()
-    s = "".join(ch for ch in s if ch not in set(string.punctuation))
+    """SQuAD-style normalization, robust to Unicode typography.
+
+    The official SQuAD script strips only ASCII punctuation. LLM output often
+    uses typographic characters instead (non-breaking hyphen U+2011, curly
+    quotes, en dashes, superscript digits), so "co-NP" scored 0 against
+    "co\u2011NP". Steps: NFKC folds compatibility characters (superscript 3 ->
+    3, no-break and narrow spaces -> space, U+2011 -> hyphen); then ASCII
+    punctuation AND any Unicode punctuation (category P*) is removed; then
+    articles are dropped and whitespace is collapsed.
+    """
+    s = unicodedata.normalize("NFKC", s).lower()
+    s = "".join(
+        ch for ch in s
+        if ch not in _ASCII_PUNCTUATION and not unicodedata.category(ch).startswith("P")
+    )
     s = re.sub(r"\b(a|an|the)\b", " ", s)
     return " ".join(s.split())
 
