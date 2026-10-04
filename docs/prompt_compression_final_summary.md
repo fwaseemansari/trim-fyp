@@ -1,7 +1,6 @@
 # Prompt Compression Module: Final Summary (FYP I)
 
-Status: describes the code as built. Items marked **TODO(Faiqa)** need a check or
-a number from you before this goes into the report.
+Status: describes the code as built at the end of FYP I.
 
 ## 1. Purpose
 
@@ -37,9 +36,8 @@ Design choice: segmenter, scorer and selection are separate parts, so a new scor
 compressor. This is what made the scorer comparison in section 5 cheap to run.
 
 `selectors.py` (`BudgetSelector`) is instantiated but not used by
-`SelectiveCompressor.compress`, which has its own greedy loop. **TODO(Faiqa):**
-delete it or wire it in before the final tag; do not describe it as part of the
-selection path.
+`SelectiveCompressor.compress`, which has its own greedy loop. It is a leftover, not
+part of the selection path, and should be removed or wired in.
 
 ## 3. Methods
 
@@ -105,8 +103,8 @@ What the data supports:
 
 Caveats: single backend and dataset; run-to-run LLM sampling noise is unmeasured
 (for the cross-encoder at level 0.3, 50 questions score worse and 52 better than the
-baseline, with a mean change near zero). **TODO(Faiqa):** a second baseline run would
-measure that noise floor.
+baseline, with a mean change near zero). A second baseline run would measure that noise
+floor; it was not done.
 
 Scoring note. The official SQuAD script strips only ASCII punctuation. The model often
 writes typographic characters instead (non-breaking hyphen U+2011 appeared 139 times in
@@ -138,10 +136,9 @@ full run.
 
 When the answer was removed the model mostly abstained ("I don't know") rather than
 fabricating one. The intervals overlap, so this shows hallucination is not a major
-failure mode here but cannot rank the scorers. **TODO(Faiqa):** the first-pass labels
-were produced by an LLM (Claude) and must be checked by you; state in the report that
-labelling was LLM-assisted with human verification, and say how many rows you checked
-and changed.
+failure mode here but cannot rank the scorers. Labelling was LLM-assisted: first-pass
+labels were produced by an LLM (Claude), blind to the run, and then reviewed by the
+author, who changed one label (row 14, unsure to hallucinated).
 
 ## 7. Cost accounting
 
@@ -150,9 +147,9 @@ window; every call is counted in `compression_input_tokens` /
 `compression_output_tokens`, and the pipeline adds it to `end_to_end_cost_usd`. So an
 LLM-based method cannot look cheaper than it is.
 
-**TODO(Faiqa):** `rewrite` and whole-text LLM condensing have not been evaluated at
-300-sample scale in the files reviewed for this summary. Add the results, or state
-plainly that they were not evaluated.
+`rewrite` and whole-text LLM condensing are implemented but are not evaluated in this
+report; every result above is for the local selective methods (extractive, and
+selective with TF-IDF, bi-encoder or cross-encoder scoring).
 
 ## 8. Known limitations
 

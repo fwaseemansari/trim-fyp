@@ -1,6 +1,6 @@
 # Pipeline and Integration: Final Summary (FYP I)
 
-Status: describes the code as built. **TODO(Faiqa)** marks items to confirm.
+Status: describes the code as built at the end of FYP I.
 
 ## 1. Flow
 
@@ -61,8 +61,8 @@ the config defaults above. Experiments pass these explicitly.
 - `compressor_then_manager` (experimental): the whole session is compressed as one
   text and passed to the manager as a single turn.
 
-**TODO(Faiqa):** neither order has been evaluated on LoCoMo in the material reviewed
-here. Do not claim one is better until it is run.
+Neither order has been evaluated on LoCoMo in this report, so no claim is made that one
+is better than the other.
 
 ## 5. Prompts
 
@@ -99,5 +99,9 @@ loads each model once.
 - LoCoMo: image captions (15.5% of turns) are not read, and relative dates are not
   converted to calendar dates (Dania's findings).
 - Whole-text LLM condensing is not selectable through `build_compressor`.
-- **TODO(Faiqa):** record the result of `scripts/fresh_clone_check.py` and the
-  `v1.0-fyp1` tag here once done.
+- Regression status: `scripts/fresh_clone_check.py --skip-install` (committed code only,
+  existing virtual environment) passes: 25 tests passed, 1 skipped. Tests that call live
+  APIs are opt-in via `RUN_LIVE_TESTS=1`. The full check that also installs
+  `requirements.txt` into a clean environment has not been run.
+- `LLMClient()` creates both the Groq and the OpenAI client at start-up, so it fails
+  without an `OPENAI_API_KEY` even when only Groq is used.
