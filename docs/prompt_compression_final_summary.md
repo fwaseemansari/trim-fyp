@@ -35,9 +35,10 @@ Design choice: segmenter, scorer and selection are separate parts, so a new scor
 (for example the cross-encoder) changes one line of configuration, not the
 compressor. This is what made the scorer comparison in section 5 cheap to run.
 
-`selectors.py` (`BudgetSelector`) is instantiated but not used by
-`SelectiveCompressor.compress`, which has its own greedy loop. It is a leftover, not
-part of the selection path, and should be removed or wired in.
+Selection is done by the greedy loop inside `SelectiveCompressor.compress`, which counts
+the union of kept sentences. (An earlier `BudgetSelector` class summed per-segment costs
+and would double-count sentences shared by overlapping windows; it was never used and has
+been removed.)
 
 ## 3. Methods
 

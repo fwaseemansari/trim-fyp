@@ -50,8 +50,7 @@ context_manager=...)`) so tests run without network access.
 | `stage_order` | "manager_then_compressor" | multi-turn stage order |
 | `task_type` | "qa" | prompt template |
 
-Note: `run()` defaults to method "extractive" and scorer "tfidf", which differ from
-the config defaults above. Experiments pass these explicitly.
+`run()` takes every default from `PipelineConfig`, so the two cannot drift apart.
 
 ## 4. Multi-turn stage order
 
@@ -89,13 +88,9 @@ loads each model once.
 
 ## 8. Known gaps
 
-- `Pipeline(evaluator=...)` is accepted but unused: answer scoring is done in
-  `run_experiment.py`, not in the pipeline.
+- Answer scoring is not part of the pipeline: it is done in `evaluation/run_experiment.py`.
 - No input validation: an empty query, or both `context` and `session`, is not
   rejected. (`session=[]` still takes the multi-turn path.)
-- The model-name mapping exists in `config.model_for_backend`, `compressor.py`
-  (`BACKEND_MODEL`) and `run_experiment.py` (`BACKEND_MODEL`). They agree today;
-  consolidate on `model_for_backend`.
 - LoCoMo: image captions (15.5% of turns) are not read, and relative dates are not
   converted to calendar dates (Dania's findings).
 - Whole-text LLM condensing is not selectable through `build_compressor`.

@@ -29,10 +29,21 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
 
+from groq import APIConnectionError as GroqConnectionError
 from groq import Groq, RateLimitError as GroqRateLimitError
+from openai import APIConnectionError as OpenAIConnectionError
 from openai import OpenAI, RateLimitError as OpenAIRateLimitError
 
 from pipeline import config
+
+
+class MissingAPIKeyError(RuntimeError):
+    """Raised when a backend is used but its API key is not configured."""
+
+
+def _key_is_set(value) -> bool:
+    """True for a real key; empty values and the .env.example placeholder count as unset."""
+    return bool(value) and not str(value).startswith("your-")
 
 
 class Backend(Enum):
@@ -55,6 +66,7 @@ class LLMBackend(ABC):
     everything else lives here once."""
 
     rate_limit_exc: type[Exception]  # set by each concrete subclass
+    transient_excs: tuple = ()       # connection errors worth retrying (set per subclass)
 
     @abstractmethod
     def _call(self, prompt: str) -> str:
@@ -78,10 +90,13 @@ class LLMBackend(ABC):
         latency_ms = ((time.perf_counter() - start) - sleep_time) * 1000
         return LLMResponse(response=text, latency_ms=latency_ms)
 
-    def _call_with_retry(self, prompt: str, max_retries: int = 5):
-        """Calls self._call(prompt), retrying on this backend's
-        rate_limit_exc with exponential backoff (2s, 4s, 8s, 16s, 32s).
-        Returns (result, total_seconds_slept).
+    def _call_with_retry(self, prompt: str, max_retries: int = 40):
+        """Calls self._call(prompt), retrying on this backend's rate-limit
+        error and on connection errors (a dropped network, a DNS failure).
+        The wait is the time the provider asks for when it says so, otherwise
+        exponential backoff (2s, 4s, 8s, ...) capped at 60s, so 40 attempts
+        tolerate roughly 40 minutes of outage. Other errors (bad key, bad
+        request) are raised immediately. Returns (result, total_seconds_slept).
 
         Free-tier rate limits (Groq: 8000 tokens/minute at time of
         writing) are easy to hit running 20-100 samples back-to-back —
@@ -92,11 +107,12 @@ class LLMBackend(ABC):
         for attempt in range(max_retries):
             try:
                 return self._call(prompt), total_slept
-            except self.rate_limit_exc as e:
+            except (self.rate_limit_exc, *self.transient_excs) as e:
                 if attempt == max_retries - 1:
                     raise  # out of retries, let the real error surface
-                wait = self._parse_retry_wait(str(e)) or (2 ** (attempt + 1))
-                print(f"  [rate limit] retrying in {wait:.1f}s (attempt {attempt + 1}/{max_retries})...")
+                wait = self._parse_retry_wait(str(e)) or min(2 ** (attempt + 1), 60)
+                kind = "rate limit" if isinstance(e, self.rate_limit_exc) else "connection error"
+                print(f"  [{kind}] retrying in {wait:.1f}s (attempt {attempt + 1}/{max_retries})...")
                 time.sleep(wait)
                 total_slept += wait
         raise RuntimeError("unreachable")  # loop always returns or raises
@@ -115,12 +131,23 @@ class LLMBackend(ABC):
 
 class GroqBackend(LLMBackend):
     rate_limit_exc = GroqRateLimitError
+    transient_excs = (GroqConnectionError,)
 
     def __init__(self):
-        self._client = Groq(api_key=config.GROQ_API_KEY)
+        self._client = None  # created on first use, so a missing key only matters if this backend is used
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not _key_is_set(config.GROQ_API_KEY):
+                raise MissingAPIKeyError(
+                    "GROQ_API_KEY is not set (needed for the 'groq' backend). "
+                    "Add it to .env or the environment.")
+            self._client = Groq(api_key=config.GROQ_API_KEY)
+        return self._client
 
     def _call(self, prompt: str) -> str:
-        response = self._client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=config.GROQ_MODEL,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -129,12 +156,23 @@ class GroqBackend(LLMBackend):
 
 class OpenAIBackend(LLMBackend):
     rate_limit_exc = OpenAIRateLimitError
+    transient_excs = (OpenAIConnectionError,)
 
     def __init__(self):
-        self._client = OpenAI(api_key=config.OPENAI_API_KEY)
+        self._client = None  # created on first use (see GroqBackend)
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not _key_is_set(config.OPENAI_API_KEY):
+                raise MissingAPIKeyError(
+                    "OPENAI_API_KEY is not set (needed for the 'openai' backend). "
+                    "Add it to .env or the environment.")
+            self._client = OpenAI(api_key=config.OPENAI_API_KEY)
+        return self._client
 
     def _call(self, prompt: str) -> str:
-        response = self._client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=config.OPENAI_MODEL,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -142,11 +180,10 @@ class OpenAIBackend(LLMBackend):
 
 
 class LLMClient:
-    """Thin factory/facade over the two backend classes. Both backend
-    instances are still created eagerly (unchanged from before this
-    refactor) — constructing an SDK client object doesn't make a
-    network call, so this costs nothing even if only one backend ends
-    up being used."""
+    """Thin factory/facade over the two backend classes. Backend objects are
+    created up front, but the SDK clients inside them are created lazily on
+    first use, so ``LLMClient()`` works with only one API key configured and
+    a missing key raises MissingAPIKeyError only when that backend is called."""
 
     def __init__(self):
         self._backends = {
@@ -158,9 +195,7 @@ class LLMClient:
         # can check before choosing OpenAI, instead of trying the call
         # and catching an AuthenticationError every time. Treats the
         # unfilled .env.example placeholder as "not configured" too.
-        self.has_openai = bool(
-            config.OPENAI_API_KEY and config.OPENAI_API_KEY != "your-openai-key-here"
-        )
+        self.has_openai = _key_is_set(config.OPENAI_API_KEY)
 
     def model_name(self, backend: "Backend | str" = Backend.GROQ) -> str:
         """Return the configured model name for a backend."""

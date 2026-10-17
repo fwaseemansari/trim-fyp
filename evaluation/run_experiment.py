@@ -5,6 +5,7 @@ import json
 import os
 import time
 
+from pipeline.config import model_for_backend
 from pipeline.pipeline import run
 from token_analysis.counter import TokenAnalyzer, count_tokens
 from token_analysis.pricing import estimate_cost
@@ -15,11 +16,6 @@ from evaluation.metrics import (
     cost_reduction_pct,
     information_retention_score,
 )
-
-BACKEND_MODEL = {
-    "groq": "openai/gpt-oss-20b",
-    "openai": "gpt-4o-mini",
-}
 
 def _load_done(out_path):
     """Sample ids already saved in out_path, plus its header (for appending)."""
@@ -41,6 +37,7 @@ def run_experiment(
     backend: str = "groq",
     compression_scorer: str = "tfidf",
     compression_window_size: int = 2,
+    compression_splitter: str = "regex",
     out_path: str | None = None,
     delay_seconds: float = 1.5,
     resume: bool = True,
@@ -48,7 +45,7 @@ def run_experiment(
     with open(sample_path, encoding="utf-8") as f:
         samples = json.load(f)[:n_samples]
 
-    model = BACKEND_MODEL.get(backend, "gpt-4o-mini")
+    model = model_for_backend(backend)
     analyzer = TokenAnalyzer(
         log_path=f"evaluation/logs/experiment_{compression_method}_{compression_scorer}_{compression_level}.csv"
     )
@@ -63,7 +60,8 @@ def run_experiment(
         os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
         out_file = open(out_path, "a" if done else "w", newline="", encoding="utf-8")
         if done:
-            writer = csv.DictWriter(out_file, fieldnames=existing_fields)
+            # extrasaction="ignore": older files lack newer columns (e.g. compression_splitter)
+            writer = csv.DictWriter(out_file, fieldnames=existing_fields, extrasaction="ignore")
             print(f"Resuming: {len(done)} samples already saved, skipping them.")
 
     rows = []
@@ -86,6 +84,7 @@ def run_experiment(
                 analyzer=analyzer,
                 compression_scorer=compression_scorer,
                 compression_window_size=compression_window_size,
+                compression_splitter=compression_splitter,
             )
 
             # Never recompress: evaluate exactly the text produced by the
@@ -113,6 +112,7 @@ def run_experiment(
                 "compression_method": compression_method if compression_enabled else "none",
                 "compression_scorer": compression_scorer if compression_enabled else "none",
                 "compression_window_size": compression_window_size if compression_enabled else None,
+                "compression_splitter": compression_splitter if compression_enabled else "none",
                 "compression_level": compression_level if compression_enabled else 1.0,
                 "backend": backend,
                 "answer_still_present": answer_present,
