@@ -12,6 +12,7 @@ import time
 
 from rouge_score import rouge_scorer
 
+from pipeline.config import model_for_backend
 from pipeline.llm_clients import LLMClient
 from prompt_compression.compressor import compress
 from token_analysis.counter import count_tokens
@@ -23,7 +24,6 @@ from evaluation.metrics import (
     information_retention_score,
 )
 
-BACKEND_MODEL = {"groq": "openai/gpt-oss-20b", "openai": "gpt-4o-mini"}
 COMPRESSION_QUERY = "Summarize the main points of this news article."
 SUMMARY_PROMPT = (
     "Article:\n{article}\n\n"
@@ -44,7 +44,7 @@ def run_cnn_experiment(
     with open(sample_path, encoding="utf-8") as f:
         samples = json.load(f)[:n_samples]
 
-    model = BACKEND_MODEL.get(backend, "gpt-4o-mini")
+    model = model_for_backend(backend)
     client = LLMClient()
     scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=True)
 

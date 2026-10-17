@@ -16,7 +16,7 @@ the answers.
 
 ```
 prompt_compression/   compressor.py (factory + compressors), segmenters.py, scorers.py,
-                      selectors.py, results.py (CompressionResult)
+                      results.py (CompressionResult)
 context_manager/      manager.py (ContextManager + strategies)
 token_analysis/       counter.py (count_tokens, TokenAnalyzer), pricing.py
 pipeline/             pipeline.py (Pipeline.process, run, run_conversation), config.py,

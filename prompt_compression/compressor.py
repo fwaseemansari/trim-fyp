@@ -46,13 +46,7 @@ from token_analysis.pricing import estimate_cost
 from .results import CompressionResult
 from .segmenters import SentenceSegmenter, OverlappingWindowSegmenter, split_sentences
 from .scorers import TfidfScorer, BiEncoderScorer, CrossEncoderScorer
-from .selectors import BudgetSelector
 
-
-BACKEND_MODEL = {
-    "groq": config.GROQ_MODEL,
-    "openai": config.OPENAI_MODEL,
-}
 
 
 class Compressor(ABC):
@@ -82,7 +76,6 @@ class SelectiveCompressor(Compressor):
         self.segmenter = segmenter
         self.scorer = scorer
         self.model = model
-        self.selector = BudgetSelector(model)
 
     def compress(self, text: str, query: str = "", level: float = 0.5) -> CompressionResult:
         """Compress ``text`` for ``query`` to roughly ``level`` of its tokens.
@@ -113,7 +106,7 @@ class SelectiveCompressor(Compressor):
 
         scores = self.scorer.score(segments, query)
         budget = max(1, int(original_tokens * level))
-        sentences = split_sentences(text)
+        sentences = split_sentences(text, getattr(self.segmenter, "splitter", "regex"))
         ranked = sorted(range(len(segments)), key=lambda i: (scores[i], -i), reverse=True)
 
         kept_sentence_indices = set()
@@ -372,7 +365,8 @@ def _validate_level(level: float) -> float:
 
 
 def build_compressor(method: str, *, backend: str = "groq", scorer: str = "bi_encoder",
-                     level: float = 0.5, llm_client=None, window_size: int = 2):
+                     level: float = 0.5, llm_client=None, window_size: int = 2,
+                     splitter: str = "regex"):
     """Factory used by the pipeline and experiment scripts.
 
     method: "extractive" (sentence-level TF-IDF baseline), "selective" or
@@ -381,6 +375,7 @@ def build_compressor(method: str, *, backend: str = "groq", scorer: str = "bi_en
     backend: "groq" or "openai"; decides which tokenizer counts the budget.
     scorer: "tfidf", "bi_encoder" or "cross_encoder" (ignored by "extractive").
     window_size: sentences per window, 2 or 3.
+    splitter: sentence splitter, "regex" (default) or "nltk"; see segmenters.py.
     level: accepted for API compatibility but unused here; pass the level to
         ``compress()``.
 
@@ -388,8 +383,8 @@ def build_compressor(method: str, *, backend: str = "groq", scorer: str = "bi_en
     condensing is not a builder method; it exists only in the legacy
     ``compress(method="llm")``.
     """
-    model = BACKEND_MODEL[backend]
-    segmenter = OverlappingWindowSegmenter(window_size=window_size)
+    model = config.model_for_backend(backend)
+    segmenter = OverlappingWindowSegmenter(window_size=window_size, splitter=splitter)
 
     scorer_map = {
         "tfidf": TfidfScorer,
@@ -404,7 +399,7 @@ def build_compressor(method: str, *, backend: str = "groq", scorer: str = "bi_en
         # Week 2's extractive baseline remains sentence-level TF-IDF when
         # explicitly requested; Week 3 selective variants use windows.
         if method == "extractive":
-            return SelectiveCompressor(SentenceSegmenter(), TfidfScorer(), model)
+            return SelectiveCompressor(SentenceSegmenter(splitter=splitter), TfidfScorer(), model)
         return SelectiveCompressor(segmenter, scorer_obj, model)
 
     if method == "rewrite":
