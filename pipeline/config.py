@@ -17,7 +17,7 @@ class PipelineConfig:
     """Settings for one Pipeline.
 
     compression_*: whether and how to compress (method, scorer, level = token
-        budget fraction, window size in sentences).
+        budget fraction, window size in sentences, sentence splitter "regex" or "nltk").
     backend: "groq" or "openai".
     context_strategy / max_turns / max_tokens: multi-turn context manager settings.
     stage_order: "manager_then_compressor" or "compressor_then_manager".
@@ -29,6 +29,7 @@ class PipelineConfig:
     compression_scorer: str = "bi_encoder"
     compression_level: float = 0.5
     compression_window_size: int = 2
+    compression_splitter: str = "regex"
     backend: str = "groq"
     context_strategy: str = "sliding_window"
     max_turns: int = 6

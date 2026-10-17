@@ -13,4 +13,5 @@ matplotlib
 numpy
 pandas
 scipy
+httpx
 

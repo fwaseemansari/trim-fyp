@@ -21,3 +21,5 @@ data/cnn_sample.json
 evaluation/logs/
 run_log*.txt
 run_all_log.txt
+
+*_log.txt

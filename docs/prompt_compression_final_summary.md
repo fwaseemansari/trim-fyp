@@ -25,7 +25,7 @@ kept sentences, in document order  ->  CompressionResult (results.py)
 
 | Part | Where | Notes |
 |---|---|---|
-| Segmenters | `segmenters.py` | `SentenceSegmenter`; `OverlappingWindowSegmenter(window_size 2 or 3, stride 1)`. Regex sentence splitter, so indices are deterministic. |
+| Segmenters | `segmenters.py` | `SentenceSegmenter`; `OverlappingWindowSegmenter(window_size 2 or 3, stride 1)`. Sentence splitter is a parameter: `regex` (default) or `nltk`. |
 | Scorers | `scorers.py` | `TfidfScorer`, `BiEncoderScorer` (all-MiniLM-L6-v2), `CrossEncoderScorer` (ms-marco-MiniLM-L-6-v2). Models load lazily and are cached per process. |
 | Compressors | `compressor.py` | `SelectiveCompressor` (drop the rest) and `RewriteCompressor` (LLM rewrites dropped windows). Built by `build_compressor(method, scorer, window_size, ...)`. |
 | Result type | `results.py` | `CompressionResult`, including `compression_input_tokens` / `compression_output_tokens` for LLM calls. |
@@ -35,9 +35,10 @@ Design choice: segmenter, scorer and selection are separate parts, so a new scor
 (for example the cross-encoder) changes one line of configuration, not the
 compressor. This is what made the scorer comparison in section 5 cheap to run.
 
-`selectors.py` (`BudgetSelector`) is instantiated but not used by
-`SelectiveCompressor.compress`, which has its own greedy loop. It is a leftover, not
-part of the selection path, and should be removed or wired in.
+Selection is done by the greedy loop inside `SelectiveCompressor.compress`, which counts
+the union of kept sentences. (An earlier `BudgetSelector` class summed per-segment costs
+and would double-count sentences shared by overlapping windows; it was never used and has
+been removed.)
 
 ## 3. Methods
 
@@ -83,7 +84,8 @@ normalization described at the end of this section.
 | bi-encoder | 0.7 | 35.8% | 0.744 | -0.024 (-0.052 to +0.005) | 0.11 |
 
 What the data supports:
-- The cross-encoder shows no detectable F1 loss at any level. The lower end of its
+- The cross-encoder shows no detectable F1 loss at any level (changes below about 0.033
+  cannot be resolved with 300 questions; see the noise floor below). The lower end of its
   intervals is about -0.04, so "no loss detected", not "lossless".
 - It scores above the bi-encoder at every level (+0.032 at 0.3, +0.048 at 0.5, +0.035 at
   0.7; p = 0.041, 0.001, 0.007) and above tf-idf at every level (+0.036, +0.032, +0.038;
@@ -91,9 +93,11 @@ What the data supports:
   cross-encoder vs bi-encoder at level 0.5 clearly survives a multiple-comparison
   correction (threshold about 0.003); treat the others as suggestive.
 - The bi-encoder is not distinguishable from tf-idf (p = 0.33 to 0.85).
-- The drops of about 0.04 for tf-idf at 0.3 and bi-encoder at 0.3 and 0.5 have
-  p about 0.01-0.02 but do not survive a correction for nine comparisons
-  (about 0.0056). Treat them as suggestive.
+- The drops of about 0.04 for tf-idf at 0.3 and bi-encoder at 0.3 and 0.5 have p about
+  0.01-0.02 against the first baseline run. For bi-encoder at 0.5 and tf-idf at 0.3 they were
+  replicated against a second baseline run (-0.056, p = 0.0007 and -0.057, p = 0.0012) and
+  survive a correction for nine comparisons (about 0.0056). The bi-encoder drop at 0.3 was
+  not retested and stays suggestive.
 - F1 hardly changes with level in this range (cross-encoder 0.759 to 0.779). Do not
   claim a trade-off curve.
 - The cross-encoder's advantage comes from keeping the answer in the context:
@@ -101,10 +105,25 @@ What the data supports:
   the answer survives, F1 is about 0.78-0.80 for all three scorers; when it is lost
   it is about 0.10-0.14.
 
-Caveats: single backend and dataset; run-to-run LLM sampling noise is unmeasured
-(for the cross-encoder at level 0.3, 50 questions score worse and 52 better than the
-baseline, with a mean change near zero). A second baseline run would measure that noise
-floor; it was not done.
+Caveats: single backend and dataset, and each compressed run was made once.
+
+Noise floor. A second baseline run on the same 300 questions scored F1 0.781 against 0.768
+(difference +0.013, 95% CI -0.011 to +0.036, p = 0.29). 24% of questions changed F1 between
+the two runs, and the SD of the per-question difference is 0.203. A paired comparison on 300
+questions can therefore detect a mean F1 change of about 0.033 (80% power). The
+cross-encoder's changes (-0.009 to +0.011 against run 1) are within this; the bi-encoder at
+level 0.5 (-0.044 against run 1, -0.056 against run 2) and tf-idf at level 0.3 (-0.045,
+-0.057) exceed it against both baseline runs. Against run 2 these two drops are -0.056
+(95% CI -0.088 to -0.025, p = 0.0007) and -0.057 (-0.092 to -0.023, p = 0.0012); the
+cross-encoder at level 0.5 is -0.008 (-0.035 to +0.020, p = 0.58). Run 1 remains the
+reference in all tables.
+
+Cost. Estimated answer-call cost for the 300 questions (visible prompt and response tokens
+only; hidden reasoning tokens are not counted): baseline $0.0050, cross-encoder 0.5 $0.0032
+(36.8% lower), bi-encoder 0.5 $0.0032 (36.8% lower), tf-idf 0.3 $0.0028 (44.1% lower). The
+saving per request is smaller than the context-token reduction because the question,
+instruction and answer are not compressed. Local selective methods make no compression
+calls.
 
 Scoring note. The official SQuAD script strips only ASCII punctuation. The model often
 writes typographic characters instead (non-breaking hyphen U+2011 appeared 139 times in
@@ -147,18 +166,38 @@ window; every call is counted in `compression_input_tokens` /
 `compression_output_tokens`, and the pipeline adds it to `end_to_end_cost_usd`. So an
 LLM-based method cannot look cheaper than it is.
 
-`rewrite` and whole-text LLM condensing are implemented but are not evaluated in this
-report; every result above is for the local selective methods (extractive, and
+Rewrite pilot (exploratory). `rewrite` was run once on the first 50 questions with the
+cross-encoder at level 0.5. Against plain selection on the same questions F1 changed by
++0.0045 (95% CI -0.050 to +0.055, p = 0.87), and context-token reduction was 44.9% against
+45.1%, so the rewrites that fitted the leftover budget added back almost nothing. It made
+132 compression calls for 50 questions. Estimated end-to-end cost (visible tokens only) was
+$0.00315, of which $0.00259 was the compression calls: 3.6 times the uncompressed baseline
+($0.00087) and 5.6 times plain selection ($0.00057). With 50 questions only F1 changes above
+about 0.08 are detectable, so this shows no benefit detected, not no benefit; in this setup
+rewriting raised cost without a measurable accuracy gain.
+
+Whole-text LLM condensing exists only in the legacy `compress()` and was not evaluated.
+Every other result in this summary is for the local selective methods (extractive, and
 selective with TF-IDF, bi-encoder or cross-encoder scoring).
 
 ## 8. Known limitations
 
-- Regex sentence splitter mis-splits abbreviations ("Dr.", "St.", "U.S.") and ignores
-  other languages; it changes segment boundaries, never drops text.
+- The default regex sentence splitter mis-splits initials and abbreviations ("Robert J.
+  Shiller", "Dr.", "St.") and ignores other languages. It disagrees with nltk's Punkt on 64 of
+  the 265 distinct SQuAD contexts (75 of the 300 questions). Rerunning the cross-encoder at
+  level 0.5 with nltk changed the compressed context for 43 questions (14%), raised mean
+  context-token reduction from 47.5% to 48.2% and kept the answer in the context at the same
+  rate (96.7% against 97.0%). F1 changed by -0.016 (95% CI -0.039 to +0.005, p = 0.16),
+  within the noise floor; on the 43 questions whose context differed it changed by +0.005
+  (-0.040 to +0.051; only changes above about 0.09 are detectable on that subset). By
+  arithmetic from these averages the 257 questions with identical inputs changed by about
+  -0.02, which is run-to-run noise. The splitter choice therefore has no detectable effect on
+  accuracy here, and regex remains the default (`compression_splitter`).
 - `level` is a budget, not a guarantee (section 4).
 - `RewriteCompressor`: overlapping windows mean a "dropped" window can repeat kept
   facts; rewrites are appended after the kept text, not interleaved in document order;
-  cost grows with the number of dropped windows.
+  cost grows with the number of dropped windows. In the pilot the rewritten text added only
+  about 0.3 percentage points of context, so most calls added cost without adding text.
 - `scores` is per segment while `kept_indices` is per sentence (different index spaces).
 - Selection re-counts tokens of the whole candidate for every segment; fine for
   paragraphs, quadratic for long documents.

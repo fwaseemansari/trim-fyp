@@ -24,18 +24,17 @@ class Pipeline:
     is not under-counted.
 
     Components (llm, analyzer, compressor, context_manager) can be injected for
-    testing. ``evaluator`` is accepted but not used yet: answer scoring lives in
-    evaluation/run_experiment.py, not in the pipeline.
+    testing. Answer scoring is not part of the pipeline: it lives in
+    evaluation/run_experiment.py.
     """
 
-    def __init__(self, llm=None, analyzer=None, compressor=None, context_manager=None, evaluator=None,
+    def __init__(self, llm=None, analyzer=None, compressor=None, context_manager=None,
                  config: PipelineConfig | None = None):
         self.llm = llm or LLMClient()
         self.analyzer = analyzer or TokenAnalyzer()
         self.config = config or PipelineConfig()
         self.compressor = compressor
         self.context_manager = context_manager
-        self.evaluator = evaluator
 
     def _get_compressor(self):
         """Build the compressor once from the config and reuse it.
@@ -51,6 +50,7 @@ class Pipeline:
                 scorer=self.config.compression_scorer,
                 llm_client=self.llm,
                 window_size=self.config.compression_window_size,
+                splitter=self.config.compression_splitter,
             )
         return self.compressor
 
@@ -194,14 +194,15 @@ class Pipeline:
 
 
 def run(query: str, context: str = "", compression_enabled: bool = False,
-        compression_method: str = "extractive", compression_level: float = 0.5,
-        backend: str = "groq", llm_client=None, analyzer=None, compression_scorer: str = "tfidf",
-        compression_window_size: int = 2) -> dict:
+        compression_method: str = PipelineConfig.compression_method,
+        compression_level: float = PipelineConfig.compression_level,
+        backend: str = PipelineConfig.backend, llm_client=None, analyzer=None,
+        compression_scorer: str = PipelineConfig.compression_scorer,
+        compression_window_size: int = PipelineConfig.compression_window_size,
+        compression_splitter: str = PipelineConfig.compression_splitter) -> dict:
     """Backward-compatible Week 1/2 wrapper around Pipeline.process().
 
-    Note its defaults (method "extractive", scorer "tfidf") differ from
-    PipelineConfig's ("selective", "bi_encoder"); pass them explicitly in
-    experiments.
+    Every default is taken from PipelineConfig, so the two cannot drift apart.
     """
     cfg = PipelineConfig(
         compression_enabled=compression_enabled,
@@ -209,6 +210,7 @@ def run(query: str, context: str = "", compression_enabled: bool = False,
         compression_scorer=compression_scorer,
         compression_level=compression_level,
         compression_window_size=compression_window_size,
+        compression_splitter=compression_splitter,
         backend=backend,
     )
     return Pipeline(llm=llm_client, analyzer=analyzer, config=cfg).process(

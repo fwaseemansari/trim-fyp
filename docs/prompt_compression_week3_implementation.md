@@ -4,7 +4,7 @@
 
 Week 3 uses a composable selective-compression design:
 
-`Segmenter -> Scorer -> BudgetSelector -> CompressionResult`
+`Segmenter -> Scorer -> greedy budget selection -> CompressionResult`
 
 The default advanced path is:
 

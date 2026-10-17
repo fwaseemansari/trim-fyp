@@ -26,7 +26,7 @@ wrappers that build a `PipelineConfig` and call `process()`.
 | `Pipeline` (`pipeline/pipeline.py`) | Faiqa | orchestration, cost accounting |
 | `PipelineConfig`, `model_for_backend` (`pipeline/config.py`) | Faiqa | settings, model per backend |
 | `build_prompt` (`pipeline/prompts.py`) | Faiqa | task-specific instructions |
-| `LLMClient` (`pipeline/llm_clients.py`) | Faiqa | Groq / OpenAI calls with retry |
+| `LLMClient` (`pipeline/llm_clients.py`) | Faiqa | Groq / OpenAI calls; SDK clients created lazily; rate-limit and connection errors retried |
 | Compressors (`prompt_compression/`) | Faiqa | see the compression summary |
 | `ContextManager` (`context_manager/manager.py`) | Dania | selects turns for multi-turn input |
 | `TokenAnalyzer`, `count_tokens`, `estimate_cost` (`token_analysis/`) | Easha | tokens, cost, run log |
@@ -44,14 +44,14 @@ context_manager=...)`) so tests run without network access.
 | `compression_scorer` | "bi_encoder" | tfidf / bi_encoder / cross_encoder |
 | `compression_level` | 0.5 | token-budget fraction |
 | `compression_window_size` | 2 | sentences per window (2 or 3) |
+| `compression_splitter` | "regex" | sentence splitter, "regex" or "nltk" |
 | `backend` | "groq" | groq or openai |
 | `context_strategy` | "sliding_window" | multi-turn strategy |
 | `max_turns`, `max_tokens` | 6, 1000 | context manager limits |
 | `stage_order` | "manager_then_compressor" | multi-turn stage order |
 | `task_type` | "qa" | prompt template |
 
-Note: `run()` defaults to method "extractive" and scorer "tfidf", which differ from
-the config defaults above. Experiments pass these explicitly.
+`run()` takes every default from `PipelineConfig`, so the two cannot drift apart.
 
 ## 4. Multi-turn stage order
 
@@ -89,19 +89,18 @@ loads each model once.
 
 ## 8. Known gaps
 
-- `Pipeline(evaluator=...)` is accepted but unused: answer scoring is done in
-  `run_experiment.py`, not in the pipeline.
+- Answer scoring is not part of the pipeline: it is done in `evaluation/run_experiment.py`.
 - No input validation: an empty query, or both `context` and `session`, is not
   rejected. (`session=[]` still takes the multi-turn path.)
-- The model-name mapping exists in `config.model_for_backend`, `compressor.py`
-  (`BACKEND_MODEL`) and `run_experiment.py` (`BACKEND_MODEL`). They agree today;
-  consolidate on `model_for_backend`.
 - LoCoMo: image captions (15.5% of turns) are not read, and relative dates are not
   converted to calendar dates (Dania's findings).
 - Whole-text LLM condensing is not selectable through `build_compressor`.
-- Regression status: `scripts/fresh_clone_check.py --skip-install` (committed code only,
-  existing virtual environment) passes: 25 tests passed, 1 skipped. Tests that call live
-  APIs are opt-in via `RUN_LIVE_TESTS=1`. The full check that also installs
-  `requirements.txt` into a clean environment has not been run.
-- `LLMClient()` creates both the Groq and the OpenAI client at start-up, so it fails
-  without an `OPENAI_API_KEY` even when only Groq is used.
+- Regression status: the development suite has 57 passing tests and 1 skipped live-API test.
+  `scripts/fresh_clone_check.py --skip-install` (committed code only, existing virtual
+  environment) passed when last run. Tests that call live APIs are opt-in via
+  `RUN_LIVE_TESTS=1`. The full check that also installs `requirements.txt` into a clean
+  environment has not been run.
+- `LLMClient()` creates the SDK clients lazily, so it works with only `GROQ_API_KEY`; a missing
+  key raises `MissingAPIKeyError` when that backend is first used. Rate-limit and connection
+  errors are retried (waiting the provider's stated time, otherwise capped backoff, 40
+  attempts); other errors are raised at once.
