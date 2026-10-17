@@ -22,7 +22,9 @@ token_analysis/       counter.py (count_tokens, TokenAnalyzer), pricing.py
 pipeline/             pipeline.py (Pipeline.process, run, run_conversation), config.py,
                       prompts.py, llm_clients.py (Groq / OpenAI backends)
 evaluation/           run_experiment.py, quality_metrics.py, metrics.py, compare_accuracy.py,
-                      summarize_results.py, hallucination_audit.py, results/ (CSV outputs)
+                      summarize_results.py, hallucination_audit.py, compare_runs.py,
+                      noise_floor.py, splitter_precheck.py, rescore_results.py,
+                      results/ (CSV outputs)
 data/                 squad_300.json, locomo10.json, cnn_sample.json, prepare_datasets.py
 docs/                 design notes and final summaries (start with the two *_final_summary.md)
 scripts/              check_requirements.py, fresh_clone_check.py
@@ -45,6 +47,10 @@ Create a `.env` file in the repo root with your keys (never commit it):
 GROQ_API_KEY=...
 OPENAI_API_KEY=...
 ```
+
+`GROQ_API_KEY` is needed for the default Groq backend. `OPENAI_API_KEY` is only needed if you
+use the OpenAI backend: a missing key raises `MissingAPIKeyError` when that backend is first
+called, not when `LLMClient()` is created.
 
 The first run downloads the embedding models (`all-MiniLM-L6-v2` and
 `cross-encoder/ms-marco-MiniLM-L-6-v2`) from the Hugging Face Hub, and the
@@ -117,9 +123,10 @@ measured on the context passage only, not the whole request.
 | bi-encoder | 0.5 | 47.3% | 0.725 | -0.044 |
 
 The cross-encoder shows no detectable accuracy loss at about 54% context-token
-reduction; the tf-idf and bi-encoder drops of about 0.04 are nominally
-significant but do not survive correction for multiple comparisons. Scores use
-Unicode-aware answer normalization (`evaluation/quality_metrics.py`). Full table,
+reduction. A second baseline run scored F1 0.781 against 0.768, so changes below about 0.033
+cannot be resolved with 300 questions. The bi-encoder drop at level 0.5 and the tf-idf drop at
+level 0.3 (about -0.045) exceed that against both baseline runs. Scores use Unicode-aware
+answer normalization (`evaluation/quality_metrics.py`). Full table,
 confidence intervals and caveats: `docs/prompt_compression_final_summary.md`.
 
 ## Known limitations

@@ -26,15 +26,28 @@ How to read the SQuAD rows:
 - The cross-encoder shows no detectable F1 loss at about 54% context-token reduction. The
   lower end of its confidence intervals is about -0.04, so this is "no loss detected", not
   "lossless".
-- The bi-encoder at level 0.5 and TF-IDF and bi-encoder at level 0.3 show F1 drops of about
-  0.04 that are nominally significant (p between 0.01 and 0.02) but do not survive correction
-  for the many comparisons made; treat them as suggestive.
+- The bi-encoder at level 0.5 (-0.044) and TF-IDF at level 0.3 (-0.045) show F1 drops that
+  replicate against a second baseline run (-0.056, p = 0.0007 and -0.057, p = 0.0012) and
+  survive correction for multiple comparisons. The other nominally significant drops (about
+  -0.04, p between 0.01 and 0.02 against the first baseline run) stay suggestive.
 - The cross-encoder's advantage over the bi-encoder at level 0.5 (+0.048, p = 0.001) is the
   one comparison between methods that clearly survives that correction.
 - Token reduction is measured on the context passage only. The question and instruction are
   not compressed, so the saving per request is smaller.
 
 None of the CNN/DailyMail quality differences are statistically significant.
+
+Follow-up checks (SQuAD, Groq gpt-oss-20b):
+- Noise floor: a second baseline run scored F1 0.781 against 0.768 (difference +0.013, 95% CI
+  -0.011 to +0.036, p = 0.29); 24% of questions changed F1. A paired comparison on 300
+  questions detects a mean F1 change of about 0.033 (80% power).
+- Estimated answer-call cost for 300 questions (visible tokens only): baseline $0.0050,
+  cross-encoder 0.5 $0.0032 (36.8% lower), tf-idf 0.3 $0.0028 (44.1% lower).
+- Rewrite pilot (exploratory, first 50 questions, cross-encoder 0.5): F1 +0.0045 against plain
+  selection (95% CI -0.050 to +0.055); 132 compression LLM calls; estimated end-to-end cost 3.6
+  times the uncompressed baseline.
+- Sentence splitter: nltk against regex gave F1 -0.016 (95% CI -0.039 to +0.005), within the
+  noise floor; regex stays the default.
 
 Superseded: the 48-sample SQuAD rows (baseline F1 0.657, EM 0.438; keep 70/50/30%) used an
 older sample, an earlier prompt and sentence-ratio extractive compression, and ASCII-only
