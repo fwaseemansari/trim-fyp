@@ -26,7 +26,7 @@ wrappers that build a `PipelineConfig` and call `process()`.
 | `Pipeline` (`pipeline/pipeline.py`) | Faiqa | orchestration, cost accounting |
 | `PipelineConfig`, `model_for_backend` (`pipeline/config.py`) | Faiqa | settings, model per backend |
 | `build_prompt` (`pipeline/prompts.py`) | Faiqa | task-specific instructions |
-| `LLMClient` (`pipeline/llm_clients.py`) | Faiqa | Groq / OpenAI calls with retry |
+| `LLMClient` (`pipeline/llm_clients.py`) | Faiqa | Groq / OpenAI calls; SDK clients created lazily; rate-limit and connection errors retried |
 | Compressors (`prompt_compression/`) | Faiqa | see the compression summary |
 | `ContextManager` (`context_manager/manager.py`) | Dania | selects turns for multi-turn input |
 | `TokenAnalyzer`, `count_tokens`, `estimate_cost` (`token_analysis/`) | Easha | tokens, cost, run log |
@@ -44,6 +44,7 @@ context_manager=...)`) so tests run without network access.
 | `compression_scorer` | "bi_encoder" | tfidf / bi_encoder / cross_encoder |
 | `compression_level` | 0.5 | token-budget fraction |
 | `compression_window_size` | 2 | sentences per window (2 or 3) |
+| `compression_splitter` | "regex" | sentence splitter, "regex" or "nltk" |
 | `backend` | "groq" | groq or openai |
 | `context_strategy` | "sliding_window" | multi-turn strategy |
 | `max_turns`, `max_tokens` | 6, 1000 | context manager limits |
@@ -94,9 +95,12 @@ loads each model once.
 - LoCoMo: image captions (15.5% of turns) are not read, and relative dates are not
   converted to calendar dates (Dania's findings).
 - Whole-text LLM condensing is not selectable through `build_compressor`.
-- Regression status: `scripts/fresh_clone_check.py --skip-install` (committed code only,
-  existing virtual environment) passes: 25 tests passed, 1 skipped. Tests that call live
-  APIs are opt-in via `RUN_LIVE_TESTS=1`. The full check that also installs
-  `requirements.txt` into a clean environment has not been run.
-- `LLMClient()` creates both the Groq and the OpenAI client at start-up, so it fails
-  without an `OPENAI_API_KEY` even when only Groq is used.
+- Regression status: the development suite has 57 passing tests and 1 skipped live-API test.
+  `scripts/fresh_clone_check.py --skip-install` (committed code only, existing virtual
+  environment) passed when last run. Tests that call live APIs are opt-in via
+  `RUN_LIVE_TESTS=1`. The full check that also installs `requirements.txt` into a clean
+  environment has not been run.
+- `LLMClient()` creates the SDK clients lazily, so it works with only `GROQ_API_KEY`; a missing
+  key raises `MissingAPIKeyError` when that backend is first used. Rate-limit and connection
+  errors are retried (waiting the provider's stated time, otherwise capped backoff, 40
+  attempts); other errors are raised at once.
