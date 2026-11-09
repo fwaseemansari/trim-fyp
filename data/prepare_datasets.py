@@ -58,6 +58,36 @@ def prepare_squad(n_samples: int = 300, out_path: str = "data/squad_300.json") -
     print(f"Saved {len(samples)} SQuAD v2 samples to {out_path}")
 
 
+def prepare_squad_full(out_path: str = "data/squad_full.json",
+                       splits: tuple = ("validation",)) -> None:
+    """Every answerable question in the given SQuAD v2 splits (no sampling).
+
+    Keeps ALL gold answers per question in "answers" (SQuAD scoring takes the
+    best match over them) and "answer" (the first one) for the retention check.
+    Train questions have one gold answer; validation questions can have several.
+    """
+    samples = []
+    for split in splits:
+        ds = load_dataset("rajpurkar/squad_v2", split=split)
+        kept = 0
+        for row in ds:
+            if row["answers"]["text"]:
+                samples.append({
+                    "id": row["id"],
+                    "question": row["question"],
+                    "context": row["context"],
+                    "answer": row["answers"]["text"][0],
+                    "answers": list(row["answers"]["text"]),
+                    "split": split,
+                })
+                kept += 1
+        print(f"{split}: {len(ds)} rows, {kept} answerable")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(samples, f, indent=2, ensure_ascii=False)
+    print(f"Saved {len(samples)} answerable SQuAD v2 questions to {out_path}")
+
+
 def prepare_cnn(n_samples: int = 50, out_path: str = "data/cnn_sample.json") -> None:
     ds = load_dataset("abisee/cnn_dailymail", "3.0.0", split="validation")
     indices = random.sample(range(len(ds)), min(n_samples, len(ds)))
@@ -79,6 +109,36 @@ def prepare_cnn(n_samples: int = 50, out_path: str = "data/cnn_sample.json") -> 
     print(f"Saved {len(samples)} CNN/DailyMail samples to {out_path}")
 
 
+def prepare_cnn_full(out_path: str = "data/cnn_full.json", subset_n: int = 1000,
+                     subset_path: str = "data/cnn_subset_1000.json") -> None:
+    """All CNN/DailyMail validation articles, plus one fixed random subset.
+
+    The full file is for the encoder-only run. The subset (seed 42) is for the
+    LLM summarisation runs, which are too expensive on the whole split; share the
+    SAME subset file across the team so every configuration is paired.
+    """
+    ds = load_dataset("abisee/cnn_dailymail", "3.0.0", split="validation")
+    samples = [{"id": r["id"], "article": r["article"], "highlights": r["highlights"]}
+               for r in ds]
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(samples, f, ensure_ascii=False)
+    subset = random.Random(42).sample(samples, min(subset_n, len(samples)))
+    with open(subset_path, "w", encoding="utf-8") as f:
+        json.dump(subset, f, ensure_ascii=False)
+    print(f"Saved {len(samples)} articles to {out_path} and a {len(subset)}-article "
+          f"subset to {subset_path}")
+
+
 if __name__ == "__main__":
-    prepare_squad(n_samples=300)
-    prepare_cnn(n_samples=50)
+    import sys
+
+    if sys.argv[1:] == ["full"]:      # validation only -> data/squad_full.json
+        prepare_squad_full()
+    elif sys.argv[1:] == ["cnn-full"]:  # all CNN validation + fixed 1,000 subset
+        prepare_cnn_full()
+    elif sys.argv[1:] == ["all"]:     # train + validation -> data/squad_all.json
+        prepare_squad_full("data/squad_all.json", splits=("train", "validation"))
+    else:
+        prepare_squad(n_samples=300)
+        prepare_cnn(n_samples=50)
