@@ -1,0 +1,3107 @@
+﻿##### TREE
+.env.example
+.gitignore
+README.md
+conftest.py
+context_manager/__init__.py
+context_manager/manager.py
+context_manager/run_backend_check.py
+context_manager/run_memory_test.py
+context_manager/run_rouge_test.py
+context_manager/test_manager.py
+docs/Deployment Recommendations.txt
+docs/architecture_diagram_final.png
+docs/chart_retention_vs_distance.png
+docs/chart_tokens_per_turn.png
+docs/compression_notes.md
+docs/context_manager_final_summary.md
+docs/context_manager_module.md
+docs/context_manager_notes_full.md
+docs/dataset_notes.md
+docs/headline_numbers.md
+docs/latency_baseline.md
+docs/pipeline_final_summary.md
+docs/prompt_compression_final_summary.md
+docs/prompt_compression_week3_implementation.md
+docs/results_week3.md
+docs/results_week4.md
+docs/token_analysis_final_summary.md
+docs/token_analysis_module.md
+docs/weekly_log.md
+evaluation/__init__.py
+evaluation/baseline_results.json
+evaluation/baseline_results_OLD_superseded.json
+evaluation/compare_accuracy.py
+evaluation/compare_runs.py
+evaluation/full_retention_results.json
+evaluation/hallucination_audit.py
+evaluation/logs/baseline_log.csv
+evaluation/logs/experiment_extractive_0.3.csv
+evaluation/logs/experiment_extractive_0.5.csv
+evaluation/logs/experiment_extractive_0.7.csv
+evaluation/logs/experiment_llm_0.7.csv
+evaluation/logs/token_log.csv
+evaluation/make_baseline.py
+evaluation/metrics.py
+evaluation/noise_floor.py
+evaluation/quality_metrics.py
+evaluation/rescore_results.py
+evaluation/results/.gitkeep
+evaluation/results/accuracy_comparison.csv
+evaluation/results/audit_labels.csv
+evaluation/results/audit_sheet.csv
+evaluation/results/audit_sheet_key.csv
+evaluation/results/audit_sheet_labeled.csv
+evaluation/results/audit_summary.csv
+evaluation/results/charts/cost_savings_by_method.png
+evaluation/results/charts/token_reduction_by_method.png
+evaluation/results/charts/tradeoff_ratio_vs_f1.png
+evaluation/results/cnn_extractive_0.5.csv
+evaluation/results/cnn_extractive_0.7.csv
+evaluation/results/cnn_none.csv
+evaluation/results/cnn_summary.csv
+evaluation/results/cnn_summary.tex
+evaluation/results/experiment_baseline_300.csv
+evaluation/results/experiment_baseline_300_rescored.csv
+evaluation/results/experiment_baseline_300_run2.csv
+evaluation/results/experiment_baseline_300_run2_rescored.csv
+evaluation/results/experiment_extractive_0.3.csv
+evaluation/results/experiment_extractive_0.5.csv
+evaluation/results/experiment_extractive_0.7.csv
+evaluation/results/experiment_llm_0.7.csv
+evaluation/results/experiment_none.csv
+evaluation/results/experiment_rewrite_cross_encoder_0.5_50.csv
+evaluation/results/experiment_rewrite_cross_encoder_0.5_50_rescored.csv
+evaluation/results/experiment_selective_bi_encoder_0.3_100.csv
+evaluation/results/experiment_selective_bi_encoder_0.3_100_rescored.csv
+evaluation/results/experiment_selective_bi_encoder_0.5_300.csv
+evaluation/results/experiment_selective_bi_encoder_0.5_300_rescored.csv
+evaluation/results/experiment_selective_bi_encoder_0.7_100.csv
+evaluation/results/experiment_selective_bi_encoder_0.7_100_rescored.csv
+evaluation/results/experiment_selective_cross_encoder_0.3_100.csv
+evaluation/results/experiment_selective_cross_encoder_0.3_100_rescored.csv
+evaluation/results/experiment_selective_cross_encoder_0.5_300.csv
+evaluation/results/experiment_selective_cross_encoder_0.5_300_nltk.csv
+evaluation/results/experiment_selective_cross_encoder_0.5_300_nltk_rescored.csv
+evaluation/results/experiment_selective_cross_encoder_0.5_300_rescored.csv
+evaluation/results/experiment_selective_cross_encoder_0.7_100.csv
+evaluation/results/experiment_selective_cross_encoder_0.7_100_rescored.csv
+evaluation/results/experiment_selective_tfidf_0.3_100.csv
+evaluation/results/experiment_selective_tfidf_0.3_100_rescored.csv
+evaluation/results/experiment_selective_tfidf_0.5_300.csv
+evaluation/results/experiment_selective_tfidf_0.5_300_rescored.csv
+evaluation/results/experiment_selective_tfidf_0.7_100.csv
+evaluation/results/experiment_selective_tfidf_0.7_100_rescored.csv
+evaluation/results/splitter_diff_ids.txt
+evaluation/results/summary_all_runs.csv
+evaluation/results/summary_all_runs.tex
+evaluation/results/sweep_extractive_30pct.csv
+evaluation/results/sweep_extractive_50pct.csv
+evaluation/results/sweep_extractive_70pct.csv
+evaluation/run_baseline.py
+evaluation/run_cnn_experiment.py
+evaluation/run_compression_sweep.py
+evaluation/run_demo.py
+evaluation/run_experiment.py
+evaluation/splitter_precheck.py
+evaluation/summarize_cnn.py
+evaluation/summarize_results.py
+nltk_log.txt
+noise_log.txt
+pipeline/__init__.py
+pipeline/config.py
+pipeline/llm_clients.py
+pipeline/pipeline.py
+pipeline/prompts.py
+pipeline/test_latency.py
+pipeline/test_pipeline.py
+prompt_compression/__init__.py
+prompt_compression/compressor.py
+prompt_compression/results.py
+prompt_compression/scorers.py
+prompt_compression/segmenters.py
+pytest.ini
+requirements.txt
+rewrite_log.txt
+run_all_300.py
+run_followups.py
+scripts/check_requirements.py
+scripts/fresh_clone_check.py
+tests/test_cleanup_guards.py
+tests/test_compare_runs.py
+tests/test_csv_logging.py
+tests/test_hallucination_audit.py
+tests/test_llm_clients_lazy.py
+tests/test_prompt_compression_week3.py
+tests/test_quality_metrics.py
+tests/test_quality_metrics_unicode.py
+tests/test_splitter_precheck.py
+tests/test_splitters.py
+tests/test_token_analyzer.py
+token_analysis/__init__.py
+token_analysis/counter.py
+token_analysis/pricing.py
+##### PYTEST
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\easha\OneDrive\Desktop\trim-fyp\trim-fyp\venv\Scripts\python.exe
+rootdir: C:\Users\easha\OneDrive\Desktop\trim-fyp\trim-fyp
+configfile: pytest.ini
+plugins: anyio-4.15.1
+collecting ... collected 55 items
+
+tests/test_cleanup_guards.py::test_budget_selector_is_gone PASSED        [  1%]
+tests/test_cleanup_guards.py::test_there_is_a_single_backend_to_model_map PASSED [  3%]
+tests/test_cleanup_guards.py::test_compressor_model_comes_from_model_for_backend PASSED [  5%]
+tests/test_cleanup_guards.py::test_run_defaults_match_pipeline_config PASSED [  7%]
+tests/test_cleanup_guards.py::test_pipeline_has_no_unused_evaluator_parameter PASSED [  9%]
+tests/test_compare_runs.py::test_compare_reports_change_calls_and_cost PASSED [ 10%]
+tests/test_compare_runs.py::test_compare_uses_first_n_reference_questions PASSED [ 12%]
+tests/test_compare_runs.py::test_noise_floor_of_identical_runs_is_zero PASSED [ 14%]
+tests/test_compare_runs.py::test_noise_floor_detects_changed_questions_and_sets_a_threshold PASSED [ 16%]
+tests/test_compare_runs.py::test_treatment_is_flagged_against_the_noise PASSED [ 18%]
+tests/test_compare_runs.py::test_compare_can_be_restricted_to_listed_ids PASSED [ 20%]
+tests/test_hallucination_audit.py::test_sheet_is_blind_and_key_maps_back PASSED [ 21%]
+tests/test_hallucination_audit.py::test_lost_rows_are_oversampled PASSED [ 23%]
+tests/test_hallucination_audit.py::test_same_seed_same_sheet PASSED      [ 25%]
+tests/test_hallucination_audit.py::test_recompression_mismatch_is_detected PASSED [ 27%]
+tests/test_hallucination_audit.py::test_baseline_uses_original_context_and_llm_runs_are_refused PASSED [ 29%]
+tests/test_hallucination_audit.py::test_summary_counts_rates_and_validation PASSED [ 30%]
+tests/test_hallucination_audit.py::test_unlabeled_rows_are_excluded_not_counted PASSED [ 32%]
+tests/test_hallucination_audit.py::test_helpers PASSED                   [ 34%]
+tests/test_hallucination_audit.py::test_rates_are_weighted_by_stratum_not_by_sample_share PASSED [ 36%]
+tests/test_llm_clients_lazy.py::test_client_builds_without_any_api_key PASSED [ 38%]
+tests/test_llm_clients_lazy.py::test_groq_only_use_never_builds_an_openai_client PASSED [ 40%]
+tests/test_llm_clients_lazy.py::test_openai_without_a_key_fails_clearly_when_used[None] PASSED [ 41%]
+tests/test_llm_clients_lazy.py::test_openai_without_a_key_fails_clearly_when_used[] PASSED [ 43%]
+tests/test_llm_clients_lazy.py::test_openai_without_a_key_fails_clearly_when_used[your-openai-key-here] PASSED [ 45%]
+tests/test_llm_clients_lazy.py::test_groq_without_a_key_fails_clearly_when_used PASSED [ 47%]
+tests/test_llm_clients_lazy.py::test_connection_errors_are_retried_then_succeed PASSED [ 49%]
+tests/test_llm_clients_lazy.py::test_rate_limit_is_retried PASSED        [ 50%]
+tests/test_llm_clients_lazy.py::test_other_errors_are_not_retried PASSED [ 52%]
+tests/test_llm_clients_lazy.py::test_gives_up_after_max_retries PASSED   [ 54%]
+tests/test_llm_clients_lazy.py::test_retry_wait_parsing PASSED           [ 56%]
+tests/test_prompt_compression_week3.py::test_overlapping_windows_are_two_sentences_and_overlap PASSED [ 58%]
+tests/test_prompt_compression_week3.py::test_selective_compressor_returns_original_sentence_order PASSED [ 60%]
+tests/test_prompt_compression_week3.py::test_compressor_never_returns_empty_text PASSED [ 61%]
+tests/test_prompt_compression_week3.py::test_rewrite_compressor_tracks_llm_calls_and_cost_tokens PASSED [ 63%]
+tests/test_quality_metrics.py::test_exact_match_normalization PASSED     [ 65%]
+tests/test_quality_metrics.py::test_unanswerable_squad_v2 PASSED         [ 67%]
+tests/test_quality_metrics.py::test_f1_partial_and_multi_gold PASSED     [ 69%]
+tests/test_quality_metrics.py::test_contains_answer PASSED               [ 70%]
+tests/test_quality_metrics_unicode.py::test_non_breaking_hyphen_matches_ascii_hyphen PASSED [ 72%]
+tests/test_quality_metrics_unicode.py::test_curly_apostrophe_and_en_dash PASSED [ 74%]
+tests/test_quality_metrics_unicode.py::test_superscript_and_special_spaces_fold PASSED [ 76%]
+tests/test_quality_metrics_unicode.py::test_ascii_symbol_stripping_is_kept PASSED [ 78%]
+tests/test_quality_metrics_unicode.py::test_genuinely_different_answers_still_differ PASSED [ 80%]
+tests/test_quality_metrics_unicode.py::test_contains_answer_uses_the_same_normalization PASSED [ 81%]
+tests/test_splitter_precheck.py::test_precheck_counts_differences_and_flags_identical_contexts PASSED [ 83%]
+tests/test_splitters.py::test_regex_is_still_the_default PASSED          [ 85%]
+tests/test_splitters.py::test_regex_oversplits_an_initial_and_nltk_does_not PASSED [ 87%]
+tests/test_splitters.py::test_unknown_splitter_is_rejected_everywhere PASSED [ 89%]
+tests/test_splitters.py::test_segmenters_use_their_splitter PASSED       [ 90%]
+tests/test_splitters.py::test_build_compressor_passes_the_splitter_through PASSED [ 92%]
+tests/test_splitters.py::test_compressor_indices_stay_consistent_with_the_splitter[regex] PASSED [ 94%]
+tests/test_splitters.py::test_compressor_indices_stay_consistent_with_the_splitter[nltk] PASSED [ 96%]
+tests/test_splitters.py::test_pipeline_config_splitter_reaches_build_compressor PASSED [ 98%]
+tests/test_splitters.py::test_run_passes_the_splitter_into_the_config PASSED [100%]
+
+============================== warnings summary ===============================
+tests/test_compare_runs.py::test_compare_uses_first_n_reference_questions
+tests/test_compare_runs.py::test_compare_can_be_restricted_to_listed_ids
+  C:\Users\easha\OneDrive\Desktop\trim-fyp\trim-fyp\venv\Lib\site-packages\scipy\stats\_axis_nan_policy.py:431: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+    return hypotest_fun_in(*args, **kwds)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 55 passed, 2 warnings in 60.18s (0:01:00) ==================
+##### MANUAL SCRIPTS
+=== test_cleanup_guards.py
+=== test_compare_runs.py
+=== test_csv_logging.py
+python : Warning: You are sending unauthenticated requests 
+to the HF Hub. Please set a HF_TOKEN to enable higher rate 
+limits and faster downloads.
+At line:13 char:3
++   python -m "tests.$($_.BaseName)" 2>&1 | Select-Object 
+-Last 40 | Ou ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: You a 
+   r...ster downloads.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Test 1: File creation
+  PASS: CSV file was created
+
+Test 2: Header row
+  PASS: header has all expected columns
+
+Test 3: Appending (not overwriting)
+  PASS: exactly 2 data rows after 2 calls
+  PASS: row 1 backend is 'openai'
+  PASS: row 2 backend is 'groq'
+
+Test 4: Logged values are accurate
+  PASS: CSV total_tokens matches a direct analyze() call
+
+(test file cleaned up: evaluation/logs/test_token_log.csv removed)
+
+========================================
+RESULTS: 6 passed, 0 failed
+========================================
+=== test_hallucination_audit.py
+=== test_llm_clients_lazy.py
+=== test_prompt_compression_week3.py
+=== test_quality_metrics.py
+=== test_quality_metrics_unicode.py
+=== test_splitters.py
+=== test_splitter_precheck.py
+=== test_token_analyzer.py
+python : Warning: You are sending unauthenticated requests 
+to the HF Hub. Please set a HF_TOKEN to enable higher rate 
+limits and faster downloads.
+At line:13 char:3
++   python -m "tests.$($_.BaseName)" 2>&1 | Select-Object 
+-Last 40 | Ou ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: You a 
+   r...ster downloads.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Test 1: Normal prompt/response pairs
+ Model: gpt-4o-mini
+  PASS: total_tokens = input + output ('What is the capital of France?')
+  PASS: cost_usd is positive ('What is the capital of France?')
+  PASS: total_tokens = input + output ('Explain gravity in one sentenc')
+  PASS: cost_usd is positive ('Explain gravity in one sentenc')
+  PASS: total_tokens = input + output ('Write a haiku about autumn.')
+  PASS: cost_usd is positive ('Write a haiku about autumn.')
+ Model: openai/gpt-oss-20b
+  PASS: total_tokens = input + output ('What is the capital of France?')
+  PASS: cost_usd is positive ('What is the capital of France?')
+  PASS: total_tokens = input + output ('Explain gravity in one sentenc')
+  PASS: cost_usd is positive ('Explain gravity in one sentenc')
+  PASS: total_tokens = input + output ('Write a haiku about autumn.')
+  PASS: cost_usd is positive ('Write a haiku about autumn.')
+
+Test 2: Empty string edge case
+  PASS: empty prompt+response -> 0 tokens (gpt-4o-mini)
+  PASS: empty prompt+response -> 0 cost (gpt-4o-mini)
+  PASS: empty prompt+response -> 0 tokens (openai/gpt-oss-20b)
+  PASS: empty prompt+response -> 0 cost (openai/gpt-oss-20b)
+
+Test 3: Long input
+  PASS: long input produces >500 tokens (gpt-4o-mini)
+  PASS: long input produces >500 tokens (openai/gpt-oss-20b)
+
+Test 4: Unknown model handling
+  PASS: unknown model raises ValueError
+
+Test 5: compare() sanity check
+  PASS: compare() shows positive token reduction for a shorter treatment prompt
+
+========================================
+RESULTS: 20 passed, 0 failed
+========================================
+##### SOURCE
+=== conftest.py
+"""Pytest configuration: tests that call real LLM APIs are opt-in.
+
+Set RUN_LIVE_TESTS=1 to run them (needs valid keys in .env).
+"""
+
+import os
+
+import pytest
+
+LIVE_TEST_FILES = {"test_latency.py", "test_pipeline.py"}  # make real Groq/OpenAI calls
+
+
+def pytest_collection_modifyitems(config, items):
+    if os.getenv("RUN_LIVE_TESTS") == "1":
+        return
+    skip = pytest.mark.skip(reason="live API test; set RUN_LIVE_TESTS=1 to run")
+    for item in items:
+        if item.path.name in LIVE_TEST_FILES and "pipeline" in item.path.parts:
+            item.add_marker(skip)
+=== context_manager/__init__.py
+=== context_manager/manager.py
+"""
+Adaptive Context Manager â€” Strategy pattern (revised from the earlier
+single-class-with-strategy-switch design, for consistency with the
+LLMClient refactor).
+
+Inheritance structure â€” deliberately NOT three equal siblings:
+
+    ContextStrategy (ABC)
+    â”œâ”€â”€ SlidingWindowStrategy
+    â””â”€â”€ RelevanceAwareStrategy
+            â””â”€â”€ MemorySummarizationStrategy
+
+sliding_window and relevance_aware are genuinely independent â€” they
+decide what to KEEP using completely different logic (recency vs.
+TF-IDF scoring), so they're siblings. memory_summarization is NOT
+independent of relevance_aware: it uses the exact same TF-IDF scoring
+to decide what to keep, and only differs in what happens to the turns
+that get DROPPED (discarded outright vs. condensed into a 1-sentence
+LLM summary). Making it a third sibling would mean copy-pasting the
+entire TF-IDF scoring block into a third class â€” a real step backward,
+since a bug fix there would then need to happen twice. Instead
+MemorySummarizationStrategy subclasses RelevanceAwareStrategy and
+overrides exactly one hook method (_handle_dropped) â€” the one point
+where the two behaviors actually differ.
+
+ContextManager below is a thin factory (using __new__ to return the
+right subclass instance) so existing call sites elsewhere
+(pipeline.run_conversation, context_manager/test_manager.py) don't
+need to change: ContextManager(strategy="sliding_window", max_turns=6)
+still works exactly as before, now backed by real subclasses instead
+of an if/elif strategy switch inside one class.
+"""
+
+from abc import ABC, abstractmethod
+
+from token_analysis.counter import count_tokens
+
+
+class ContextStrategy(ABC):
+    """Shared interface every strategy implements: add_turn() to feed
+    in a new turn, get_context()/total_tokens() to read out the
+    current context. get_context()/total_tokens() have a shared default
+    implementation here since both concrete strategies below use the
+    same "join kept turns" logic â€” only add_turn() must be overridden
+    per strategy, since that's where the actual decision logic differs."""
+
+    def __init__(self):
+        self.history: list[dict] = []  # turns currently kept in context
+
+    @abstractmethod
+    def add_turn(self, turn: dict, query: str = "") -> None:
+        """Adds one turn (expects at least a 'text' key â€” matches
+        LoCoMo's {"speaker", "dia_id", "text"} shape) and applies this
+        strategy's keep/drop decision. `query` is the current question
+        being asked â€” ignored by SlidingWindowStrategy, required for
+        the TF-IDF-based strategies to score relevance against."""
+        raise NotImplementedError
+
+    def get_context(self) -> str:
+        """Returns the current context as a single string: kept turns
+        in chronological order, ready to prepend to a prompt sent to
+        the LLM. Subclasses with extra state to append (memory
+        summaries) override this and extend the base result."""
+        parts = [f"{t.get('speaker', '')}: {t['text']}" for t in self.history]
+        return "\n".join(parts)
+
+    def total_tokens(self) -> int:
+        return count_tokens(self.get_context())
+
+
+class SlidingWindowStrategy(ContextStrategy):
+    """Simplest strategy, and the Week 1 fallback/control condition:
+    keep only the last N turns, drop everything older with no record
+    kept at all."""
+
+    def __init__(self, max_turns: int = 6):
+        super().__init__()
+        self.max_turns = max_turns
+
+    def add_turn(self, turn: dict, query: str = "") -> None:
+        self.history.append(turn)
+        if len(self.history) > self.max_turns:
+            self.history = self.history[-self.max_turns:]
+
+
+class RelevanceAwareStrategy(ContextStrategy):
+    """Scores every turn's relevance to `query` via TF-IDF cosine
+    similarity (reuses the same approach as the Prompt Compression
+    Module for consistency â€” see prompt_compression/compressor.py),
+    keeps turns in relevance order until max_tokens is spent.
+
+    Turns that get dropped are discarded outright by default â€”
+    MemorySummarizationStrategy below overrides _handle_dropped() to
+    condense them into a memory summary instead, without needing to
+    duplicate any of the scoring/ranking logic here.
+    """
+
+    def __init__(self, max_tokens: int = 1000):
+        super().__init__()
+        self.max_tokens = max_tokens
+
+    def add_turn(self, turn: dict, query: str = "") -> None:
+        self.history.append(turn)
+        if not query or len(self.history) <= 1:
+            return  # nothing to score against yet
+
+        scores = self._score_turns(query)
+        ranked = sorted(zip(self.history, scores), key=lambda pair: pair[1], reverse=True)
+
+        kept, dropped = [], []
+        token_budget = self.max_tokens
+        for turn_, score in ranked:
+            t_tokens = count_tokens(turn_["text"])
+            if t_tokens <= token_budget:
+                kept.append(turn_)
+                token_budget -= t_tokens
+            else:
+                dropped.append(turn_)
+
+        # Restore original chronological order among kept turns â€”
+        # relevance decides WHAT stays, not the order it's read back in.
+        kept_set = {id(t) for t in kept}
+        self.history = [t for t in self.history if id(t) in kept_set]
+
+        if dropped:
+            self._handle_dropped(dropped)
+
+    def _handle_dropped(self, dropped: list[dict]) -> None:
+        """Hook method: base RelevanceAwareStrategy discards dropped
+        turns with no trace. MemorySummarizationStrategy overrides this
+        one method to condense them instead â€” the only point where the
+        two strategies' behavior actually differs."""
+        pass
+
+    def _score_turns(self, query: str) -> list[float]:
+        """Hook method: pure TF-IDF cosine similarity to `query`.
+        HybridScoringStrategy overrides this one method to blend in a
+        recency term â€” every other part of add_turn (ranking, token
+        budget, dropped-turn handling) is reused unchanged."""
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        texts = [t["text"] for t in self.history]
+        vectorizer = TfidfVectorizer().fit(texts + [query])
+        turn_vectors = vectorizer.transform(texts)
+        query_vector = vectorizer.transform([query])
+        return list(cosine_similarity(turn_vectors, query_vector).flatten())
+
+
+class MemorySummarizationStrategy(RelevanceAwareStrategy):
+    """Same TF-IDF relevance scoring as RelevanceAwareStrategy (inherited,
+    not duplicated) â€” but turns that get dropped are condensed into a
+    1-sentence LLM summary and kept in self.memory instead of being
+    discarded outright."""
+
+    def __init__(self, max_tokens: int = 1000, llm_client=None):
+        super().__init__(max_tokens=max_tokens)
+        if llm_client is None:
+            raise ValueError("MemorySummarizationStrategy requires an llm_client")
+        self.llm_client = llm_client
+        self.memory: list[str] = []  # 1-sentence summaries of dropped turns
+
+    def _handle_dropped(self, dropped: list[dict]) -> None:
+        for turn in dropped:
+            summary_prompt = (
+                f"Summarize this in one short sentence, preserving any facts, "
+                f"names, or dates: \"{turn['text']}\""
+            )
+            result = self.llm_client.generate(summary_prompt, backend="groq")
+            self.memory.append(result.response)
+
+    def get_context(self) -> str:
+        base = super().get_context()
+        if self.memory:
+            base += "\n(Earlier context, summarized): " + " ".join(self.memory)
+        return base
+
+
+class HybridScoringStrategy(RelevanceAwareStrategy):
+    """Week 4 depth upgrade: combines recency with TF-IDF relevance into
+    one weighted score, instead of ranking by relevance alone.
+
+    Pure relevance-aware selection has a known failure mode: a highly
+    relevant turn from early in the conversation can permanently outrank
+    everything since, starving out genuinely recent context the model
+    may also need (e.g. "what did we just agree on?" style follow-ups).
+    Blending in a recency term (normalized turn position, most recent
+    turn = 1.0, oldest = close to 0.0) guards against that, at the cost
+    of sometimes keeping a less-relevant-but-recent turn over a
+    more-relevant-but-old one.
+
+    Subclasses RelevanceAwareStrategy and overrides only _score_turns â€”
+    every other part (ranking, token budget, dropped-turn handling) is
+    inherited unchanged, same hook-method pattern as
+    MemorySummarizationStrategy above.
+    """
+
+    def __init__(self, max_tokens: int = 1000, recency_weight: float = 0.3):
+        super().__init__(max_tokens=max_tokens)
+        if not 0.0 <= recency_weight <= 1.0:
+            raise ValueError("recency_weight must be between 0.0 and 1.0")
+        self.recency_weight = recency_weight
+
+    def _score_turns(self, query: str) -> list[float]:
+        relevance_scores = super()._score_turns(query)
+        n = len(self.history)
+        # normalized position: oldest turn -> ~0, most recent turn -> 1.0
+        recency_scores = [(i + 1) / n for i in range(n)]
+        w = self.recency_weight
+        return [
+            (1 - w) * rel + w * rec
+            for rel, rec in zip(relevance_scores, recency_scores)
+        ]
+
+
+class ContextManager:
+    """Factory: returns the concrete strategy instance matching
+    `strategy`, so existing call sites don't need to change â€”
+    ContextManager(strategy="sliding_window", max_turns=6) still works
+    exactly as before, now backed by real subclasses instead of an
+    if/elif switch inside one class.
+
+    Implemented via __new__ returning an instance of a DIFFERENT class
+    than ContextManager itself â€” Python skips calling __init__ again in
+    that case, so the returned object is a plain SlidingWindowStrategy
+    (etc.) instance, not wrapped in anything extra.
+    """
+
+    def __new__(
+        cls,
+        strategy: str = "sliding_window",
+        max_turns: int = 6,
+        max_tokens: int = 1000,
+        llm_client=None,
+        recency_weight: float = 0.3,
+    ):
+        if strategy == "sliding_window":
+            return SlidingWindowStrategy(max_turns=max_turns)
+        elif strategy == "relevance_aware":
+            return RelevanceAwareStrategy(max_tokens=max_tokens)
+        elif strategy == "memory_summarization":
+            return MemorySummarizationStrategy(max_tokens=max_tokens, llm_client=llm_client)
+        elif strategy == "hybrid_scoring":
+            return HybridScoringStrategy(max_tokens=max_tokens, recency_weight=recency_weight)
+        else:
+            raise ValueError(f"Unknown strategy: {strategy!r}")
+
+
+if __name__ == "__main__":
+    # Quick manual check with the sliding-window strategy on 8 fake turns.
+    cm = ContextManager(strategy="sliding_window", max_turns=3)
+    for i in range(8):
+        cm.add_turn({"speaker": "A", "text": f"This is turn number {i}."})
+    print("Kept turns after sliding window (max_turns=3):")
+    print(cm.get_context())
+=== context_manager/run_backend_check.py
+"""
+Cross-backend check (Week 3 Wed task): run the same LoCoMo sessions
+through the Context Manager against both Groq and OpenAI, and note any
+backend-specific quirks (e.g. different tokenizer counts for the same
+text).
+
+NOT RUN in the sandbox this was written in -- needs live API access
+(blocked there). Run this yourself once your .env is confirmed working.
+"""
+
+import json
+from token_analysis.counter import count_tokens
+from context_manager.manager import ContextManager
+from pipeline.llm_clients import LLMClient
+
+with open("data/locomo10.json") as f:
+    data = json.load(f)
+
+sample = data[0]
+conv = sample["conversation"]
+session_keys = [
+    k for k in conv
+    if k.startswith("session_") and not k.endswith("date_time") and isinstance(conv[k], list)
+]
+turns = []
+for k in session_keys[:2]:
+    turns.extend(conv[k])
+
+query = sample["qa"][5]["question"]
+
+print("=== Tokenizer comparison on the same context text ===")
+cm = ContextManager(strategy="relevance_aware", max_tokens=400)
+for t in turns:
+    cm.add_turn(t, query=query)
+context_text = cm.get_context()
+
+groq_tokens = count_tokens(context_text, model="openai/gpt-oss-20b")
+openai_tokens = count_tokens(context_text, model="gpt-4o-mini")  # tiktoken
+print(f"Groq/Llama tokenizer count:   {groq_tokens}")
+print(f"OpenAI/tiktoken count:        {openai_tokens}")
+print(f"Difference:                   {abs(groq_tokens - openai_tokens)} tokens "
+      f"({100*abs(groq_tokens - openai_tokens)/max(groq_tokens, openai_tokens):.1f}%)")
+
+print()
+print("=== Same query, both backends ===")
+llm_client = LLMClient()
+for backend in ["groq", "openai"]:
+    result = llm_client.generate(f"Context:\n{context_text}\n\nQuestion: {query}", backend=backend)
+    print(f"\n[{backend}] latency: {result.latency_ms:.0f}ms")
+    print(f"[{backend}] response: {result.response[:200]}")
+
+print()
+print("MANUAL STEP: write any quirks observed above (tokenizer count gap,")
+print("response style differences, latency differences) into docs/backend_notes.md")
+=== context_manager/run_memory_test.py
+"""
+Real test of the memory_summarization strategy -- needs a working .env
+with GROQ_API_KEY (this makes actual API calls, unlike the other two
+strategies).
+
+Run from the repo root: python context_manager/run_memory_test.py
+"""
+
+import json
+
+from context_manager.manager import ContextManager
+from pipeline.llm_clients import LLMClient
+
+LOCOMO_PATH = "data/locomo10.json"
+
+with open(LOCOMO_PATH) as f:
+    data = json.load(f)
+
+sample = data[0]
+conv = sample["conversation"]
+session_keys = [
+    k for k in conv
+    if k.startswith("session_") and not k.endswith("date_time") and isinstance(conv[k], list)
+]
+
+# Use just the first 2 sessions to keep this quick and cheap to run.
+turns = []
+for k in session_keys[:2]:
+    turns.extend(conv[k])
+
+# Pick a real question whose evidence is likely to get pushed out of the
+# active window, so we can see whether the memory summary still captures it.
+qa = sample["qa"][5]
+query = qa["question"]
+print(f"Query: {query}")
+print(f"Ground-truth answer: {qa['answer']}")
+print(f"Evidence turn(s): {qa['evidence']}")
+print()
+
+llm_client = LLMClient()
+
+cm = ContextManager(strategy="memory_summarization", max_tokens=300, llm_client=llm_client)
+for turn in turns:
+    cm.add_turn(turn, query=query)
+
+print("=" * 60)
+print("Active context (kept turns):")
+print("=" * 60)
+print(cm.get_context())
+
+print()
+print("=" * 60)
+print("Memory summaries (dropped turns, condensed):")
+print("=" * 60)
+for m in cm.memory:
+    print(f"- {m}")
+
+print()
+print("=" * 60)
+print("MANUAL CHECK: does the memory or active context above still")
+print("contain the fact needed to answer the ground-truth question?")
+print("Write your answer in docs/context_manager_notes.md.")
+print("=" * 60)
+=== context_manager/run_rouge_test.py
+"""
+Response quality metric (Week 3 task, metric #6/7): ROUGE-L between LLM
+answers generated WITH vs WITHOUT the Context Manager, against LoCoMo's
+gold QA answers.
+
+NOT RUN in the sandbox this was written in -- needs live LLM calls
+(blocked there). Run this yourself once your .env is confirmed working.
+Needs: pip install rouge-score
+"""
+
+import json
+from rouge_score import rouge_scorer
+from context_manager.manager import ContextManager
+from pipeline.llm_clients import LLMClient
+
+with open("data/locomo10.json") as f:
+    data = json.load(f)
+
+sample = data[0]
+conv = sample["conversation"]
+session_keys = [
+    k for k in conv
+    if k.startswith("session_") and not k.endswith("date_time") and isinstance(conv[k], list)
+]
+all_turns = []
+for k in session_keys:
+    all_turns.extend(conv[k])
+
+llm_client = LLMClient()
+scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=True)
+
+qa_sample = [qa for qa in sample["qa"] if qa.get("evidence")][:10]  # keep small, costs real API calls
+
+with_cm_scores, without_cm_scores = [], []
+
+for qa in qa_sample:
+    query = qa["question"]
+    gold_answer = qa["answer"]
+
+    # WITHOUT context manager: last 5 raw turns only (naive baseline)
+    naive_context = "\n".join(f"{t['speaker']}: {t['text']}" for t in all_turns[-5:])
+    naive_prompt = f"Context:\n{naive_context}\n\nQuestion: {query}\nAnswer in one short sentence."
+    naive_result = llm_client.generate(naive_prompt, backend="groq")
+
+    # WITH context manager: relevance-aware retrieval
+    cm = ContextManager(strategy="relevance_aware", max_tokens=400)
+    for t in all_turns:
+        cm.add_turn(t, query=query)
+    cm_prompt = f"Context:\n{cm.get_context()}\n\nQuestion: {query}\nAnswer in one short sentence."
+    cm_result = llm_client.generate(cm_prompt, backend="groq")
+
+    without_cm_scores.append(scorer.score(str(gold_answer), naive_result.response)["rougeL"].fmeasure)
+    with_cm_scores.append(scorer.score(str(gold_answer), cm_result.response)["rougeL"].fmeasure)
+
+    print(f"Q: {query}")
+    print(f"  Gold: {gold_answer}")
+    print(f"  Without CM: {naive_result.response[:80]}")
+    print(f"  With CM:    {cm_result.response[:80]}")
+    print()
+
+print(f"Average ROUGE-L WITHOUT Context Manager: {sum(without_cm_scores)/len(without_cm_scores):.3f}")
+print(f"Average ROUGE-L WITH Context Manager:    {sum(with_cm_scores)/len(with_cm_scores):.3f}")
+=== context_manager/test_manager.py
+"""
+Fri Week 1 Dania task: feed 3 real LoCoMo sessions through the
+sliding-window ContextManager turn-by-turn, confirm the kept context
+never exceeds a token budget (window is bounded by turn COUNT, not
+tokens directly â€” this test checks that turn-count bound also keeps
+token count sane in practice, since a runaway single turn could still
+blow the budget even with few turns kept).
+
+Run with: pytest context_manager/test_manager.py -v
+"""
+
+import json
+
+from context_manager.manager import ContextManager
+from token_analysis.counter import count_tokens
+
+
+def _load_locomo_sessions(n_sessions: int = 3, path: str = "data/locomo10.json"):
+    """Pulls the first `n_sessions` session_1 turn-lists from the first
+    n_sessions conversations in the dataset â€” good enough for a smoke
+    test without loading the whole 2.7 MB file's worth of sessions."""
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    sessions = []
+    for conv in data[:n_sessions]:
+        turns = conv["conversation"]["session_1"]
+        sessions.append(turns)
+    return sessions
+
+
+def test_sliding_window_never_exceeds_max_turns():
+    sessions = _load_locomo_sessions(3)
+    for session in sessions:
+        cm = ContextManager(strategy="sliding_window", max_turns=6)
+        for turn in session:
+            cm.add_turn(turn)
+            assert len(cm.history) <= 6, "sliding window exceeded max_turns"
+
+
+def test_sliding_window_keeps_most_recent_turns():
+    sessions = _load_locomo_sessions(1)
+    session = sessions[0]
+    cm = ContextManager(strategy="sliding_window", max_turns=6)
+    for turn in session:
+        cm.add_turn(turn)
+
+    if len(session) >= 6:
+        expected_last_texts = [t["text"] for t in session[-6:]]
+        actual_texts = [t["text"] for t in cm.history]
+        assert actual_texts == expected_last_texts
+
+
+if __name__ == "__main__":
+    # Manual run (outside pytest): print token counts per turn for 1 session.
+    sessions = _load_locomo_sessions(1)
+    cm = ContextManager(strategy="sliding_window", max_turns=6)
+    for i, turn in enumerate(sessions[0]):
+        cm.add_turn(turn)
+        print(f"turn {i}: kept={len(cm.history)} turns, {count_tokens(cm.get_context())} tokens")
+=== evaluation/run_compression_sweep.py
+"""
+Fri Week 2 Faiqa task: run the compression sweep across 30%/50%/70%
+keep-ratios, 20 samples each, extractive method (the LLM method also
+works if you pass method="llm" and have a funded OpenAI key, or if you
+point it at Groq via the has_openai fallback already built into
+compress()/LLMClient).
+
+This produces the core "trade-off between token reduction and
+task performance" evidence the plan calls out as your proposal's
+central empirical claim.
+"""
+import time
+
+from evaluation.run_experiment import run_experiment
+
+LEVELS = [0.3, 0.5, 0.7]
+
+
+def run_sweep(n_samples: int = 20, method: str = "extractive") -> None:
+    for i, level in enumerate(LEVELS):
+        print(f"\n--- Running level={level} ({int(level * 100)}% kept) ---")
+        run_experiment(
+            n_samples=n_samples,
+            compression_enabled=True,
+            compression_method=method,
+            compression_level=level,
+            out_path=f"evaluation/results/sweep_{method}_{int(level * 100)}pct.csv",
+        )
+        
+        if i < len(LEVELS) - 1:
+            print("  (pausing 5s between levels to stay clear of the rate limit)")
+            time.sleep(5)
+
+
+if __name__ == "__main__":
+    run_sweep()
+=== pipeline/__init__.py
+=== pipeline/config.py
+"""Central configuration for API keys, models and pipeline defaults."""
+
+import os
+from dataclasses import dataclass
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GROQ_MODEL = "openai/gpt-oss-20b"
+OPENAI_MODEL = "gpt-4o-mini"
+
+
+@dataclass
+class PipelineConfig:
+    """Settings for one Pipeline.
+
+    compression_*: whether and how to compress (method, scorer, level = token
+        budget fraction, window size in sentences, sentence splitter "regex" or "nltk").
+    backend: "groq" or "openai".
+    context_strategy / max_turns / max_tokens: multi-turn context manager settings.
+    stage_order: "manager_then_compressor" or "compressor_then_manager".
+    task_type: prompt template key for single-turn input (see prompts.py).
+    """
+
+    compression_enabled: bool = False
+    compression_method: str = "selective"
+    compression_scorer: str = "bi_encoder"
+    compression_level: float = 0.5
+    compression_window_size: int = 2
+    compression_splitter: str = "regex"
+    backend: str = "groq"
+    context_strategy: str = "sliding_window"
+    max_turns: int = 6
+    max_tokens: int = 1000
+    stage_order: str = "manager_then_compressor"
+    task_type: str = "qa"
+
+
+def model_for_backend(backend: str) -> str:
+    """Model name for a backend; raises ValueError for an unknown backend."""
+    if backend == "groq":
+        return GROQ_MODEL
+    if backend == "openai":
+        return OPENAI_MODEL
+    raise ValueError(f"Unknown backend: {backend}")
+
+
+def check_keys_loaded() -> None:
+    missing = []
+    if not GROQ_API_KEY:
+        missing.append("GROQ_API_KEY")
+    if not OPENAI_API_KEY:
+        missing.append("OPENAI_API_KEY")
+    if missing:
+        print(f"[config] Missing keys in .env: {', '.join(missing)}")
+    else:
+        print("[config] Both API keys loaded successfully.")
+=== pipeline/llm_clients.py
+"""
+LLM backend abstraction â€” Strategy pattern.
+
+REVISED from the original single-class-with-if/elif design: an abstract
+base class (LLMBackend) defines the shared interface, and each backend
+(Groq, OpenAI) is its own concrete subclass. LLMClient is now a thin
+factory/facade on top, so existing call sites elsewhere in the codebase
+(pipeline.py, compressor.py, manager.py) don't need to change how they
+ask for a backend â€” LLMClient().generate(prompt, backend="groq") still
+works exactly as before, just backed by real polymorphism instead of an
+if/elif chain internally.
+
+Bundled into this same refactor (touching this file anyway):
+- generate() now returns a typed LLMResponse dataclass instead of a
+  plain dict â€” result.response / result.latency_ms instead of
+  result["response"] / result["latency_ms"], catching a typo'd key at
+  editor/type-checker time instead of a runtime KeyError three calls
+  later.
+- Backend selection now has a real Backend enum. LLMClient.generate()
+  still accepts a plain string too ("groq"/"openai") for backward
+  compatibility with every existing caller â€” Backend(backend) converts
+  a string to the enum member â€” so this is additive, not a breaking
+  change to the rest of the codebase.
+"""
+
+import re
+import time
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+
+from groq import APIConnectionError as GroqConnectionError
+from groq import Groq, RateLimitError as GroqRateLimitError
+from openai import APIConnectionError as OpenAIConnectionError
+from openai import OpenAI, RateLimitError as OpenAIRateLimitError
+
+from pipeline import config
+
+
+class MissingAPIKeyError(RuntimeError):
+    """Raised when a backend is used but its API key is not configured."""
+
+
+def _key_is_set(value) -> bool:
+    """True for a real key; empty values and the .env.example placeholder count as unset."""
+    return bool(value) and not str(value).startswith("your-")
+
+
+class Backend(Enum):
+    GROQ = "groq"
+    OPENAI = "openai"
+
+
+@dataclass
+class LLMResponse:
+    response: str
+    latency_ms: float
+
+
+class LLMBackend(ABC):
+    """Shared interface every backend implements, plus the logic that's
+    genuinely identical across backends: latency measurement and
+    rate-limit retry with backoff. Only the actual SDK call â€” and which
+    exception type means 'rate limited' for that SDK â€” differs per
+    subclass, so only _call() and rate_limit_exc are backend-specific;
+    everything else lives here once."""
+
+    rate_limit_exc: type[Exception]  # set by each concrete subclass
+    transient_excs: tuple = ()       # connection errors worth retrying (set per subclass)
+
+    @abstractmethod
+    def _call(self, prompt: str) -> str:
+        """Makes the actual SDK call, returns the raw response text.
+        Implemented per-backend â€” this is the one method each subclass
+        must provide."""
+        raise NotImplementedError
+
+    def generate(self, prompt: str) -> LLMResponse:
+        """Wrapped in perf_counter() (not wall-clock time.time()) since
+        perf_counter is monotonic and immune to system clock adjustments
+        â€” the right tool for measuring elapsed duration.
+
+        Retries on rate-limit errors (see _call_with_retry) â€” any time
+        spent sleeping for a retry is subtracted from latency_ms, so a
+        rate-limited call doesn't get logged as if the model itself was
+        slow. What's measured is real model response time only.
+        """
+        start = time.perf_counter()
+        text, sleep_time = self._call_with_retry(prompt)
+        latency_ms = ((time.perf_counter() - start) - sleep_time) * 1000
+        return LLMResponse(response=text, latency_ms=latency_ms)
+
+    def _call_with_retry(self, prompt: str, max_retries: int = 40):
+        """Calls self._call(prompt), retrying on this backend's rate-limit
+        error and on connection errors (a dropped network, a DNS failure).
+        The wait is the time the provider asks for when it says so, otherwise
+        exponential backoff (2s, 4s, 8s, ...) capped at 60s, so 40 attempts
+        tolerate roughly 40 minutes of outage. Other errors (bad key, bad
+        request) are raised immediately. Returns (result, total_seconds_slept).
+
+        Free-tier rate limits (Groq: 8000 tokens/minute at time of
+        writing) are easy to hit running 20-100 samples back-to-back â€”
+        this is what turns a hard crash mid-experiment into an automatic
+        wait-and-continue, needed for anything past a handful of calls.
+        """
+        total_slept = 0.0
+        for attempt in range(max_retries):
+            try:
+                return self._call(prompt), total_slept
+            except (self.rate_limit_exc, *self.transient_excs) as e:
+                if attempt == max_retries - 1:
+                    raise  # out of retries, let the real error surface
+                wait = self._parse_retry_wait(str(e)) or min(2 ** (attempt + 1), 60)
+                kind = "rate limit" if isinstance(e, self.rate_limit_exc) else "connection error"
+                print(f"  [{kind}] retrying in {wait:.1f}s (attempt {attempt + 1}/{max_retries})...")
+                time.sleep(wait)
+                total_slept += wait
+        raise RuntimeError("unreachable")  # loop always returns or raises
+
+    @staticmethod
+    def _parse_retry_wait(error_message: str) -> float | None:
+        """Parses 'try again in 1m47.568s' / '1.185s' / '350ms' style hints."""
+        match = re.search(r"try again in ([0-9hms.]+)", error_message)
+        if not match:
+            return None
+        units = {"h": 3600, "m": 60, "s": 1, "ms": 0.001}
+        total = sum(float(v) * units[u]
+                    for v, u in re.findall(r"(\d+(?:\.\d+)?)(ms|h|m|s)", match.group(1)))
+        return total + 0.5 if total else None  # +0.5s safety margin
+
+
+class GroqBackend(LLMBackend):
+    rate_limit_exc = GroqRateLimitError
+    transient_excs = (GroqConnectionError,)
+
+    def __init__(self):
+        self._client = None  # created on first use, so a missing key only matters if this backend is used
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not _key_is_set(config.GROQ_API_KEY):
+                raise MissingAPIKeyError(
+                    "GROQ_API_KEY is not set (needed for the 'groq' backend). "
+                    "Add it to .env or the environment.")
+            self._client = Groq(api_key=config.GROQ_API_KEY)
+        return self._client
+
+    def _call(self, prompt: str) -> str:
+        response = self.client.chat.completions.create(
+            model=config.GROQ_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.choices[0].message.content
+
+
+class OpenAIBackend(LLMBackend):
+    rate_limit_exc = OpenAIRateLimitError
+    transient_excs = (OpenAIConnectionError,)
+
+    def __init__(self):
+        self._client = None  # created on first use (see GroqBackend)
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not _key_is_set(config.OPENAI_API_KEY):
+                raise MissingAPIKeyError(
+                    "OPENAI_API_KEY is not set (needed for the 'openai' backend). "
+                    "Add it to .env or the environment.")
+            self._client = OpenAI(api_key=config.OPENAI_API_KEY)
+        return self._client
+
+    def _call(self, prompt: str) -> str:
+        response = self.client.chat.completions.create(
+            model=config.OPENAI_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.choices[0].message.content
+
+
+class LLMClient:
+    """Thin factory/facade over the two backend classes. Backend objects are
+    created up front, but the SDK clients inside them are created lazily on
+    first use, so ``LLMClient()`` works with only one API key configured and
+    a missing key raises MissingAPIKeyError only when that backend is called."""
+
+    def __init__(self):
+        self._backends = {
+            Backend.GROQ: GroqBackend(),
+            Backend.OPENAI: OpenAIBackend(),
+        }
+
+        # A cheap, explicit flag other modules (like the compressor)
+        # can check before choosing OpenAI, instead of trying the call
+        # and catching an AuthenticationError every time. Treats the
+        # unfilled .env.example placeholder as "not configured" too.
+        self.has_openai = _key_is_set(config.OPENAI_API_KEY)
+
+    def model_name(self, backend: "Backend | str" = Backend.GROQ) -> str:
+        """Return the configured model name for a backend."""
+        if isinstance(backend, str):
+            backend = Backend(backend)
+        return config.GROQ_MODEL if backend is Backend.GROQ else config.OPENAI_MODEL
+
+    def generate(self, prompt: str, backend: "Backend | str" = Backend.GROQ) -> LLMResponse:
+        """Send `prompt` to the given backend and return an LLMResponse.
+        Accepts either a Backend enum member or a plain string
+        ("groq"/"openai") â€” every existing caller in this codebase
+        passes a string, and this keeps that working unchanged while
+        Backend exists as the real, typo-proof way to refer to a
+        backend going forward."""
+        if isinstance(backend, str):
+            backend = Backend(backend)  # raises ValueError on an unrecognized string, same as before
+        return self._backends[backend].generate(prompt)
+
+
+if __name__ == "__main__":
+    # Quick manual test: "hello world" prompt against both backends.
+    client = LLMClient()
+
+    print("--- Groq ---")
+    print(client.generate("Say hello world in one short sentence.", backend="groq"))
+
+    print("\n--- OpenAI ---")
+    print(client.generate("Say hello world in one short sentence.", backend="openai"))
+=== pipeline/pipeline.py
+"""Thin pipeline wrappers around one configurable ``Pipeline.process()`` entry point."""
+
+from pipeline.llm_clients import LLMClient
+from pipeline.config import PipelineConfig
+from token_analysis.counter import TokenAnalyzer
+from prompt_compression.compressor import build_compressor
+from context_manager.manager import ContextManager
+from pipeline.prompts import build_prompt
+
+
+class Pipeline:
+    """Orchestrates compression, context management and the LLM call.
+
+    One entry point, ``process()``, routes by input type:
+
+    * ``context`` (a string)      -> single-turn QA: [compress] -> prompt -> LLM.
+    * ``session`` (list of turns) -> multi-turn: context manager and optional
+      compressor (order set by ``config.stage_order``) -> prompt -> LLM.
+
+    Each call returns a dict with the response, the token/cost analysis from
+    TokenAnalyzer, the final context sent to the model, and, when compression
+    ran, the CompressionResult and its separate LLM cost. ``end_to_end_cost_usd``
+    adds that compression cost to the answer-call cost, so LLM-based compression
+    is not under-counted.
+
+    Components (llm, analyzer, compressor, context_manager) can be injected for
+    testing. Answer scoring is not part of the pipeline: it lives in
+    evaluation/run_experiment.py.
+    """
+
+    def __init__(self, llm=None, analyzer=None, compressor=None, context_manager=None,
+                 config: PipelineConfig | None = None):
+        self.llm = llm or LLMClient()
+        self.analyzer = analyzer or TokenAnalyzer()
+        self.config = config or PipelineConfig()
+        self.compressor = compressor
+        self.context_manager = context_manager
+
+    def _get_compressor(self):
+        """Build the compressor once from the config and reuse it.
+
+        Returns None when compression is disabled.
+        """
+        if not self.config.compression_enabled:
+            return None
+        if self.compressor is None:
+            self.compressor = build_compressor(
+                self.config.compression_method,
+                backend=self.config.backend,
+                scorer=self.config.compression_scorer,
+                llm_client=self.llm,
+                window_size=self.config.compression_window_size,
+                splitter=self.config.compression_splitter,
+            )
+        return self.compressor
+
+    def process(self, *, query: str, context: str = "", session: list | None = None) -> dict:
+        """Single entry point; routes by input type rather than a mode flag.
+
+        Args:
+            query: the question to answer.
+            context: passage for single-turn QA (ignored when ``session`` is given).
+            session: list of turn dicts with ``speaker`` and ``text``; selects the
+                multi-turn path when not None.
+
+        Returns:
+            dict with response, latency_ms, token/cost analysis, the context sent
+            to the model, compression_result (or None), compression_cost_usd and
+            end_to_end_cost_usd. Multi-turn calls also return per_turn_tokens and
+            context_strategy.
+        """
+        if session is not None:
+            return self._process_conversation(session, query)
+        return self._process_single(query, context)
+
+    def _process_single(self, query: str, context: str) -> dict:
+        """Single-turn path: optionally compress ``context``, build the QA prompt, call the LLM."""
+        compression_result = None
+        if context and self.config.compression_enabled:
+            compression_result = self._get_compressor().compress(
+                context, query=query, level=self.config.compression_level
+            )
+            context = compression_result.text
+
+        full_prompt = self._build_qa_prompt(query, context)
+        result = self.llm.generate(full_prompt, backend=self.config.backend)
+        model = self.llm.model_name(self.config.backend)
+        analysis = self.analyzer.log_run(
+            prompt=full_prompt,
+            response=result.response,
+            backend=self.config.backend,
+            model=model,
+            latency_ms=result.latency_ms,
+        )
+        compression_cost = 0.0
+        if compression_result is not None:
+            from token_analysis.pricing import estimate_cost
+            compression_cost = estimate_cost(
+                model, compression_result.compression_input_tokens,
+                compression_result.compression_output_tokens,
+            )
+        return {
+            "query": query,
+            "response": result.response,
+            "latency_ms": result.latency_ms,
+            "compressed_context": context,
+            "compression_result": compression_result,
+            "compression_cost_usd": compression_cost,
+            "end_to_end_cost_usd": analysis["cost_usd"] + compression_cost,
+            **analysis,
+        }
+
+    def _process_conversation(self, session: list, query: str) -> dict:
+        """Multi-turn path.
+
+        stage_order "manager_then_compressor" (default): the context manager
+        selects turns, then the compressor shrinks that assembled text.
+        stage_order "compressor_then_manager" (experimental): the whole session
+        is compressed as one text and fed to the manager as a single turn.
+        Raises ValueError for any other stage_order.
+        """
+        cm = self.context_manager or ContextManager(
+            strategy=self.config.context_strategy,
+            max_turns=self.config.max_turns,
+            max_tokens=self.config.max_tokens,
+            llm_client=self.llm if self.config.context_strategy == "memory_summarization" else None,
+        )
+        per_turn_tokens = []
+
+        if self.config.stage_order == "manager_then_compressor":
+            for turn in session:
+                cm.add_turn(turn, query=query)
+                per_turn_tokens.append(cm.total_tokens())
+            context = cm.get_context()
+            compression_result = None
+            if self.config.compression_enabled:
+                compression_result = self._get_compressor().compress(
+                    context, query=query, level=self.config.compression_level
+                )
+                context = compression_result.text
+        elif self.config.stage_order == "compressor_then_manager":
+            raw_context = " ".join(f"{t.get('speaker', 'unknown')}: {t.get('text', '')}" for t in session)
+            if self.config.compression_enabled:
+                compression_result = self._get_compressor().compress(
+                    raw_context, query=query, level=self.config.compression_level
+                )
+                compressed_context = compression_result.text
+            else:
+                compression_result = None
+                compressed_context = raw_context
+            # Experimental order: feed the compressed turns as one bounded turn.
+            cm.add_turn({"speaker": "compressed_context", "text": compressed_context}, query=query)
+            per_turn_tokens.append(cm.total_tokens())
+            context = cm.get_context()
+        else:
+            raise ValueError("stage_order must be 'manager_then_compressor' or 'compressor_then_manager'")
+
+        full_prompt = build_prompt(task_type="conversation", query=query, context=context)
+        result = self.llm.generate(full_prompt, backend=self.config.backend)
+        model = self.llm.model_name(self.config.backend)
+        analysis = self.analyzer.log_run(
+            prompt=full_prompt,
+            response=result.response,
+            backend=self.config.backend,
+            model=model,
+            latency_ms=result.latency_ms,
+        )
+        compression_cost = 0.0
+        if compression_result is not None:
+            from token_analysis.pricing import estimate_cost
+            compression_cost = estimate_cost(
+                model, compression_result.compression_input_tokens,
+                compression_result.compression_output_tokens,
+            )
+        return {
+            "query": query,
+            "response": result.response,
+            "latency_ms": result.latency_ms,
+            "per_turn_tokens": per_turn_tokens,
+            "context_strategy": self.config.context_strategy,
+            "context": context,
+            "compression_result": compression_result,
+            "compression_cost_usd": compression_cost,
+            "end_to_end_cost_usd": analysis["cost_usd"] + compression_cost,
+            **analysis,
+        }
+
+    def _build_qa_prompt(self, query: str, context: str, conversation: bool = False) -> str:
+        return build_prompt(
+            task_type="conversation" if conversation else self.config.task_type,
+            query=query,
+            context=context,
+        )
+
+
+def run(query: str, context: str = "", compression_enabled: bool = False,
+        compression_method: str = PipelineConfig.compression_method,
+        compression_level: float = PipelineConfig.compression_level,
+        backend: str = PipelineConfig.backend, llm_client=None, analyzer=None,
+        compression_scorer: str = PipelineConfig.compression_scorer,
+        compression_window_size: int = PipelineConfig.compression_window_size,
+        compression_splitter: str = PipelineConfig.compression_splitter) -> dict:
+    """Backward-compatible Week 1/2 wrapper around Pipeline.process().
+
+    Every default is taken from PipelineConfig, so the two cannot drift apart.
+    """
+    cfg = PipelineConfig(
+        compression_enabled=compression_enabled,
+        compression_method=compression_method,
+        compression_scorer=compression_scorer,
+        compression_level=compression_level,
+        compression_window_size=compression_window_size,
+        compression_splitter=compression_splitter,
+        backend=backend,
+    )
+    return Pipeline(llm=llm_client, analyzer=analyzer, config=cfg).process(
+        query=query, context=context
+    )
+
+
+def run_conversation(session: list, query: str, context_strategy: str = "sliding_window",
+                     max_turns: int = 6, max_tokens: int = 1000, backend: str = "groq",
+                     llm_client=None, analyzer=None, compression_enabled: bool = False,
+                     compression_method: str = "selective", compression_scorer: str = "bi_encoder",
+                     compression_level: float = 0.5, compression_window_size: int = 2) -> dict:
+    """Backward-compatible multi-turn wrapper around Pipeline.process(session=...).
+
+    Compression is off by default; the context strategy defaults to
+    "sliding_window".
+    """
+    cfg = PipelineConfig(
+        compression_enabled=compression_enabled,
+        compression_method=compression_method,
+        compression_scorer=compression_scorer,
+        compression_level=compression_level,
+        compression_window_size=compression_window_size,
+        backend=backend,
+        context_strategy=context_strategy,
+        max_turns=max_turns,
+        max_tokens=max_tokens,
+    )
+    return Pipeline(llm=llm_client, analyzer=analyzer, config=cfg).process(
+        query=query, session=session
+    )
+=== pipeline/prompts.py
+"""Single source of truth for task-specific LLM instructions."""
+
+
+def build_prompt(*, task_type: str, query: str, context: str = "") -> str:
+    """Fill the template for ``task_type`` ("qa", "summarization", "conversation").
+
+    With no context the bare query is returned unchanged. The summarization
+    template does not use the query. Raises ValueError for an unknown task_type.
+    """
+    templates = {
+        "qa": (
+            "{label}: {context}\n\nQuestion: {query}\n\n"
+            "Answer using only the provided context. Reply with just the answer "
+            "in as few words as possible, with no explanation."
+        ),
+        "summarization": (
+            "Text: {context}\n\n"
+            "Summarize the text faithfully and concisely. Do not add information."
+        ),
+        "conversation": (
+            "Conversation context: {context}\n\nQuestion: {query}\n\n"
+            "Answer using only the conversation context. Reply with just the answer "
+            "in as few words as possible, with no explanation."
+        ),
+    }
+    if task_type not in templates:
+        raise ValueError(f"Unknown task_type: {task_type}")
+    if not context:
+        return query
+    label = "Context"
+    return templates[task_type].format(label=label, context=context, query=query)
+=== pipeline/test_latency.py
+"""
+Unit test for LLMClient.generate()'s latency measurement.
+
+Runs 3 sample prompts against Groq and logs the results via
+TokenAnalyzer, into evaluation/logs/latency_baseline.csv.
+
+REVISED: this used to write its own Markdown table to
+docs/latency_baseline.md via a custom writer function. Once
+TokenAnalyzer.log_run() existed (Week 2) and already logged latency_ms
+per call to CSV, that meant two separate logging mechanisms doing an
+overlapping job â€” inconsistent, and the kind of thing worth fixing once
+noticed rather than leaving as-is. Now this reuses TokenAnalyzer like
+every other script does, so there's exactly ONE logging path in the
+whole codebase. docs/latency_baseline.md is retired â€” delete it, its
+data now lives in evaluation/logs/latency_baseline.csv going forward.
+
+Run directly: python -m pipeline.test_latency
+(or via pytest, which just checks the shape of the returned dict â€”
+it does NOT re-run the live API calls a second time.)
+"""
+
+from pipeline.llm_clients import LLMClient
+from token_analysis.counter import TokenAnalyzer
+
+SAMPLE_PROMPTS = [
+    "Say hello world in one short sentence.",
+    "What is the capital of France? Answer in one word.",
+    "Summarize the plot of Cinderella in two sentences.",
+]
+
+BACKENDS = ["groq"]  # add "openai" back once an OpenAI key with credits is set
+MODEL_BY_BACKEND = {"groq": "openai/gpt-oss-20b", "openai": "gpt-4o-mini"}
+
+
+def run_latency_baseline() -> list[dict]:
+    """Runs every sample prompt against every backend once, logs each
+    via TokenAnalyzer (same CSV logging path as the rest of the
+    pipeline), and returns the analysis dicts for printing."""
+    client = LLMClient()
+    analyzer = TokenAnalyzer(log_path="evaluation/logs/latency_baseline.csv")
+    rows = []
+
+    for backend in BACKENDS:
+        for prompt in SAMPLE_PROMPTS:
+            result = client.generate(prompt, backend=backend)
+            analysis = analyzer.log_run(
+                prompt=prompt,
+                response=result.response,
+                backend=backend,
+                model=MODEL_BY_BACKEND[backend],
+                latency_ms=result.latency_ms,
+            )
+            rows.append({"backend": backend, "prompt": prompt, "latency_ms": round(result.latency_ms, 1), **analysis})
+    return rows
+
+
+# --- pytest test (checks shape/contract, not live numbers) ---
+
+def test_generate_returns_response_and_latency():
+    """Confirms generate() returns an LLMResponse with the two expected
+    fields and that latency_ms is a positive number. Requires valid API
+    keys in .env to actually run (it makes one real Groq call)."""
+    client = LLMClient()
+    result = client.generate("Say hi in one word.", backend="groq")
+
+    assert isinstance(result.response, str)
+    assert len(result.response) > 0
+    assert result.latency_ms > 0
+
+
+if __name__ == "__main__":
+    results = run_latency_baseline()
+    for r in results:
+        print(f"[{r['backend']}] {r['latency_ms']} ms, {r['total_tokens']} tokens â€” {r['prompt']}")
+    print("\nLogged to evaluation/logs/latency_baseline.csv")
+=== pipeline/test_pipeline.py
+"""
+pytest tests for pipeline.py â€” Fri Week 1 task: confirm the pipeline
+runs without error and that logging actually appends a CSV row.
+
+Run with: pytest pipeline/test_pipeline.py -v
+
+NOTE: these make REAL Groq API calls (needs a valid GROQ_API_KEY in
+.env) â€” not mocked. Fine for now at this scale (a handful of calls),
+worth revisiting (see the earlier code-review conversation) if these
+end up running automatically on every push later.
+"""
+
+import csv
+import os
+
+from pipeline.pipeline import run
+from token_analysis.counter import TokenAnalyzer
+
+
+def test_pipeline_runs_without_error():
+    result = run("Say hi in one word.", backend="groq")
+    assert "response" in result
+    assert isinstance(result["response"], str)
+    assert len(result["response"]) > 0
+
+
+def test_log_gets_new_row():
+    test_log_path = "evaluation/logs/test_pipeline_log.csv"
+    analyzer = TokenAnalyzer(log_path=test_log_path)
+
+    rows_before = 0
+    if os.path.isfile(test_log_path):
+        with open(test_log_path, encoding="utf-8") as f:
+            rows_before = sum(1 for _ in csv.reader(f)) - 1  # minus header
+
+    run("Say hi in one word.", backend="groq", analyzer=analyzer)
+
+    with open(test_log_path, encoding="utf-8") as f:
+        rows_after = sum(1 for _ in csv.reader(f)) - 1
+
+    assert rows_after == rows_before + 1
+
+    # cleanup so repeated test runs don't pile up rows in a test-only file
+    os.remove(test_log_path)
+=== prompt_compression/__init__.py
+from .compressor import (
+    Compressor,
+    SelectiveCompressor,
+    RewriteCompressor,
+    build_compressor,
+    compress,
+)
+from .results import CompressionResult
+
+__all__ = [
+    "Compressor",
+    "SelectiveCompressor",
+    "RewriteCompressor",
+    "CompressionResult",
+    "build_compressor",
+    "compress",
+]
+=== prompt_compression/compressor.py
+"""Prompt Compression Module: composable, budget-aware context compression.
+
+Architecture
+------------
+A *selective* compressor is built from three small parts:
+
+    Segmenter  ->  Scorer  ->  greedy budget selection
+
+* Segmenter (segmenters.py) splits the text into scorable segments: single
+  sentences, or overlapping windows of 2-3 sentences.
+* Scorer (scorers.py) gives each segment a relevance score against the query:
+  TF-IDF, bi-encoder (embeddings) or cross-encoder.
+* Selection keeps the highest-scoring segments while the union of their
+  sentences fits a token budget, then restores document order.
+
+Every compressor returns a typed CompressionResult (results.py): the text,
+token counts, which sentences were kept, the scores and the cost of any LLM
+calls, so each experiment row can be traced back to what the model saw.
+
+Methods exposed by build_compressor()
+-------------------------------------
+extractive          sentence-level TF-IDF baseline (Week 2).
+selective / drop    windowed segments + the chosen scorer; drops the rest.
+rewrite             selective, then an LLM rewrites dropped windows into short
+                    statements that fit any leftover budget.
+
+``compress()`` keeps the Week 2 string-in / string-out API for compatibility.
+
+Meaning of ``level``
+--------------------
+``level`` is the fraction of the ORIGINAL token count the output may use (a
+token budget), not a fraction of sentences. It is a target, not a guarantee:
+the best-scoring window is always kept even when it exceeds the budget, and
+windows are whole units, so budget is often left unused. Report the achieved
+reduction (CompressionResult.token_reduction_pct), not the nominal level. On
+the 300-sample SQuAD runs, level 0.3 kept about 46% of tokens, level 0.5 about
+52% and level 0.7 about 64%.
+"""
+
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+from pipeline import config
+from token_analysis.counter import count_tokens
+from token_analysis.pricing import estimate_cost
+from .results import CompressionResult
+from .segmenters import SentenceSegmenter, OverlappingWindowSegmenter, split_sentences
+from .scorers import TfidfScorer, BiEncoderScorer, CrossEncoderScorer
+
+
+
+class Compressor(ABC):
+    """Interface: turn ``text`` plus a ``query`` into a CompressionResult that
+    uses roughly ``level`` of the original tokens."""
+
+    @abstractmethod
+    def compress(self, text: str, query: str = "", level: float = 0.5) -> CompressionResult:
+        """Compress ``text`` for ``query``; ``level`` is in (0, 1]."""
+        raise NotImplementedError
+
+
+class SelectiveCompressor(Compressor):
+    """Score segments, then greedily keep the best ones under a token budget.
+
+    Segments are taken in descending score order (ties go to the earlier
+    segment). A segment is added if the union of all kept sentences still fits
+    the budget (int(original_tokens * level)). The first, best segment is kept
+    even if it alone exceeds the budget, so the output is never empty. Kept
+    sentences are joined in their original order.
+
+    ``model`` is the tokenizer name used for all token counts, so budgets match
+    what the target LLM is billed for.
+    """
+
+    def __init__(self, segmenter, scorer, model: str = "gpt-4o-mini"):
+        self.segmenter = segmenter
+        self.scorer = scorer
+        self.model = model
+
+    def compress(self, text: str, query: str = "", level: float = 0.5) -> CompressionResult:
+        """Compress ``text`` for ``query`` to roughly ``level`` of its tokens.
+
+        Returns the text unchanged when it is empty or has at most one segment
+        (with 2-sentence windows: a context of two sentences or fewer), because
+        there is nothing to choose between.
+
+        Two index spaces appear in the result: ``kept_indices`` are SENTENCE
+        positions in the original text, while ``scores`` holds one value per
+        SEGMENT (window), in segment order.
+        """
+        level = _validate_level(level)
+        original_tokens = count_tokens(text, self.model)
+        if not text.strip() or original_tokens == 0:
+            return CompressionResult(text=text, original_tokens=original_tokens,
+                                    compressed_tokens=original_tokens,
+                                    method="selective", scorer=self.scorer.name)
+
+        segments = self.segmenter.segment(text)
+        if len(segments) <= 1:
+            return CompressionResult(text=text, original_tokens=original_tokens,
+                                    compressed_tokens=original_tokens,
+                                    kept_indices=list(segments[0].sentence_indices) if segments else [],
+                                    scores=[1.0] if segments else [],
+                                    method="selective", scorer=self.scorer.name,
+                                    segment_count=len(segments))
+
+        scores = self.scorer.score(segments, query)
+        budget = max(1, int(original_tokens * level))
+        sentences = split_sentences(text, getattr(self.segmenter, "splitter", "regex"))
+        ranked = sorted(range(len(segments)), key=lambda i: (scores[i], -i), reverse=True)
+
+        kept_sentence_indices = set()
+        selected_segments = []
+        for segment_id in ranked:
+            candidate = kept_sentence_indices | set(segments[segment_id].sentence_indices)
+            candidate_text = " ".join(sentences[i] for i in sorted(candidate))
+            candidate_tokens = count_tokens(candidate_text, self.model)
+            if not selected_segments and candidate_tokens > budget:
+                # Always keep at least one semantically selected window.
+                selected_segments.append(segment_id)
+                kept_sentence_indices = candidate
+                break
+            if candidate_tokens <= budget:
+                selected_segments.append(segment_id)
+                kept_sentence_indices = candidate
+
+        if not selected_segments:
+            # Defensive only: the loop above always selects the first-ranked segment.
+            selected_segments = [ranked[-1]]
+            kept_sentence_indices = set(segments[selected_segments[0]].sentence_indices)
+
+        kept_sentence_indices = sorted(kept_sentence_indices)
+        compressed = " ".join(sentences[i] for i in kept_sentence_indices)
+        compressed_tokens = count_tokens(compressed, self.model)
+
+        return CompressionResult(
+            text=compressed,
+            original_tokens=original_tokens,
+            compressed_tokens=compressed_tokens,
+            kept_indices=kept_sentence_indices,
+            scores=scores,
+            method="selective",
+            scorer=self.scorer.name,
+            segment_count=len(segments),
+            metadata={"target_level": level, "budget_tokens": budget,
+                      "selected_segments": selected_segments},
+        )
+
+
+class RewriteCompressor(SelectiveCompressor):
+    """Selective compression with LLM rewrites for dropped chunks.
+
+    The selective compressor first chooses the retained sentence union.
+    Dropped chunks are then rewritten by the LLM. Rewritten chunks are
+    included only when they fit the context token budget.
+
+    Importantly, LLM calls are still made and counted even when a generated
+    rewrite cannot fit the final context budget. This is necessary because
+    the rewrite call itself is part of the end-to-end compression cost.
+
+    Known limitations (documented, not yet fixed):
+    * Windows overlap, so a "dropped" window can share sentences with kept
+      text; its rewrite may repeat facts that are already kept.
+    * Rewrites are appended AFTER the kept text, not interleaved in document
+      order.
+    * One LLM call is made per dropped window, so cost grows with document
+      length. Every call is counted in compression_input/output_tokens.
+    """
+
+    def __init__(self, segmenter, scorer, llm_client, backend: str, model: str):
+        super().__init__(segmenter, scorer, model)
+        self.llm_client = llm_client
+        self.backend = backend
+
+    def compress(
+        self,
+        text: str,
+        query: str = "",
+        level: float = 0.5,
+    ) -> CompressionResult:
+
+        base = super().compress(text, query, level)
+
+        if base.original_tokens == 0:
+            return base
+
+        if base.segment_count <= 1:
+            return CompressionResult(
+                text=base.text,
+                original_tokens=base.original_tokens,
+                compressed_tokens=base.compressed_tokens,
+                kept_indices=base.kept_indices,
+                scores=base.scores,
+                method="rewrite",
+                scorer=base.scorer,
+                segment_count=base.segment_count,
+                llm_calls=0,
+                compression_input_tokens=0,
+                compression_output_tokens=0,
+                metadata={
+                    **base.metadata,
+                    "rewritten_segments": [],
+                },
+            )
+
+        segments = self.segmenter.segment(text)
+        scores = base.scores
+
+        budget = base.metadata.get(
+            "budget_tokens",
+            max(1, int(base.original_tokens * level)),
+        )
+
+        selected_segment_ids = set(
+            base.metadata.get("selected_segments", [])
+        )
+
+        dropped_ids = [
+            i
+            for i in range(len(segments))
+            if i not in selected_segment_ids
+        ]
+
+        # Nothing was dropped, so there is nothing to rewrite.
+        if not dropped_ids:
+            return CompressionResult(
+                text=base.text,
+                original_tokens=base.original_tokens,
+                compressed_tokens=base.compressed_tokens,
+                kept_indices=base.kept_indices,
+                scores=base.scores,
+                method="rewrite",
+                scorer=base.scorer,
+                segment_count=base.segment_count,
+                llm_calls=0,
+                compression_input_tokens=0,
+                compression_output_tokens=0,
+                metadata={
+                    **base.metadata,
+                    "rewritten_segments": [],
+                },
+            )
+
+        used_tokens = count_tokens(base.text, self.model)
+
+        input_tokens = 0
+        output_tokens = 0
+        llm_calls = 0
+
+        kept_rewrites = []
+
+        # Rewrite higher-scoring dropped chunks first.
+        ranked_dropped_ids = sorted(
+            dropped_ids,
+            key=lambda x: (scores[x], -x),
+            reverse=True,
+        )
+
+        for segment_id in ranked_dropped_ids:
+
+            chunk = segments[segment_id].text
+
+            prompt = (
+                "Rewrite this context chunk into the shortest faithful "
+                "statement(s) that preserve facts potentially needed to "
+                "answer the question. Do not add information or speculate. "
+                "Return only the rewritten text.\n\n"
+                f"Question: {query}\n\n"
+                f"Chunk:\n{chunk}"
+            )
+
+            # Make the actual LLM compression call.
+            response_obj = self.llm_client.generate(
+                prompt,
+                backend=self.backend,
+            )
+
+            # Count the actual call, not the number of chunks we intended
+            # to process.
+            llm_calls += 1
+
+            response = (
+                getattr(response_obj, "response", "")
+                or ""
+            ).strip()
+
+            prompt_token_count = count_tokens(
+                prompt,
+                self.model,
+            )
+
+            response_token_count = count_tokens(
+                response,
+                self.model,
+            )
+
+            input_tokens += prompt_token_count
+            output_tokens += response_token_count
+
+            if not response:
+                continue
+
+            # The final compressed context must still respect the requested
+            # context budget. The rewrite call itself is counted separately
+            # above as compression cost.
+            if used_tokens + response_token_count <= budget:
+                kept_rewrites.append(
+                    (
+                        segment_id,
+                        response,
+                        scores[segment_id],
+                    )
+                )
+
+                used_tokens += response_token_count
+
+        # Kept text first, then the rewrites ordered by segment index
+        # (not interleaved with the kept sentences).
+        pieces = [base.text]
+
+        for _, response, _ in sorted(
+            kept_rewrites,
+            key=lambda item: item[0],
+        ):
+            pieces.append(response)
+
+        final_text = " ".join(
+            piece
+            for piece in pieces
+            if piece.strip()
+        )
+
+        final_tokens = count_tokens(
+            final_text,
+            self.model,
+        )
+
+        return CompressionResult(
+            text=final_text,
+            original_tokens=base.original_tokens,
+            compressed_tokens=final_tokens,
+            kept_indices=base.kept_indices,
+            scores=base.scores,
+            method="rewrite",
+            scorer=base.scorer,
+            segment_count=base.segment_count,
+            llm_calls=llm_calls,
+            compression_input_tokens=input_tokens,
+            compression_output_tokens=output_tokens,
+            metadata={
+                **base.metadata,
+                "rewritten_segments": [
+                    segment_id
+                    for segment_id, _, _ in kept_rewrites
+                ],
+            },
+        )
+
+
+def _validate_level(level: float) -> float:
+    """Return ``level`` as a float; raise ValueError unless 0 < level <= 1."""
+    if not 0 < level <= 1:
+        raise ValueError("level must be in the range (0, 1]")
+    return float(level)
+
+
+def build_compressor(method: str, *, backend: str = "groq", scorer: str = "bi_encoder",
+                     level: float = 0.5, llm_client=None, window_size: int = 2,
+                     splitter: str = "regex"):
+    """Factory used by the pipeline and experiment scripts.
+
+    method: "extractive" (sentence-level TF-IDF baseline), "selective" or
+        "drop" (windowed segments + ``scorer``), or "rewrite" (selective plus
+        LLM rewrites of dropped windows; needs ``llm_client``).
+    backend: "groq" or "openai"; decides which tokenizer counts the budget.
+    scorer: "tfidf", "bi_encoder" or "cross_encoder" (ignored by "extractive").
+    window_size: sentences per window, 2 or 3.
+    splitter: sentence splitter, "regex" (default) or "nltk"; see segmenters.py.
+    level: accepted for API compatibility but unused here; pass the level to
+        ``compress()``.
+
+    Raises ValueError for an unknown method or scorer. Whole-text LLM
+    condensing is not a builder method; it exists only in the legacy
+    ``compress(method="llm")``.
+    """
+    model = config.model_for_backend(backend)
+    segmenter = OverlappingWindowSegmenter(window_size=window_size, splitter=splitter)
+
+    scorer_map = {
+        "tfidf": TfidfScorer,
+        "bi_encoder": BiEncoderScorer,
+        "cross_encoder": CrossEncoderScorer,
+    }
+    if scorer not in scorer_map:
+        raise ValueError(f"Unknown scorer: {scorer}")
+    scorer_obj = scorer_map[scorer]()
+
+    if method in {"extractive", "selective", "drop"}:
+        # Week 2's extractive baseline remains sentence-level TF-IDF when
+        # explicitly requested; Week 3 selective variants use windows.
+        if method == "extractive":
+            return SelectiveCompressor(SentenceSegmenter(splitter=splitter), TfidfScorer(), model)
+        return SelectiveCompressor(segmenter, scorer_obj, model)
+
+    if method == "rewrite":
+        if llm_client is None:
+            raise ValueError("method='rewrite' requires llm_client")
+        return RewriteCompressor(segmenter, scorer_obj, llm_client, backend, model)
+
+    raise ValueError(f"Unknown compression method: {method}")
+
+
+def compress(text: str, query: str = "", method: str = "extractive", level: float = 0.5,
+             llm_client=None, backend: str = "groq", scorer: str = "tfidf") -> str:
+    """Backward-compatible Week 2 API: returns only the compressed string.
+
+    method="llm" asks the LLM to condense the whole text to about ``level`` of
+    its length (and falls back to the original text if the reply is empty).
+    Other methods go through build_compressor(). New code should call
+    ``build_compressor(...).compress(...)`` to get the full CompressionResult.
+    """
+    if method == "llm":
+        if llm_client is None:
+            raise ValueError("method='llm' requires llm_client")
+        target_pct = round(_validate_level(level) * 100)
+        prompt = (
+            f"Condense the following text to roughly {target_pct}% of its original length, "
+            "preserving all facts needed to answer the question. Return only the condensed text.\n\n"
+            f"Question: {query}\n\nText:\n{text}"
+        )
+        response = llm_client.generate(prompt, backend=backend).response.strip()
+        return response or text
+
+    return build_compressor(method, backend=backend, scorer=scorer, llm_client=llm_client).compress(
+        text, query, level
+    ).text
+=== prompt_compression/results.py
+"""Typed results returned by the Prompt Compression module."""
+
+from dataclasses import dataclass, field
+from typing import Any
+
+
+@dataclass
+class CompressionResult:
+    """Complete, traceable result of one compression operation.
+
+    text: the compressed context actually sent to the LLM.
+    original_tokens / compressed_tokens: counted with the target model's tokenizer.
+    kept_indices: SENTENCE positions kept from the original text.
+    scores: one relevance score per SEGMENT (window), in segment order; not
+        comparable across different scorers.
+    method / scorer: how the result was produced.
+    segment_count: number of segments the text was split into.
+    llm_calls, compression_input_tokens, compression_output_tokens: cost of any
+        LLM calls made by the compressor itself (0 for local selective methods).
+    metadata: extras such as target_level, budget_tokens, selected_segments.
+    """
+
+    text: str
+    original_tokens: int
+    compressed_tokens: int
+    kept_indices: list[int] = field(default_factory=list)
+    scores: list[float] = field(default_factory=list)
+    method: str = "extractive"
+    scorer: str = "tfidf"
+    segment_count: int = 0
+    llm_calls: int = 0
+    compression_input_tokens: int = 0
+    compression_output_tokens: int = 0
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def token_reduction_pct(self) -> float:
+        if self.original_tokens == 0:
+            return 0.0
+        return round((self.original_tokens - self.compressed_tokens) / self.original_tokens * 100, 2)
+=== prompt_compression/scorers.py
+"""Relevance scorers shared by selective compression variants."""
+
+from abc import ABC, abstractmethod
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+_MODEL_CACHE: dict = {}          # <- module level, outside every class
+
+
+def _load_cached(kind: str, model_name: str):
+    """Load a sentence-transformers model once per process and share it.
+
+    Without this, every new scorer object reloaded the model; over a 300-sample
+    run that exhausted Windows virtual memory (OSError 1455).
+    kind: "bi" for SentenceTransformer, anything else for CrossEncoder.
+    """
+    key = (kind, model_name)
+    if key not in _MODEL_CACHE:
+        if kind == "bi":
+            from sentence_transformers import SentenceTransformer
+            _MODEL_CACHE[key] = SentenceTransformer(model_name)
+        else:
+            from sentence_transformers import CrossEncoder
+            _MODEL_CACHE[key] = CrossEncoder(model_name)
+    return _MODEL_CACHE[key]
+
+class Scorer(ABC):
+    """Scores text segments against a query (higher = more relevant).
+
+    Only the ranking matters to the selector. Scores from different scorers are
+    NOT comparable: cosine similarity lies in [-1, 1], cross-encoder outputs
+    are unbounded logits.
+    """
+
+    name = "base"
+
+    @abstractmethod
+    def score(self, segments, query: str) -> list[float]:
+        """Return one score per segment, in the same order as ``segments``."""
+        raise NotImplementedError
+
+
+class TfidfScorer(Scorer):
+    """Cosine similarity of TF-IDF vectors (lexical overlap; no stemming)."""
+
+    name = "tfidf"
+
+    def score(self, segments, query: str) -> list[float]:
+        if not segments:
+            return []
+        texts = [s.text for s in segments]
+        vectorizer = TfidfVectorizer().fit(texts + [query or ""])
+        matrix = vectorizer.transform(texts)
+        q = vectorizer.transform([query or ""])
+        return cosine_similarity(matrix, q).flatten().astype(float).tolist()
+
+
+class BiEncoderScorer(Scorer):
+    """Semantic scorer using a sentence-transformers bi-encoder."""
+
+    name = "bi_encoder"
+
+    def __init__(self, model_name: str = "all-MiniLM-L6-v2", model=None):
+        self.model_name = model_name
+        self._model = model
+
+    @property
+    def model(self):
+        if self._model is None:
+            self._model = _load_cached("bi", self.model_name)
+        return self._model
+
+    def score(self, segments, query: str) -> list[float]:
+        if not segments:
+            return []
+        embeddings = self.model.encode(
+            [query or ""] + [s.text for s in segments],
+            normalize_embeddings=True,
+        )
+        q = embeddings[0]
+        return np.dot(embeddings[1:], q).astype(float).tolist()
+
+
+class CrossEncoderScorer(Scorer):
+    """Pairwise relevance scorer. Loaded lazily so Week 3 does not pay its cost."""
+
+    name = "cross_encoder"
+
+    def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2", model=None):
+        self.model_name = model_name
+        self._model = model
+
+    @property
+    def model(self):
+        if self._model is None:
+            self._model = _load_cached("ce", self.model_name)
+        return self._model
+
+    def score(self, segments, query: str) -> list[float]:
+        if not segments:
+            return []
+        pairs = [(query or "", s.text) for s in segments]
+        scores = self.model.predict(pairs)
+        return np.asarray(scores, dtype=float).tolist()
+=== prompt_compression/segmenters.py
+"""Segmentation strategies used by selective compressors.
+
+Two sentence splitters are available: "regex" (the default; lightweight and
+deterministic) and "nltk" (Punkt, which knows common abbreviations). On the 265
+distinct SQuAD contexts in squad_300.json they disagree on 64 (24%): regex
+over-splits after initials and abbreviations in 21, nltk splits more often in
+42. The choice is an experiment parameter, not a fixed assumption.
+"""
+
+from dataclasses import dataclass
+import re
+
+SPLITTERS = ("regex", "nltk")
+
+
+def _split_regex(text: str) -> list[str]:
+    """Regex splitter: a sentence ends at . ! or ? followed by whitespace and a
+    capital letter, digit or quote.
+
+    The compression architecture relies on stable sentence indices, so the
+    default is this lightweight regex splitter rather than an external NLP
+    sentence tokenizer.
+
+    This handles normal prose such as:
+        "The patient arrived. The doctor examined him."
+
+    and short test sentences such as:
+        "A. B. C. D."
+
+    Limitation: abbreviations followed by a capitalised word ("Dr. Smith",
+    "St. Louis", "U.S. Army") are split as if they ended a sentence. This only
+    changes where segment boundaries fall; no text is lost.
+    """
+
+    text = (text or "").strip()
+
+    if not text:
+        return []
+
+    # Split after ., !, or ? when followed by whitespace and the
+    # beginning of the next sentence.
+    parts = re.split(
+        r'(?<=[.!?])\s+(?=[A-Z0-9"\'])',
+        text,
+    )
+
+    return [
+        part.strip()
+        for part in parts
+        if part.strip()
+    ]
+
+
+def _split_nltk(text: str) -> list[str]:
+    """Punkt splitter from nltk. Downloads the Punkt data on first use."""
+    text = (text or "").strip()
+    if not text:
+        return []
+    import nltk
+    try:
+        nltk.data.find("tokenizers/punkt_tab")
+    except LookupError:
+        nltk.download("punkt_tab", quiet=True)
+    return [s.strip() for s in nltk.sent_tokenize(text) if s.strip()]
+
+
+def split_sentences(text: str, splitter: str = "regex") -> list[str]:
+    """Split ``text`` into sentences with the chosen splitter ("regex" or "nltk")."""
+    if splitter == "regex":
+        return _split_regex(text)
+    if splitter == "nltk":
+        return _split_nltk(text)
+    raise ValueError(f"Unknown splitter: {splitter!r}; choose from {SPLITTERS}")
+
+
+@dataclass(frozen=True)
+class Segment:
+    text: str
+    sentence_indices: tuple[int, ...]
+
+
+class SentenceSegmenter:
+    """One sentence per segment."""
+
+    def __init__(self, splitter: str = "regex"):
+        split_sentences("", splitter)  # validates the name
+        self.splitter = splitter
+
+    def segment(self, text: str) -> list[Segment]:
+        sentences = split_sentences(text, self.splitter)
+
+        return [
+            Segment(
+                sentence,
+                (i,),
+            )
+            for i, sentence in enumerate(sentences)
+        ]
+
+
+@dataclass
+class OverlappingWindowSegmenter:
+    """Build overlapping windows of 2 or 3 sentences, sliding one sentence at a time.
+
+    A text with N sentences gives N - window_size + 1 windows, so neighbouring
+    windows share sentences. A text with window_size sentences or fewer becomes
+    a single segment, which the compressor treats as "nothing to choose between".
+    """
+
+    window_size: int = 2
+    splitter: str = "regex"
+
+    def __post_init__(self):
+        if self.window_size not in (2, 3):
+            raise ValueError("window_size must be 2 or 3")
+        split_sentences("", self.splitter)  # validates the name
+
+    def segment(self, text: str) -> list[Segment]:
+        sentences = split_sentences(text, self.splitter)
+
+        if not sentences:
+            return []
+
+        # If there are fewer sentences than the requested window size,
+        # keep the complete document as one segment.
+        if len(sentences) <= self.window_size:
+            return [
+                Segment(
+                    text=" ".join(sentences),
+                    sentence_indices=tuple(range(len(sentences))),
+                )
+            ]
+
+        segments = []
+
+        for start in range(
+            len(sentences) - self.window_size + 1
+        ):
+            indices = tuple(
+                range(
+                    start,
+                    start + self.window_size,
+                )
+            )
+
+            segments.append(
+                Segment(
+                    text=" ".join(
+                        sentences[i]
+                        for i in indices
+                    ),
+                    sentence_indices=indices,
+                )
+            )
+
+        return segments
+=== tests/test_cleanup_guards.py
+"""Guards for the cleanup: no dead selector, one model map, run() defaults from the config."""
+
+import importlib.util
+import inspect
+import re
+from pathlib import Path
+
+from pipeline import config, pipeline as pipe
+from pipeline.config import PipelineConfig
+from prompt_compression.compressor import build_compressor
+
+ROOT = Path(__file__).resolve().parent.parent
+SKIP = {"venv", ".venv", ".git", "__pycache__", "node_modules"}
+
+
+def _python_files():
+    return [p for p in ROOT.rglob("*.py")
+            if not SKIP & set(p.relative_to(ROOT).parts) and "tests" not in p.relative_to(ROOT).parts]
+
+
+def test_budget_selector_is_gone():
+    assert importlib.util.find_spec("prompt_compression.selectors") is None
+    assert not any("BudgetSelector" in p.read_text(encoding="utf-8") for p in _python_files())
+
+
+def test_there_is_a_single_backend_to_model_map():
+    offenders = [str(p.relative_to(ROOT)) for p in _python_files()
+                 if re.search(r"^\s*BACKEND_MODEL\s*=", p.read_text(encoding="utf-8"), re.M)]
+    assert offenders == []
+
+
+def test_compressor_model_comes_from_model_for_backend():
+    for backend in ("groq", "openai"):
+        c = build_compressor("selective", scorer="tfidf", backend=backend)
+        assert c.model == config.model_for_backend(backend)
+
+
+def test_run_defaults_match_pipeline_config():
+    params = inspect.signature(pipe.run).parameters
+    cfg = PipelineConfig()
+    for name in ("compression_method", "compression_level", "compression_scorer",
+                 "compression_window_size", "compression_splitter", "backend"):
+        assert params[name].default == getattr(cfg, name), name
+
+
+def test_pipeline_has_no_unused_evaluator_parameter():
+    assert "evaluator" not in inspect.signature(pipe.Pipeline.__init__).parameters
+=== tests/test_compare_runs.py
+"""compare_runs and noise_floor on small synthetic result tables."""
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from evaluation.compare_runs import compare
+from evaluation.noise_floor import noise_floor, treatment_vs_baselines
+
+
+def make(f1, **extra):
+    n = len(f1)
+    df = pd.DataFrame({"sample_id": [f"s{i}" for i in range(n)], "f1": f1, "em": [float(x == 1) for x in f1],
+                       "token_reduction_pct": 40.0, **extra})
+    return df.set_index("sample_id")
+
+
+def test_compare_reports_change_calls_and_cost():
+    base = make([1, 1, 0.5, 0.5, 0, 0, 1, 1, 0.5, 0.5])
+    run = make([1, 0.5, 0.5, 0.5, 0, 0, 1, 0.5, 0.5, 0.5], compression_llm_calls=3,
+               answer_call_cost_usd=0.01, compression_call_cost_usd=0.02, end_to_end_cost_usd=0.03)
+    table = compare(base, {"rewrite": run}).set_index("run")
+    assert table.loc["rewrite", "n"] == 10
+    assert table.loc["rewrite", "d_f1"] == pytest.approx(-0.1, abs=1e-4)
+    assert table.loc["rewrite", "ci_low"] <= table.loc["rewrite", "d_f1"] <= table.loc["rewrite", "ci_high"]
+    assert table.loc["rewrite", "compression_calls"] == 30
+    assert table.loc["rewrite", "end_to_end_cost_usd"] == pytest.approx(0.3)
+
+
+def test_compare_uses_first_n_reference_questions():
+    base = make([1.0] * 10)
+    run = make([0.0] * 5 + [1.0] * 5)
+    table = compare(base, {"r": run}, n=5).set_index("run")
+    assert table.loc["r", "n"] == 5 and table.loc["r", "d_f1"] == pytest.approx(-1.0)
+
+
+def test_noise_floor_of_identical_runs_is_zero():
+    run = make(list(np.random.RandomState(0).rand(40)))
+    nf = noise_floor(run, run.copy())
+    assert nf["mean_diff"] == 0 and nf["share_changed"] == 0 and nf["min_detectable_f1_change"] == 0
+
+
+def test_noise_floor_detects_changed_questions_and_sets_a_threshold():
+    rng = np.random.RandomState(1)
+    f1 = rng.choice([0.0, 0.5, 1.0], size=200)
+    f2 = f1.copy()
+    flip = rng.choice(200, size=40, replace=False)
+    f2[flip] = 1.0 - f2[flip]
+    nf = noise_floor(make(list(f1)), make(list(f2)))
+    assert 0.1 <= nf["share_changed"] <= 0.2
+    assert nf["min_detectable_f1_change"] == pytest.approx(2.8 * nf["sd_per_question"] / np.sqrt(200))
+
+
+def test_treatment_is_flagged_against_the_noise():
+    r1, r2 = make([0.5] * 20), make([0.5] * 20)
+    small = treatment_vs_baselines(r1, r2, make([0.49] * 20), mde=0.05)
+    large = treatment_vs_baselines(r1, r2, make([0.3] * 20), mde=0.05)
+    assert not small["larger_than_noise"] and large["larger_than_noise"]
+
+
+def test_compare_can_be_restricted_to_listed_ids():
+    base = make([1.0] * 6)
+    run = make([0.0, 0.0, 1.0, 1.0, 1.0, 1.0])
+    table = compare(base, {"r": run}, only_ids={"s0", "s1"}).set_index("run")
+    assert table.loc["r", "n"] == 2 and table.loc["r", "d_f1"] == pytest.approx(-1.0)
+=== tests/test_csv_logging.py
+"""
+tests/test_csv_logging.py
+
+Verify: TokenAnalyzer.log_run() correctly appends
+rows to evaluation/logs/token_log.csv - the shared baseline file every
+other module's results get compared against.
+"""
+
+import csv
+import os
+
+from token_analysis.counter import TokenAnalyzer
+
+TEST_LOG_PATH = "evaluation/logs/test_token_log.csv"  # separate file, won't touch the real log
+
+# Clean slate: remove any leftover file from a previous test run
+if os.path.exists(TEST_LOG_PATH):
+    os.remove(TEST_LOG_PATH)
+
+analyzer = TokenAnalyzer(log_path=TEST_LOG_PATH)
+
+passed = 0
+failed = 0
+
+
+def check(description, condition):
+    global passed, failed
+    if condition:
+        print(f"  PASS: {description}")
+        passed += 1
+    else:
+        print(f"  FAIL: {description}")
+        failed += 1
+
+
+# --- Test 1: file gets created on first log_run() call ---
+print("Test 1: File creation")
+analyzer.log_run(
+    prompt="What is the capital of France?",
+    response="Paris.",
+    backend="openai",
+    model="gpt-4o-mini",
+    latency_ms=342.5,
+)
+check("CSV file was created", os.path.exists(TEST_LOG_PATH))
+
+# --- Test 2: header row is written correctly ---
+print("\nTest 2: Header row")
+with open(TEST_LOG_PATH, "r", encoding="utf-8") as f:
+    reader = csv.DictReader(f)
+    expected_columns = {
+        "timestamp", "backend", "model", "prompt_length_chars",
+        "input_tokens", "output_tokens", "total_tokens", "cost_usd", "latency_ms",
+    }
+    check("header has all expected columns", set(reader.fieldnames) == expected_columns)
+
+# --- Test 3: second call appends a new row, doesn't overwrite or duplicate header ---
+print("\nTest 3: Appending (not overwriting)")
+analyzer.log_run(
+    prompt="Explain photosynthesis.",
+    response="Plants convert sunlight into energy using chlorophyll.",
+    backend="groq",
+    model="openai/gpt-oss-20b",
+    latency_ms=210.0,
+)
+with open(TEST_LOG_PATH, "r", encoding="utf-8") as f:
+    reader = list(csv.DictReader(f))
+check("exactly 2 data rows after 2 calls", len(reader) == 2)
+check("row 1 backend is 'openai'", reader[0]["backend"] == "openai")
+check("row 2 backend is 'groq'", reader[1]["backend"] == "groq")
+
+# --- Test 4: logged numbers match what analyze() would compute directly ---
+print("\nTest 4: Logged values are accurate")
+direct = analyzer.analyze("Explain photosynthesis.",
+                           "Plants convert sunlight into energy using chlorophyll.",
+                           "openai/gpt-oss-20b")
+check(
+    "CSV total_tokens matches a direct analyze() call",
+    int(reader[1]["total_tokens"]) == direct["total_tokens"],
+)
+
+# --- Cleanup ---
+os.remove(TEST_LOG_PATH)
+print(f"\n(test file cleaned up: {TEST_LOG_PATH} removed)")
+
+# --- Summary ---
+print(f"\n{'='*40}")
+print(f"RESULTS: {passed} passed, {failed} failed")
+print(f"{'='*40}")
+=== tests/test_hallucination_audit.py
+"""Tests for evaluation/hallucination_audit.py (no network, no models)."""
+
+import json
+
+import pandas as pd
+import pytest
+
+from evaluation.hallucination_audit import (
+    LABELS, build_audit_sheet, response_in_context, stratified_estimate, summarize_audit,
+)
+
+
+def _samples(n=10):
+    return [{"id": f"s{i}", "question": f"q{i}?", "context": f"Fact {i} is alpha{i}. Filler one. Filler two.",
+             "answer": f"alpha{i}"} for i in range(n)]
+
+
+def _results(samples, scorer="bi_encoder", method="selective", level=0.5, lost=()):
+    rows = []
+    for i, s in enumerate(samples):
+        rows.append({
+            "sample_id": s["id"], "question": s["question"],
+            "compression_method": method, "compression_scorer": scorer,
+            "compression_window_size": 2, "compression_level": level, "backend": "groq",
+            "answer_still_present": i not in lost, "gold_answer": s["answer"],
+            "llm_response": s["answer"], "f1": 1.0,
+        })
+    return pd.DataFrame(rows)
+
+
+@pytest.fixture
+def setup(tmp_path):
+    samples = _samples()
+    sp = tmp_path / "samples.json"
+    sp.write_text(json.dumps(samples), encoding="utf-8")
+    return tmp_path, samples, sp
+
+
+def fake_compress(config, context, query):
+    return context.split(". ")[0] + "."          # keep the first sentence only
+
+
+def test_sheet_is_blind_and_key_maps_back(setup):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples).to_csv(p, index=False)
+    sheet, key = build_audit_sheet([p], sp, n_per_file=5, out_path=str(tmp / "sheet.csv"),
+                                   compress_fn=fake_compress)
+    assert len(sheet) == 5
+    assert not {"method", "scorer", "level", "sample_id"} & set(sheet.columns)
+    assert {"method", "scorer", "level", "sample_id"} <= set(key.columns)
+    assert list(sheet.row_id) == list(key.row_id)
+    assert (tmp / "sheet_key.csv").exists()
+
+
+def test_lost_rows_are_oversampled(setup):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples, lost={0, 1}).to_csv(p, index=False)   # only 2 of 10 lost the answer
+    _, key = build_audit_sheet([p], sp, n_per_file=4, out_path=str(tmp / "s.csv"),
+                               compress_fn=fake_compress)
+    # both lost rows are always sampled, however the random fill falls
+    assert {"s0", "s1"} <= set(key.sample_id)
+
+
+def test_same_seed_same_sheet(setup):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples).to_csv(p, index=False)
+    a, _ = build_audit_sheet([p], sp, 5, 7, str(tmp / "a.csv"), fake_compress)
+    b, _ = build_audit_sheet([p], sp, 5, 7, str(tmp / "b.csv"), fake_compress)
+    assert a.question.tolist() == b.question.tolist()
+
+
+def test_recompression_mismatch_is_detected(setup, capsys):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples).to_csv(p, index=False)      # CSV says every answer survived
+    # fake compressor keeps only the first sentence, which still holds the answer
+    build_audit_sheet([p], sp, 4, out_path=str(tmp / "s.csv"), compress_fn=fake_compress)
+    assert "reproduced answer_still_present for 4/4" in capsys.readouterr().out
+    # a compressor that drops everything contradicts the CSV flags
+    build_audit_sheet([p], sp, 4, out_path=str(tmp / "s2.csv"), compress_fn=lambda c, x, q: "nothing")
+    assert "warning" in capsys.readouterr().out
+
+
+def test_baseline_uses_original_context_and_llm_runs_are_refused(setup):
+    tmp, samples, sp = setup
+    base = _results(samples, method="none", scorer="none", level=1.0)
+    base.to_csv(tmp / "base.csv", index=False)
+    sheet, _ = build_audit_sheet([tmp / "base.csv"], sp, 3, out_path=str(tmp / "b.csv"),
+                                 compress_fn=lambda *a: pytest.fail("must not compress"))
+    assert sheet.compressed_context.str.contains("Filler two").all()
+
+    llm = _results(samples, method="llm")
+    llm.to_csv(tmp / "llm.csv", index=False)
+    with pytest.raises(NotImplementedError):
+        build_audit_sheet([tmp / "llm.csv"], sp, 3, out_path=str(tmp / "l.csv"))
+    # ...unless the run saved its compressed text
+    llm["compressed_context"] = "saved text"
+    llm.to_csv(tmp / "llm.csv", index=False)
+    sheet, _ = build_audit_sheet([tmp / "llm.csv"], sp, 3, out_path=str(tmp / "l.csv"))
+    assert (sheet.compressed_context == "saved text").all()
+
+
+def test_summary_counts_rates_and_validation(setup):
+    tmp, samples, sp = setup
+    a, b = tmp / "a.csv", tmp / "b.csv"
+    _results(samples, scorer="cross_encoder").to_csv(a, index=False)
+    _results(samples, scorer="tfidf").to_csv(b, index=False)
+    sheet, key = build_audit_sheet([a, b], sp, 4, out_path=str(tmp / "s.csv"), compress_fn=fake_compress)
+
+    sheet["label"] = "faithful"
+    ce = key.index[key.scorer == "cross_encoder"][0]
+    sheet.loc[ce, "label"] = "hallucinated"
+    sheet.loc[key.index[key.scorer == "tfidf"][0], "label"] = "Unsupported_Correct "   # case/space tolerant
+    sheet.to_csv(tmp / "s.csv", index=False)
+
+    out = summarize_audit(str(tmp / "s.csv"))
+    ce_row = out[out.scorer == "cross_encoder"].iloc[0]
+    tf_row = out[out.scorer == "tfidf"].iloc[0]
+    assert ce_row.hallucinated == 1 and ce_row.n == 4 and ce_row.hallucinated_rate == 0.25
+    assert tf_row.unsupported_correct == 1 and tf_row.unsupported_rate == 0.25
+
+    sheet.loc[0, "label"] = "maybe"
+    sheet.to_csv(tmp / "s.csv", index=False)
+    with pytest.raises(ValueError, match="unknown labels"):
+        summarize_audit(str(tmp / "s.csv"))
+
+
+def test_unlabeled_rows_are_excluded_not_counted(setup):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples).to_csv(p, index=False)
+    sheet, _ = build_audit_sheet([p], sp, 4, out_path=str(tmp / "s.csv"), compress_fn=fake_compress)
+    sheet.loc[:1, "label"] = "faithful"       # only 2 of 4 labelled
+    sheet.to_csv(tmp / "s.csv", index=False)
+    assert summarize_audit(str(tmp / "s.csv")).iloc[0].n == 2
+
+
+def test_helpers():
+    assert response_in_context("GTE", "It was sold to GTE in 1973.")
+    assert not response_in_context("", "anything")
+    assert not response_in_context("Paris", "It was sold to GTE.")
+    assert stratified_estimate([(300, 0, 0)]) == (0.0, 0.0, 0.0)
+    est, lo, hi = stratified_estimate([(100, 10, 5)])
+    assert est == 0.5 and lo < 0.5 < hi
+    assert set(LABELS) == {"faithful", "unsupported_correct", "hallucinated", "unsure"}
+
+
+def test_rates_are_weighted_by_stratum_not_by_sample_share(setup):
+    tmp, samples, sp = setup
+    p = tmp / "r.csv"
+    _results(samples, lost={0, 1}).to_csv(p, index=False)   # 2 lost, 8 kept in the full run
+    sheet, key = build_audit_sheet([p], sp, 4, out_path=str(tmp / "s.csv"), compress_fn=fake_compress)
+    # 2 lost + 2 kept sampled; both lost answers hallucinated, both kept faithful
+    sheet["label"] = ["hallucinated" if st == "lost" else "faithful" for st in key.stratum]
+    sheet.to_csv(tmp / "s.csv", index=False)
+    row = summarize_audit(str(tmp / "s.csv")).iloc[0]
+    assert row.hallucinated == 2 and row.n == 4
+    assert row.hallucinated_rate == 0.2        # 2/10 of the real run, not 2/4 of the sample
+=== tests/test_llm_clients_lazy.py
+"""LLMClient: lazy SDK clients, clear missing-key errors, and retry behaviour (no network)."""
+
+import httpx
+import groq
+import pytest
+
+from pipeline import config, llm_clients
+from pipeline.llm_clients import LLMBackend, LLMClient, MissingAPIKeyError
+
+
+class _Msg:
+    def __init__(self, text):
+        self.message = type("M", (), {"content": text})()
+
+
+class FakeCompletions:
+    def __init__(self, plan):
+        self.plan, self.calls = list(plan), 0
+
+    def create(self, **kwargs):
+        self.calls += 1
+        step = self.plan.pop(0)
+        if isinstance(step, Exception):
+            raise step
+        return type("R", (), {"choices": [_Msg(step)]})()
+
+
+def fake_groq_class(completions):
+    class FakeGroq:
+        def __init__(self, api_key=None):
+            self.chat = type("C", (), {"completions": completions})()
+    return FakeGroq
+
+
+def _request():
+    return httpx.Request("POST", "http://example.invalid")
+
+
+@pytest.fixture(autouse=True)
+def no_sleep(monkeypatch):
+    monkeypatch.setattr(llm_clients.time, "sleep", lambda s: None)
+
+
+def test_client_builds_without_any_api_key(monkeypatch):
+    monkeypatch.setattr(config, "GROQ_API_KEY", None)
+    monkeypatch.setattr(config, "OPENAI_API_KEY", None)
+    client = LLMClient()           # used to raise OpenAIError
+    assert client.has_openai is False
+
+
+def test_groq_only_use_never_builds_an_openai_client(monkeypatch):
+    comp = FakeCompletions(["ok"])
+    monkeypatch.setattr(config, "GROQ_API_KEY", "gsk-test")
+    monkeypatch.setattr(config, "OPENAI_API_KEY", None)
+    monkeypatch.setattr(llm_clients, "Groq", fake_groq_class(comp))
+    monkeypatch.setattr(llm_clients, "OpenAI", lambda **kw: pytest.fail("OpenAI client must not be built"))
+    assert LLMClient().generate("hi", backend="groq").response == "ok"
+
+
+@pytest.mark.parametrize("value", [None, "", "your-openai-key-here"])
+def test_openai_without_a_key_fails_clearly_when_used(monkeypatch, value):
+    monkeypatch.setattr(config, "OPENAI_API_KEY", value)
+    with pytest.raises(MissingAPIKeyError, match="OPENAI_API_KEY"):
+        LLMClient().generate("hi", backend="openai")
+
+
+def test_groq_without_a_key_fails_clearly_when_used(monkeypatch):
+    monkeypatch.setattr(config, "GROQ_API_KEY", None)
+    with pytest.raises(MissingAPIKeyError, match="GROQ_API_KEY"):
+        LLMClient().generate("hi", backend="groq")
+
+
+def test_connection_errors_are_retried_then_succeed(monkeypatch):
+    err = groq.APIConnectionError(request=_request())
+    comp = FakeCompletions([err, err, "recovered"])
+    monkeypatch.setattr(config, "GROQ_API_KEY", "gsk-test")
+    monkeypatch.setattr(llm_clients, "Groq", fake_groq_class(comp))
+    assert LLMClient().generate("hi", backend="groq").response == "recovered"
+    assert comp.calls == 3
+
+
+def test_rate_limit_is_retried(monkeypatch):
+    resp = httpx.Response(429, request=_request())
+    limit = groq.RateLimitError("Rate limit. Please try again in 2s.", response=resp, body=None)
+    comp = FakeCompletions([limit, "ok"])
+    monkeypatch.setattr(config, "GROQ_API_KEY", "gsk-test")
+    monkeypatch.setattr(llm_clients, "Groq", fake_groq_class(comp))
+    assert LLMClient().generate("hi", backend="groq").response == "ok"
+    assert comp.calls == 2
+
+
+def test_other_errors_are_not_retried(monkeypatch):
+    comp = FakeCompletions([ValueError("bad request"), "never reached"])
+    monkeypatch.setattr(config, "GROQ_API_KEY", "gsk-test")
+    monkeypatch.setattr(llm_clients, "Groq", fake_groq_class(comp))
+    with pytest.raises(ValueError):
+        LLMClient().generate("hi", backend="groq")
+    assert comp.calls == 1
+
+
+def test_gives_up_after_max_retries(monkeypatch):
+    err = groq.APIConnectionError(request=_request())
+    comp = FakeCompletions([err] * 5)
+    monkeypatch.setattr(config, "GROQ_API_KEY", "gsk-test")
+    monkeypatch.setattr(llm_clients, "Groq", fake_groq_class(comp))
+    backend = LLMClient()._backends[llm_clients.Backend.GROQ]
+    with pytest.raises(groq.APIConnectionError):
+        backend._call_with_retry("hi", max_retries=3)
+    assert comp.calls == 3
+
+
+def test_retry_wait_parsing():
+    assert LLMBackend._parse_retry_wait("try again in 1m47.568s.") == pytest.approx(108.068)
+    assert LLMBackend._parse_retry_wait("try again in 350ms") == pytest.approx(0.85)
+    assert LLMBackend._parse_retry_wait("something else entirely") is None
+=== tests/test_prompt_compression_week3.py
+from dataclasses import dataclass
+
+from prompt_compression.segmenters import OverlappingWindowSegmenter
+from prompt_compression.scorers import Scorer
+from prompt_compression.compressor import (
+    SelectiveCompressor,
+    RewriteCompressor,
+)
+from prompt_compression.results import CompressionResult
+
+
+class FixedScorer(Scorer):
+    """Deterministic scorer for testing.
+
+    The third window receives the highest score so that for:
+
+        A B
+        B C
+        C D
+        D E
+
+    the expected selected content is C D.
+    """
+
+    name = "fixed"
+
+    def score(self, segments, query):
+        scores = []
+
+        for segment in segments:
+            if segment.text.startswith("C. D."):
+                scores.append(10.0)
+            elif segment.text.startswith("D. E."):
+                scores.append(5.0)
+            elif segment.text.startswith("B. C."):
+                scores.append(2.0)
+            else:
+                scores.append(1.0)
+
+        return scores
+
+
+@dataclass
+class FakeResponse:
+    response: str
+    latency_ms: float = 0.0
+
+
+class FakeLLM:
+    def __init__(self):
+        self.calls = 0
+
+    def generate(self, prompt, backend="groq"):
+        self.calls += 1
+        return FakeResponse("A compact faithful fact.")
+
+
+def test_overlapping_windows_are_two_sentences_and_overlap():
+    segments = OverlappingWindowSegmenter(2).segment(
+        "A. B. C. D."
+    )
+
+    assert [
+        segment.sentence_indices
+        for segment in segments
+    ] == [
+        (0, 1),
+        (1, 2),
+        (2, 3),
+    ]
+
+
+def test_selective_compressor_returns_original_sentence_order():
+    text = "A. B. C. D. E."
+
+    result = SelectiveCompressor(
+        OverlappingWindowSegmenter(2),
+        FixedScorer(),
+        model="gpt-4o-mini",
+    ).compress(
+        text,
+        query="C",
+        level=0.5,
+    )
+
+    assert isinstance(result, CompressionResult)
+
+    # The scorer intentionally makes the C-D window the highest-scoring
+    # window. The compressor should return the selected sentences in their
+    # original document order.
+    assert result.text == "C. D."
+
+    assert result.kept_indices == [2, 3]
+
+    assert result.compressed_tokens <= result.original_tokens
+
+
+def test_compressor_never_returns_empty_text():
+    result = SelectiveCompressor(
+        OverlappingWindowSegmenter(2),
+        FixedScorer(),
+        model="gpt-4o-mini",
+    ).compress(
+        "One. Two. Three.",
+        query="anything",
+        level=0.01,
+    )
+
+    assert result.text
+    assert result.compressed_tokens > 0
+
+
+def test_rewrite_compressor_tracks_llm_calls_and_cost_tokens():
+    llm = FakeLLM()
+
+    result = RewriteCompressor(
+        OverlappingWindowSegmenter(2),
+        FixedScorer(),
+        llm,
+        "groq",
+        "gpt-4o-mini",
+    ).compress(
+        "A. B. C. D. E. F.",
+        query="D",
+        level=0.5,
+    )
+
+    assert isinstance(result, CompressionResult)
+
+    assert result.method == "rewrite"
+
+    assert result.llm_calls == llm.calls
+
+    assert result.llm_calls > 0
+
+    assert result.compression_input_tokens >= 0
+
+    assert result.compression_output_tokens >= 0
+=== tests/test_quality_metrics.py
+import pytest
+from evaluation.quality_metrics import exact_match, f1_score
+
+def test_exact_match_normalization():
+    assert exact_match("The Eiffel Tower.", ["eiffel tower"]) == 1.0
+    assert exact_match("Paris", ["London"]) == 0.0
+
+def test_unanswerable_squad_v2():
+    assert exact_match("", []) == 1.0
+    assert exact_match("something", []) == 0.0
+    assert f1_score("", []) == 1.0
+
+def test_f1_partial_and_multi_gold():
+    assert f1_score("big red dog", ["red dog"]) == pytest.approx(0.8)
+    assert f1_score("red dog", ["cat", "red dog"]) == 1.0
+    assert f1_score("zebra", ["red dog"]) == 0.0
+
+
+def test_contains_answer():
+    from evaluation.quality_metrics import contains_answer
+    assert contains_answer("The final PM was **Lothar de MaiziÃ¨re**, from 1990.", ["Lothar de MaiziÃ¨re"]) == 1.0
+    assert contains_answer("I do not know", ["Paris"]) == 0.0
+    assert contains_answer("anything", []) is None
+=== tests/test_quality_metrics_unicode.py
+"""Unicode robustness of the EM / F1 normalization (see quality_metrics._normalize)."""
+
+from evaluation.quality_metrics import contains_answer, exact_match, f1_score
+
+
+def test_non_breaking_hyphen_matches_ascii_hyphen():
+    assert exact_match("co\u2011NP", "co-NP") == 1.0
+    assert exact_match("Multi\u2011stage centrifugal pumps", "multi-stage centrifugal pumps") == 1.0
+    assert f1_score("mid\u2011Eocene", "the mid-Eocene") == 1.0
+
+
+def test_curly_apostrophe_and_en_dash():
+    assert f1_score("Seven Years\u2019 War", "Seven Years' War") == 1.0
+    assert exact_match("2008\u20132009", "2008-2009") == 1.0
+
+
+def test_superscript_and_special_spaces_fold():
+    assert exact_match("1,000 m\u00b3/s", "1,000 m3/s") == 1.0
+    assert exact_match("5\u202f500\u202f000 km", "5 500 000 km") == 1.0
+
+
+def test_ascii_symbol_stripping_is_kept():
+    # '^' is ASCII punctuation: the original behaviour must not regress.
+    assert exact_match("10^13", "1013") == 1.0
+
+
+def test_genuinely_different_answers_still_differ():
+    assert exact_match("Over 50%", "50%") == 0.0
+    assert exact_match("20:1", "20 to 1") == 0.0      # number notation is NOT normalised
+    assert f1_score("Paris", "London") == 0.0
+
+
+def test_contains_answer_uses_the_same_normalization():
+    assert contains_answer("It is co\u2011NP, I think.", "co-NP") == 1.0
+    assert contains_answer("something else", "co-NP") == 0.0
+=== tests/test_splitter_precheck.py
+"""splitter_precheck on synthetic samples (TF-IDF scorer, stand-in token counter; no models, no network)."""
+
+import pytest
+
+from evaluation.splitter_precheck import compare_splitters, summarize
+from prompt_compression import compressor as comp_mod
+
+SAMPLES = [
+    {"id": "a", "question": "Who said inequality is rising?",
+     "context": ("The 2013 Economics Nobel prize winner Robert J. Shiller said inequality is rising. "
+                 "Prices went up in 2014. Wages did not follow. Critics disagreed with the analysis. "
+                 "The debate continues today."), "answer": "Shiller"},
+    {"id": "b", "question": "What happened to prices?",
+     "context": "Prices went up in 2014. Wages did not follow. Critics disagreed. The debate goes on. Nothing else.",
+     "answer": "went up"},
+]
+
+
+def test_precheck_counts_differences_and_flags_identical_contexts(monkeypatch):
+    monkeypatch.setattr(comp_mod, "count_tokens", lambda text, model: len(text.split()))
+    df = compare_splitters(SAMPLES, scorer="tfidf", level=0.5)
+    out = summarize(df)
+    assert out["questions"] == 2
+    assert out["contexts_split_differently"] == 1                      # only sample "a" has an initial
+    assert not df.loc[df.sample_id == "b", "text_differs"].iloc[0]      # identical input, identical output
+    assert out["answer_kept_regex"] <= 1.0 and out["answer_kept_nltk"] <= 1.0
+=== tests/test_splitters.py
+"""Sentence splitter option (regex vs nltk) and its plumbing through the compressor."""
+
+import pytest
+
+from pipeline import pipeline as pipe
+from pipeline.config import PipelineConfig
+from prompt_compression import compressor as comp_mod
+from prompt_compression.compressor import SelectiveCompressor, build_compressor
+from prompt_compression.segmenters import (
+    OverlappingWindowSegmenter, SentenceSegmenter, split_sentences,
+)
+
+TEXT = ("The 2013 Economics Nobel prize winner Robert J. Shiller said inequality is rising. "
+        "Prices went up in 2014. Wages did not follow. Critics disagreed with the analysis. "
+        "The debate continues today.")
+
+
+def test_regex_is_still_the_default():
+    assert split_sentences(TEXT) == split_sentences(TEXT, "regex")
+
+
+def test_regex_oversplits_an_initial_and_nltk_does_not():
+    regex, nltk_s = split_sentences(TEXT, "regex"), split_sentences(TEXT, "nltk")
+    assert len(regex) == len(nltk_s) + 1
+    assert any(s.endswith("Robert J.") for s in regex)
+    assert not any(s.endswith("Robert J.") for s in nltk_s)
+
+
+def test_unknown_splitter_is_rejected_everywhere():
+    with pytest.raises(ValueError):
+        split_sentences("A b.", "spacy")
+    with pytest.raises(ValueError):
+        SentenceSegmenter(splitter="spacy")
+    with pytest.raises(ValueError):
+        OverlappingWindowSegmenter(window_size=2, splitter="spacy")
+    with pytest.raises(ValueError):
+        build_compressor("selective", scorer="tfidf", splitter="spacy")
+
+
+def test_segmenters_use_their_splitter():
+    n_regex = len(OverlappingWindowSegmenter(2, "regex").segment(TEXT))
+    n_nltk = len(OverlappingWindowSegmenter(2, "nltk").segment(TEXT))
+    assert n_regex == n_nltk + 1
+    assert len(SentenceSegmenter("nltk").segment(TEXT)) == len(split_sentences(TEXT, "nltk"))
+
+
+def test_build_compressor_passes_the_splitter_through():
+    assert build_compressor("selective", scorer="tfidf", splitter="nltk").segmenter.splitter == "nltk"
+    assert build_compressor("extractive", splitter="nltk").segmenter.splitter == "nltk"
+    assert build_compressor("selective", scorer="tfidf").segmenter.splitter == "regex"
+
+
+class _PositionScorer:
+    name = "position"
+
+    def score(self, segments, query):
+        return [float(i == 1) for i, _ in enumerate(segments)]
+
+
+@pytest.mark.parametrize("splitter", ["regex", "nltk"])
+def test_compressor_indices_stay_consistent_with_the_splitter(monkeypatch, splitter):
+    monkeypatch.setattr(comp_mod, "count_tokens", lambda text, model: len(text.split()))
+    c = SelectiveCompressor(OverlappingWindowSegmenter(2, splitter), _PositionScorer(), "gpt-4o-mini")
+    result = c.compress(TEXT, "q", 0.5)
+    sentences = split_sentences(TEXT, splitter)
+    assert result.kept_indices == sorted(result.kept_indices)
+    assert max(result.kept_indices) < len(sentences)
+    assert result.text == " ".join(sentences[i] for i in result.kept_indices)
+
+
+def test_pipeline_config_splitter_reaches_build_compressor(monkeypatch):
+    seen = {}
+    monkeypatch.setattr(pipe, "build_compressor", lambda *a, **k: seen.update(k) or object())
+    p = pipe.Pipeline(llm=object(), analyzer=object(),
+                      config=PipelineConfig(compression_enabled=True, compression_splitter="nltk"))
+    p._get_compressor()
+    assert seen["splitter"] == "nltk" and seen["window_size"] == 2
+
+
+def test_run_passes_the_splitter_into_the_config(monkeypatch):
+    captured = {}
+
+    class FakePipeline:
+        def __init__(self, llm=None, analyzer=None, config=None, **kw):
+            captured["config"] = config
+
+        def process(self, **kw):
+            return {}
+
+    monkeypatch.setattr(pipe, "Pipeline", FakePipeline)
+    pipe.run("q", "c", compression_enabled=True, compression_splitter="nltk")
+    assert captured["config"].compression_splitter == "nltk"
