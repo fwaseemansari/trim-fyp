@@ -58,6 +58,7 @@ def run_cnn_experiment(
     compression_window_size: int = 2,
     compression_splitter: str = "regex",
     resume: bool = True,
+    progress_every: int = 10,
 ) -> list:
     with open(sample_path, encoding="utf-8") as f:
         samples = json.load(f)[:n_samples]
@@ -131,8 +132,10 @@ def run_cnn_experiment(
                     writer.writeheader()
                 writer.writerow(row)
                 out_file.flush()
-            if (i + 1) % 50 == 0:
-                print(f"  {i + 1}/{len(samples)}", flush=True)
+            if len(rows) % progress_every == 0:
+                print(f"  [{os.path.basename(out_path) if out_path else label}] "
+                      f"{len(done) + len(rows)}/{len(samples)} done "
+                      f"({len(rows)} new this run)", flush=True)
             if i < len(samples) - 1:
                 time.sleep(delay_seconds)
     finally:

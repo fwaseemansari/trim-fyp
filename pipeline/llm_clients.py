@@ -21,8 +21,14 @@ Bundled into this same refactor (touching this file anyway):
   compatibility with every existing caller — Backend(backend) converts
   a string to the enum member — so this is additive, not a breaking
   change to the rest of the codebase.
+
+Groq key rotation: the Groq backend sends every request through
+pipeline.groq_key_pool (GROQ_API_KEYS=key1,key2,...; falls back to the
+single GROQ_API_KEY). The pool handles rate limits (rotate / wait) and
+raises DailyLimitExhausted when every key is out for the day.
 """
 
+import os
 import re
 import time
 from abc import ABC, abstractmethod
@@ -35,6 +41,7 @@ from openai import APIConnectionError as OpenAIConnectionError
 from openai import OpenAI, RateLimitError as OpenAIRateLimitError
 
 from pipeline import config
+from pipeline.groq_key_pool import DailyLimitExhausted, get_pool  # noqa: F401  (re-exported)
 
 
 class MissingAPIKeyError(RuntimeError):
@@ -133,25 +140,84 @@ class GroqBackend(LLMBackend):
     rate_limit_exc = GroqRateLimitError
     transient_excs = (GroqConnectionError,)
 
-    def __init__(self):
-        self._client = None  # created on first use, so a missing key only matters if this backend is used
+    @staticmethod
+    def _configured_keys() -> list:
+        """Groq keys, in order: groq_keys.txt (one key per line, '#' comments allowed; looked up
+        in the repo root, then the current folder, or the path in GROQ_KEYS_FILE), then
+        GROQ_API_KEYS / GROQ_API_KEY (comma/space/newline separated). Duplicates are dropped."""
+        from pathlib import Path
+        raw = []
+        root = Path(__file__).resolve().parent.parent
+        names = ["groq_keys.txt", "groq_keys.txt.txt"]  # Windows/Notepad often hides a double .txt
+        candidates = ([Path(os.environ["GROQ_KEYS_FILE"])] if os.environ.get("GROQ_KEYS_FILE") else []) \
+            + [d / n for d in (root, Path.cwd()) for n in names]
+        found = next((c for c in candidates if c.is_file()), None)
+        if found:
+            data = found.read_bytes()
+            if data[:2] in (b"\xff\xfe", b"\xfe\xff"):  # PowerShell '>' writes UTF-16
+                text = data.decode("utf-16", errors="ignore")
+            else:
+                text = data.decode("utf-8-sig", errors="ignore")
+            text = text.replace("\x00", "")
+            file_keys, commented = [], 0
+            for line in text.splitlines():
+                if line.strip().startswith("#"):  # '#' disables a line
+                    commented += len(re.findall(r"gsk_[A-Za-z0-9]+", line))
+                else:
+                    file_keys.extend(re.findall(r"gsk_[A-Za-z0-9]+", line))
+            raw.extend(file_keys)
+            print(f"[groq] keys file: {found} ({len(file_keys)} key(s) found in it)", flush=True)
+            if commented:
+                print(f"[groq] NOTE: {commented} key(s) in that file are commented out with '#' and "
+                      "are IGNORED. Remove the '#' to use them.", flush=True)
+            if not file_keys:
+                print("[groq] WARNING: no usable 'gsk_...' keys in that file; is it empty or saved wrongly?", flush=True)
+        else:
+            print(f"[groq] keys file NOT found. Looked in: {root} and {Path.cwd()}", flush=True)
+        raw.append(os.environ.get("GROQ_API_KEYS", ""))
+        raw.append(str(config.GROQ_API_KEY or ""))
+        keys = []
+        for k in re.split(r"[,\s]+", ",".join(raw)):
+            k = k.strip().strip("\"'")
+            if _key_is_set(k) and k not in keys:
+                keys.append(k)
+        if not keys:
+            raise MissingAPIKeyError(
+                "No Groq key configured (needed for the 'groq' backend). Put one key per line in "
+                "groq_keys.txt (repo root), or set GROQ_API_KEYS=key1,key2,... in .env.")
+        return keys
+
+    _pool = None
 
     @property
-    def client(self):
-        if self._client is None:
-            if not _key_is_set(config.GROQ_API_KEY):
-                raise MissingAPIKeyError(
-                    "GROQ_API_KEY is not set (needed for the 'groq' backend). "
-                    "Add it to .env or the environment.")
-            self._client = Groq(api_key=config.GROQ_API_KEY)
-        return self._client
+    def pool(self):
+        # Shared process-wide pool, created on first use (so a missing key only matters if
+        # this backend is used). Keys are read once, not on every request.
+        if GroqBackend._pool is None:
+            GroqBackend._pool = get_pool(self._configured_keys())
+        return GroqBackend._pool
 
-    def _call(self, prompt: str) -> str:
-        response = self.client.chat.completions.create(
+    def _create(self, client, prompt: str):
+        return client.chat.completions.create(
             model=config.GROQ_MODEL,
             messages=[{"role": "user", "content": prompt}],
         )
+
+    def _call(self, prompt: str) -> str:
+        response = self.pool.call(lambda c: self._create(c, prompt))
         return response.choices[0].message.content
+
+    def generate(self, prompt: str) -> LLMResponse:
+        """Rotation, cooldown waits and failed attempts all happen inside the pool.
+        Latency is timed around the successful call only, so it stays comparable
+        to earlier results (no sleeping or failed attempts included)."""
+        def attempt(client):
+            t0 = time.perf_counter()
+            resp = self._create(client, prompt)
+            return resp, (time.perf_counter() - t0) * 1000
+
+        resp, latency_ms = self.pool.call(attempt)
+        return LLMResponse(response=resp.choices[0].message.content, latency_ms=latency_ms)
 
 
 class OpenAIBackend(LLMBackend):
@@ -159,7 +225,7 @@ class OpenAIBackend(LLMBackend):
     transient_excs = (OpenAIConnectionError,)
 
     def __init__(self):
-        self._client = None  # created on first use (see GroqBackend)
+        self._client = None  # created on first use, so a missing key only matters if this backend is used
 
     @property
     def client(self):

@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pydantic
+# everything below should already be satisfied by the repo's own requirements.txt
+# (tiktoken, transformers, scikit-learn, sentence-transformers) — listed here
+# only so `pip install -r backend/requirements.txt` alone also works.
+tiktoken
+transformers
+scikit-learn
+sentence-transformers
