@@ -1,57 +1,42 @@
-# TRIM frontend + API
+# TRIM: Token Reduction & Intelligent Management
 
-## Where to put this
+TRIM reduces the tokens sent to an LLM and measures what that costs in answer quality. Three modules sit behind one pipeline.
 
-Copy both `backend/` and `frontend/` folders into your `trim-fyp` repo root,
-next to `pipeline/`, `token_analysis/`, `prompt_compression/`, `context_manager/`.
+## Modules
 
+| Module | Folder | What it does |
+|---|---|---|
+| Prompt Compression | `prompt_compression/` | Scores sentence windows against the question and keeps the most relevant ones under a token budget (TF-IDF, bi-encoder, or cross-encoder scoring; optional LLM rewrite of dropped text). |
+| Context Manager | `context_manager/` | For multi-turn conversations, decides which turns stay in context (sliding window, relevance aware, memory summarization, hybrid). |
+| Token Analysis | `token_analysis/` | Counts tokens per model, estimates cost, and logs every run. |
+
+`pipeline/` ties the three modules together. `evaluation/` runs the experiments and scores the answers.
+
+## Repository layout
+prompt_compression/ compressor.py (factory + compressors), segmenters.py, scorers.py,
+results.py (CompressionResult)
+context_manager/ manager.py (ContextManager + strategies)
+token_analysis/ counter.py (count_tokens, TokenAnalyzer), pricing.py
+pipeline/ pipeline.py (Pipeline.process, run, run_conversation), config.py,
+prompts.py, llm_clients.py (Groq / OpenAI backends)
+evaluation/ run_experiment.py, quality_metrics.py, metrics.py, compare_accuracy.py,
+summarize_results.py, hallucination_audit.py, compare_runs.py,
+noise_floor.py, splitter_precheck.py, rescore_results.py,
+results/ (CSV outputs)
+data/ squad_300.json, locomo10.json, cnn_sample.json, prepare_datasets.py
+docs/ design notes and final summaries (start with the two *_final_summary.md)
+scripts/ check_requirements.py, fresh_clone_check.py
+tests/ unit tests (no network needed unless stated)
+
+
+## Setup
+
+Requires Python 3.10+ (developed on 3.13).
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 ```
-trim-fyp/
-  backend/        <- new
-  frontend/       <- new
-  pipeline/
-  token_analysis/
-  prompt_compression/
-  context_manager/
-  ...
-```
 
-## Run the backend (from the repo root, not from inside backend/)
-
-```powershell
-cd trim-fyp
-.\venv\Scripts\activate
-pip install -r backend\requirements.txt
-uvicorn backend.main:app --reload --port 8000
-```
-
-Check it worked: open http://localhost:8000/api/health in a browser, should show `{"status":"ok"}`.
-No Groq/OpenAI key needed for this, tokenizing, compression and context management are all local.
-
-## Run the frontend (separate terminal)
-
-```powershell
-cd trim-fyp\frontend
-npm install
-npm run dev
-```
-
-Open http://localhost:5173. The nav bar shows "backend connected" once both are running.
-
-## Tech stack
-
-- **Backend**: FastAPI (Python), a thin layer directly over your existing `token_analysis`,
-  `prompt_compression`, and `context_manager` packages, no reimplementation, it imports and
-  calls your real functions and classes.
-- **Frontend**: React 18 + Vite (fast dev server, no webpack config needed), plain CSS
-  (no Tailwind, kept the install simple), calling the backend with `fetch`.
-- **Why FastAPI over Flask**: automatic request validation via Pydantic, and it's a natural fit
-  since your pipeline is already typed (dataclasses in `results.py`).
-
-## What's real vs not yet wired
-
-- Token counting, compression (TF-IDF / bi-encoder / cross-encoder), and the context manager
-  (sliding window / relevance-aware / hybrid) all call your actual Python code, live.
-- The LLM summarization and rewrite-compression paths (anything needing a Groq/OpenAI key) are
-  **not** wired into the UI yet, intentionally, so the demo works for anyone without an API key.
-  Easy to add as a `/api/summarize` endpoint later if you want it in the report demo.
+Create a `.env` file in the repo root with your keys (never commit it):
